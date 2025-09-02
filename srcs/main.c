@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 09:40:19 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:55:32 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(void)
 			break ;
 		if (input && *input)
 		{
-			// printf("input: %s\n", input);
 			if (ft_strcmp(input, "pwd") == 0)
 				builtin_pwd();
 			add_history(input);

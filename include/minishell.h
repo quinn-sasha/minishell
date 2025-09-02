@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/01 21:10:50 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 17:24:56 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@
 #include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 // builtin.c
-int	builtin_pwd(void);
+int		builtin_pwd(void);
+
+// parser.c
+int		is_pipe(char c);
+int		count_pipes(const char *input);
 
 // utils.c
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
+size_t	ft_strlen(const char *s);
