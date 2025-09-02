@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 17:21:26 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:21:36 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,65 @@ int	count_pipes(const char *input)
 		i++;
 	}
 	return (count);
+}
+
+/**
+ * @brief 入力文字列をパイプごとに分割して配列に格納する
+ *
+ * @author yurishik
+ * @param input 入力文字列
+ * @param res 分割結果を格納する配列
+ * @return 正常終了なら0、エラーなら1
+ */
+int	split_loop(const char *input, char **res)
+{
+	int	start;
+	int	i;
+	int	idx;
+
+	start = 0;
+	i = 0;
+	idx = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+		{
+			if (ft_strndup(input + start, i - start, &res[idx]) != 0)
+				return (1);
+			idx++;
+			start = i + 1;
+		}
+		i++;
+	}
+	if (ft_strndup(input + start, i - start, &res[idx]) != 0)
+		return (1);
+	idx++;
+	res[idx] = NULL;
+	return (0);
+}
+
+/**
+ * @brief パイプの記号で分割して配列に入れる
+ *
+ * @author yurishik
+ * @param input 分割したい文字列
+ * @param commands 分割結果を入れる配列のポインタ malloc
+ * @return 正しく実行されたら0、エラーが起きたら1
+ */
+int	split_by_pipe(const char *input, char ***commands)
+{
+	char	**result;
+
+	if (!input || !commands)
+		return (1);
+	result = (char **)malloc(sizeof(char *) * (count_pipes(input) + 2));
+	if (!result)
+		return (1);
+	if (split_loop(input, result) != 0)
+	{
+		free_str_array(result);
+		return (1);
+	}
+	*commands = result;
+	return (0);
 }

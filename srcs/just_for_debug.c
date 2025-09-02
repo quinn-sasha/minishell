@@ -1,45 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   just_for_debug.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 19:20:44 by yurishik         ###   ########.fr       */
+/*   Created: 2025/09/02 19:10:52 by yurishik          #+#    #+#             */
+/*   Updated: 2025/09/02 19:13:27 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief
+ * @brief char **配列を表示する
  *
- * @author yurishik
- * @return 
+ * @param arr 配列
  */
-int	main(void)
+void	print_str_array(char **arr)
 {
-	char	*input;
-	char	**commands;
+	int	i;
 
-	while (1)
+	if (!arr)
 	{
-		input = readline("minishell$ ");
-		if (!input)
-			break ;
-		if (input && *input)
-		{
-			if (ft_strcmp(input, "pwd") == 0)
-				builtin_pwd();
-			if (split_by_pipe(input, &commands) == 0)
-			{
-				print_str_array(commands);
-			}
-			add_history(input);
-		}
-		free(input);
+		printf("(null)\n");
+		return ;
 	}
-	printf("exit\n");
-	return (0);
+	i = 0;
+	while (arr[i])
+	{
+		printf("[%d]: %s\n", i, arr[i]);
+		i++;
+	}
 }

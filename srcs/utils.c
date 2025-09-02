@@ -6,11 +6,31 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:40:33 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 16:37:33 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:08:52 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief 文字列の配列を free する
+ *
+ * @param arr freeしたい配列
+ */
+void	free_str_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
 
 /**
  * @brief 文字列比較
@@ -51,4 +71,37 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
+}
+
+/**
+ * @brief 文字列sの先頭n文字をコピーして新しい文字列に格納
+ *
+ * @param s コピー元の文字列
+ * @param n コピーする文字数
+ * @param dest コピー先のポインタ malloc
+ * @return 0: 成功, 1: エラー
+ */
+int	ft_strndup(const char *s, size_t n, char **dest)
+{
+	size_t	i;
+	size_t	j;
+	char	*result;
+
+	if (!s || !dest)
+		return (1);
+	i = 0;
+	while (s[i] && i < n)
+		i++;
+	result = (char *)malloc(i + 1);
+	if (!result)
+		return (1);
+	j = 0;
+	while (j < i)
+	{
+		result[j] = s[j];
+		j++;
+	}
+	result[i] = '\0';
+	*dest = result;
+	return (0);
 }

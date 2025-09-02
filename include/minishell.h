@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 17:24:56 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:19:54 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,17 @@
 // builtin.c
 int		builtin_pwd(void);
 
+// just_for_debug.c
+void	print_str_array(char **arr);
+
 // parser.c
 int		is_pipe(char c);
 int		count_pipes(const char *input);
+int		split_loop(const char *input, char **res);
+int		split_by_pipe(const char *input, char ***commands);
 
 // utils.c
+void	free_str_array(char **arr);
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_strlen(const char *s);
+int		ft_strndup(const char *s, size_t n, char **dest);

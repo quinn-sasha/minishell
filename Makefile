@@ -8,7 +8,8 @@ SRCS = \
 	$(SRCS_DIR)/main.c\
 	$(SRCS_DIR)/utils.c\
 	$(SRCS_DIR)/builtin.c\
-	$(SRCS_DIR)/parser.c
+	$(SRCS_DIR)/parser.c\
+	$(SRCS_DIR)/just_for_debug.c
 OBJS = $(SRCS:.c=.o)
 TESTS_DIR = tests
 TESTS_SRCS =\
