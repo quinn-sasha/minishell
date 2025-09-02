@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/01 17:37:41 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/01 21:10:50 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,3 +25,9 @@
 #include <sys/ioctl.h> // ioctl
 #include <termios.h> // tcsetattr, tcgetattr
 #include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
+// builtin.c
+int	builtin_pwd(void);
+
+// utils.c
+int	ft_strcmp(const char *s1, const char *s2);

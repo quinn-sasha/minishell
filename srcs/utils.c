@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/01 17:42:59 by yurishik         ###   ########.fr       */
+/*   Created: 2025/09/01 20:40:33 by yurishik          #+#    #+#             */
+/*   Updated: 2025/09/01 21:13:30 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief
+ * @brief 文字列比較
  *
  * @author yurishik
- * @return 
+ * @param s1
+ * @param s2
+ * @return 一致していたら0、異なれば0以外
  */
-int	main(void)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*input;
+	int	i;
 
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-			break ;
-		if (input && *input)
-			add_history(input);
-		free(input);
-	}
-	printf("exit\n");
-	return (0);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

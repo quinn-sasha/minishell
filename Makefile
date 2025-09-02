@@ -1,8 +1,11 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Iinclude
 LDFLAGS = -lreadline
-SRCS = main.c
+SRCS_DIR = srcs
+SRCS = $(SRCS_DIR)/main.c\
+$(SRCS_DIR)/utils.c\
+$(SRCS_DIR)/builtin.c
 OBJS = $(SRCS:.c=.o)
 .PHONY: all clean fclean re
 
