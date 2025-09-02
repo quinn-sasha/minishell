@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 19:20:44 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:03:47 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	main(void)
 			break ;
 		if (input && *input)
 		{
-			if (ft_strcmp(input, "pwd") == 0)
+			if (is_builtin(input, "pwd"))
 				builtin_pwd();
+			if (is_builtin(input, "exit"))
+				builtin_exit();
 			if (split_by_pipe(input, &commands) == 0)
 			{
 				print_str_array(commands);

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 19:19:54 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:02:42 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 #include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 // builtin.c
+int		is_separator(char c);
+int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
+int		builtin_exit(void);
 
 // just_for_debug.c
 void	print_str_array(char **arr);

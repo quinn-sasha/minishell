@@ -1,4 +1,5 @@
 minishell
+test_main
 *.o
 *.out
 *.sh

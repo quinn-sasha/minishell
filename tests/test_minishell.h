@@ -6,11 +6,14 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:10:49 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 17:24:19 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:11:50 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// test_builtin.c
+int	test_is_builtin(void);
 
 // test_parser.c
 int	test_is_pipe(void);

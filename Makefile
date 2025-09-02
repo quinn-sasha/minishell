@@ -18,6 +18,7 @@ TESTS_SRCS =\
 	$(SRCS_DIR)/parser.c\
 	$(TESTS_DIR)/test_main.c\
 	$(TESTS_DIR)/test_utils.c\
+	$(TESTS_DIR)/test_builtin.c\
 	$(TESTS_DIR)/test_parser.c
 TESTS_BIN = $(TESTS_DIR)/test_main
 
