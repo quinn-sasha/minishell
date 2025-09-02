@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 19:21:36 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:31:14 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,17 @@ int	split_loop(const char *input, char **res)
  * @author yurishik
  * @param input 分割したい文字列
  * @param commands 分割結果を入れる配列のポインタ malloc
+ * @param num_cmd 分割したコマンド数
  * @return 正しく実行されたら0、エラーが起きたら1
  */
-int	split_by_pipe(const char *input, char ***commands)
+int	split_by_pipe(const char *input, char ***commands, int *num_cmd)
 {
 	char	**result;
 
 	if (!input || !commands)
 		return (1);
-	result = (char **)malloc(sizeof(char *) * (count_pipes(input) + 2));
+	*num_cmd = count_pipes(input) + 1;
+	result = (char **)malloc(sizeof(char *) * (*num_cmd + 1));
 	if (!result)
 		return (1);
 	if (split_loop(input, result) != 0)

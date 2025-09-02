@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 20:03:47 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:54:33 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	main(void)
 {
 	char	*input;
 	char	**commands;
+	int		num_cmd;
 
+	num_cmd = 0;
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -30,12 +32,11 @@ int	main(void)
 			break ;
 		if (input && *input)
 		{
-			if (is_builtin(input, "pwd"))
-				builtin_pwd();
-			if (is_builtin(input, "exit"))
-				builtin_exit();
-			if (split_by_pipe(input, &commands) == 0)
+			if (check_builtin(input))
+				continue ;
+			if (split_by_pipe(input, &commands, &num_cmd) == 0)
 			{
+				printf("num_cmd: %d\n", num_cmd);
 				print_str_array(commands);
 			}
 			add_history(input);

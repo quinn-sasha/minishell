@@ -6,11 +6,32 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:37:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 20:13:57 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:52:46 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief 入力文字列がビルトインコマンドか判定して実行する
+ *
+ * @param input ユーザー入力文字列
+ * @return ビルトインを実行したら1、実行しなかったら0
+ */
+int	check_builtin(const char *input)
+{
+	if (is_builtin(input, "pwd"))
+	{
+		builtin_pwd();
+		return (1);
+	}
+	if (is_builtin(input, "exit"))
+	{
+		builtin_exit();
+		return (1);
+	}
+	return (0);
+}
 
 /**
  * @brief separator(現在はスペースとタブのみ)であるかどうかを判定する, IFS未対応

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 20:02:42 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/02 21:05:34 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 // builtin.c
+int		check_builtin(const char *input);
 int		is_separator(char c);
 int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
@@ -39,7 +40,7 @@ void	print_str_array(char **arr);
 int		is_pipe(char c);
 int		count_pipes(const char *input);
 int		split_loop(const char *input, char **res);
-int		split_by_pipe(const char *input, char ***commands);
+int		split_by_pipe(const char *input, char ***commands, int *num_cmd);
 
 // utils.c
 void	free_str_array(char **arr);
