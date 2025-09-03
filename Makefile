@@ -10,6 +10,7 @@ SRCS = \
 	$(SRCS_DIR)/builtin.c\
 	$(SRCS_DIR)/parser_pipe.c\
 	$(SRCS_DIR)/parser_separator.c\
+	$(SRCS_DIR)/execute_command.c\
 	$(SRCS_DIR)/just_for_debug.c
 OBJS = $(SRCS:.c=.o)
 TESTS_DIR = tests
@@ -18,6 +19,7 @@ TESTS_SRCS =\
 	$(SRCS_DIR)/builtin.c\
 	$(SRCS_DIR)/parser_pipe.c\
 	$(SRCS_DIR)/parser_separator.c\
+	$(SRCS_DIR)/execute_command.c\
 	$(TESTS_DIR)/test_main.c\
 	$(TESTS_DIR)/test_utils.c\
 	$(TESTS_DIR)/test_builtin.c\

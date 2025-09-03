@@ -10,27 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdio.h> // printf, perror
-#include <stdlib.h> // malloc, free, exit, getenv
-#include <unistd.h> // write, read, close, pipe, dup, dup2
-#include <fcntl.h> //access, open
-#include <sys/stat.h> // stat, lstat, fstat
-#include <unistd.h> // unlink, execve, getcwd, chdir, isatty, ttyname, ttyslot
-#include <dirent.h> // opendir, readdir, closedir
-#include <sys/wait.h> // fork, wait, waitpid, wait3, wait4
-#include <signal.h> // signal, sigaction, sigemptyset, sigaddset, kill
-#include <string.h> //strerror
-#include <sys/ioctl.h> // ioctl
-#include <termios.h> // tcsetattr, tcgetattr
-#include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdio.h> // printf, perror
+# include <stdlib.h> // malloc, free, exit, getenv
+# include <unistd.h> // write, read, close, pipe, dup, dup2
+# include <fcntl.h> //access, open
+# include <sys/stat.h> // stat, lstat, fstat
+# include <unistd.h> // unlink, execve, getcwd, chdir, isatty, ttyname, ttyslot
+# include <dirent.h> // opendir, readdir, closedir
+# include <sys/wait.h> // fork, wait, waitpid, wait3, wait4
+# include <signal.h> // signal, sigaction, sigemptyset, sigaddset, kill
+# include <string.h> //strerror
+# include <sys/ioctl.h> // ioctl
+# include <termios.h> // tcsetattr, tcgetattr
+# include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
+# define STD_ERR 2
 
 // builtin.c
 int		check_builtin(const char *input);
 int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
 int		builtin_exit(void);
+
+// execute_command.c
+void	print_command_not_found(const char *cmd);
+int		make_full_path(const char *dir, const char *cmd, char **full_path);
+int		try_exec_paths(char **tokens, char **envp, char *path_env);
+void	execute_command(char **tokens, char **envp);
 
 // just_for_debug.c
 void	print_str_array(char **arr);
@@ -52,3 +63,5 @@ void	free_str_array(char **arr);
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strndup(const char *s, size_t n, char **dest);
+
+#endif

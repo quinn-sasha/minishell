@@ -18,7 +18,7 @@
  * @author yurishik
  * @return 
  */
-static void	process_command(char *cmd)
+static void	process_command(char *cmd, char **envp)
 {
 	char	**tokens;
 
@@ -27,7 +27,7 @@ static void	process_command(char *cmd)
 		printf("error: cannot split by separator\n");
 		return ;
 	}
-	print_str_array(tokens);
+	execute_command(tokens, envp);
 	free_str_array(tokens);
 }
 
@@ -37,7 +37,7 @@ static void	process_command(char *cmd)
  * @author yurishik
  * @return 
  */
-static void	process_input(char *input)
+static void	process_input(char *input, char **envp)
 {
 	char	**commands;
 	int		num_cmd;
@@ -57,7 +57,7 @@ static void	process_input(char *input)
 	while (i < num_cmd)
 	{
 		printf("command %d\n", i);
-		process_command(commands[i]);
+		process_command(commands[i], envp);
 		i++;
 	}
 	free_str_array(commands);
@@ -70,16 +70,18 @@ static void	process_input(char *input)
  * @author yurishik
  * @return 
  */
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		process_input(input);
+		process_input(input, envp);
 		free(input);
 	}
 	printf("exit\n");
