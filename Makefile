@@ -8,18 +8,19 @@ SRCS = \
 	$(SRCS_DIR)/main.c\
 	$(SRCS_DIR)/utils.c\
 	$(SRCS_DIR)/builtin.c\
-	$(SRCS_DIR)/parser.c\
+	$(SRCS_DIR)/parser_pipe.c\
+	$(SRCS_DIR)/parser_separator.c\
 	$(SRCS_DIR)/just_for_debug.c
 OBJS = $(SRCS:.c=.o)
 TESTS_DIR = tests
 TESTS_SRCS =\
 	$(SRCS_DIR)/utils.c\
 	$(SRCS_DIR)/builtin.c\
-	$(SRCS_DIR)/parser.c\
+	$(SRCS_DIR)/parser_pipe.c\
 	$(TESTS_DIR)/test_main.c\
 	$(TESTS_DIR)/test_utils.c\
 	$(TESTS_DIR)/test_builtin.c\
-	$(TESTS_DIR)/test_parser.c
+	$(TESTS_DIR)/test_parser_pipe.c
 TESTS_BIN = $(TESTS_DIR)/test_main
 
 .PHONY: all clean fclean re test norm

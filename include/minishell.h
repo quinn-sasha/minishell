@@ -36,7 +36,7 @@ int		builtin_exit(void);
 // just_for_debug.c
 void	print_str_array(char **arr);
 
-// parser.c
+// parser_pipe.c
 int		is_pipe(char c);
 int		count_pipes(const char *input);
 int		split_pipe_loop(const char *input, char **res);
