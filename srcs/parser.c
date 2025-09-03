@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 20:31:14 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/03 09:23:50 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,15 @@ int	split_loop(const char *input, char **res)
 	idx = 0;
 	while (input[i])
 	{
-		if (input[i] == '|')
+		if (input[i] != '|')
 		{
-			if (ft_strndup(input + start, i - start, &res[idx]) != 0)
-				return (1);
-			idx++;
-			start = i + 1;
+			i++;
+			continue ;
 		}
+		if (ft_strndup(input + start, i - start, &res[idx]) != 0)
+			return (1);
+		idx++;
+		start = i + 1;
 		i++;
 	}
 	if (ft_strndup(input + start, i - start, &res[idx]) != 0)

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 20:54:33 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/03 09:12:15 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(void)
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		if (input && *input)
+		if (*input)
 		{
 			if (check_builtin(input))
 				continue ;
