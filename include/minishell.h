@@ -7,7 +7,8 @@
 #include "../libft/libft.h"
 
 #define TRUE 1
-#define ERROR -1
+#define SUCCESS 0
+#define FAILED -1
 
 typedef struct s_word_list {
   struct s_word_list *next;
