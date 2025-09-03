@@ -44,7 +44,8 @@ int		split_by_pipe(const char *input, char ***commands, int *num_cmd);
 // parser_separator.c
 int		is_separator(char c);
 int		count_tokens(char *input);
-
+int		split_separator_loop(const char *input, char **res);
+int		split_by_separator(const char *input, char ***result);
 
 // utils.c
 void	free_str_array(char **arr);

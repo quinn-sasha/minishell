@@ -61,11 +61,11 @@ int	split_pipe_loop(const char *input, char **res)
 {
 	int	start;
 	int	i;
-	int	idx;
+	int	r_idx;
 
 	start = 0;
 	i = 0;
-	idx = 0;
+	r_idx = 0;
 	while (input[i])
 	{
 		if (!is_pipe(input[i]))
@@ -73,16 +73,16 @@ int	split_pipe_loop(const char *input, char **res)
 			i++;
 			continue ;
 		}
-		if (ft_strndup(input + start, i - start, &res[idx]) != 0)
+		if (ft_strndup(input + start, i - start, &res[r_idx]) != 0)
 			return (1);
-		idx++;
+		r_idx++;
 		start = i + 1;
 		i++;
 	}
-	if (ft_strndup(input + start, i - start, &res[idx]) != 0)
+	if (ft_strndup(input + start, i - start, &res[r_idx]) != 0)
 		return (1);
-	idx++;
-	res[idx] = NULL;
+	r_idx++;
+	res[r_idx] = NULL;
 	return (0);
 }
 

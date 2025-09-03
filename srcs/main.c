@@ -18,29 +18,68 @@
  * @author yurishik
  * @return 
  */
+static void	process_command(char *cmd)
+{
+	char	**tokens;
+
+	if (split_by_separator(cmd, &tokens) != 0)
+	{
+		printf("error: cannot split by separator\n");
+		return ;
+	}
+	print_str_array(tokens);
+	free_str_array(tokens);
+}
+
+/**
+ * @brief
+ *
+ * @author yurishik
+ * @return 
+ */
+static void	process_input(char *input)
+{
+	char	**commands;
+	int		num_cmd;
+	int		i;
+
+	num_cmd = 0;
+	if (*input == '\0')
+		return ;
+	if (check_builtin(input))
+		return ;
+	if (split_by_pipe(input, &commands, &num_cmd) != 0)
+	{
+		printf("error: cannot split by pipe\n");
+		return ;
+	}
+	i = 0;
+	while (i < num_cmd)
+	{
+		printf("command %d\n", i);
+		process_command(commands[i]);
+		i++;
+	}
+	free_str_array(commands);
+	add_history(input);
+}
+
+/**
+ * @brief
+ *
+ * @author yurishik
+ * @return 
+ */
 int	main(void)
 {
 	char	*input;
-	char	**commands;
-	int		num_cmd;
 
-	num_cmd = 0;
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		if (*input)
-		{
-			if (check_builtin(input))
-				continue ;
-			if (split_by_pipe(input, &commands, &num_cmd) == 0)
-			{
-				printf("num_cmd: %d\n", num_cmd);
-				print_str_array(commands);
-			}
-			add_history(input);
-		}
+		process_input(input);
 		free(input);
 	}
 	printf("exit\n");
