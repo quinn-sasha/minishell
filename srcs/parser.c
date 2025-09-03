@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/03 09:23:50 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/03 11:50:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	count_pipes(const char *input)
 	i = 0;
 	while (input && input[i])
 	{
-		if (input[i] == '|')
+		if (is_pipe(input[i]))
 			count++;
 		i++;
 	}
@@ -57,7 +57,7 @@ int	count_pipes(const char *input)
  * @param res 分割結果を格納する配列
  * @return 正常終了なら0、エラーなら1
  */
-int	split_loop(const char *input, char **res)
+int	split_pipe_loop(const char *input, char **res)
 {
 	int	start;
 	int	i;
@@ -68,7 +68,7 @@ int	split_loop(const char *input, char **res)
 	idx = 0;
 	while (input[i])
 	{
-		if (input[i] != '|')
+		if (!is_pipe(input[i]))
 		{
 			i++;
 			continue ;
@@ -105,7 +105,7 @@ int	split_by_pipe(const char *input, char ***commands, int *num_cmd)
 	result = (char **)malloc(sizeof(char *) * (*num_cmd + 1));
 	if (!result)
 		return (1);
-	if (split_loop(input, result) != 0)
+	if (split_pipe_loop(input, result) != 0)
 	{
 		free_str_array(result);
 		return (1);

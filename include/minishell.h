@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 21:05:34 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/03 11:51:01 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	print_str_array(char **arr);
 // parser.c
 int		is_pipe(char c);
 int		count_pipes(const char *input);
-int		split_loop(const char *input, char **res);
+int		split_pipe_loop(const char *input, char **res);
 int		split_by_pipe(const char *input, char ***commands, int *num_cmd);
 
 // utils.c
