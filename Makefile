@@ -17,10 +17,12 @@ TESTS_SRCS =\
 	$(SRCS_DIR)/utils.c\
 	$(SRCS_DIR)/builtin.c\
 	$(SRCS_DIR)/parser_pipe.c\
+	$(SRCS_DIR)/parser_separator.c\
 	$(TESTS_DIR)/test_main.c\
 	$(TESTS_DIR)/test_utils.c\
 	$(TESTS_DIR)/test_builtin.c\
-	$(TESTS_DIR)/test_parser_pipe.c
+	$(TESTS_DIR)/test_parser_pipe.c\
+	$(TESTS_DIR)/test_parser_separator.c
 TESTS_BIN = $(TESTS_DIR)/test_main
 
 .PHONY: all clean fclean re test norm

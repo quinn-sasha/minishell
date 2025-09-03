@@ -28,7 +28,6 @@
 
 // builtin.c
 int		check_builtin(const char *input);
-int		is_separator(char c);
 int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
 int		builtin_exit(void);
@@ -41,6 +40,11 @@ int		is_pipe(char c);
 int		count_pipes(const char *input);
 int		split_pipe_loop(const char *input, char **res);
 int		split_by_pipe(const char *input, char ***commands, int *num_cmd);
+
+// parser_separator.c
+int		is_separator(char c);
+int		count_tokens(char *input);
+
 
 // utils.c
 void	free_str_array(char **arr);

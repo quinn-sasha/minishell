@@ -15,9 +15,13 @@
 // test_builtin.c
 int	test_is_builtin(void);
 
-// test_parser.c
+// test_parser_pipe.c
 int	test_is_pipe(void);
 int	test_count_pipes(void);
+
+// test_parser_separator.c
+int	test_is_separator(void);
+int	test_count_tokens(void);
 
 // test_utils.c
 int	test_ft_strcmp(void);

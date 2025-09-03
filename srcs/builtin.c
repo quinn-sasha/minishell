@@ -34,20 +34,6 @@ int	check_builtin(const char *input)
 }
 
 /**
- * @brief separator(現在はスペースとタブのみ)であるかどうかを判定する, IFS未対応
- *
- * @author yurishik
- * @param c 判定したい文字
- * @return separatorに当てはまるなら1、そうでなければ0
- */
-int	is_separator(char c)
-{
-	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
-}
-
-/**
  * @brief 入力文字列が指定したビルトインコマンドかを判定する、前後のスペースがあっても判定する
  *
  * @author yurishik

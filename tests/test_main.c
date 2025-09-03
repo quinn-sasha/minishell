@@ -17,6 +17,7 @@ int	main(void)
 {
 	if (test_ft_strcmp() != 0 || test_ft_strlen() != 0
 		|| test_is_pipe() != 0 || test_count_pipes() != 0
+		|| test_is_separator() != 0 || test_count_tokens() != 0
 		|| test_is_builtin() != 0)
 		return (1);
 	return (0);
