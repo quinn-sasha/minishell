@@ -41,6 +41,21 @@ int parse(char *input, t_command *command) {
   return SUCCESS;
 }
 
+char **convert_word_list_to_string_array() {
+
+}
+
+/*
+parseされたcommandを実行する.
+返り値は、EXECUTION_SUCCESSかEXECUTION_FAILURE.
+*/
+int execute_command(t_command command) {
+  char **command_and_arugments = convert_word_list_to_string_array();
+  // clean_command(command)
+  // fork
+  // 
+}
+
 int main(void) {
   while (TRUE) {
     char *input = readline("> ");
@@ -50,6 +65,7 @@ int main(void) {
     }
     t_command command;
     parse(input, &command);
-
+    // execute_command(command);
+    // free everything
   }
 }
