@@ -1,6 +1,8 @@
 #include <sys/types.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -9,6 +11,13 @@
 #define TRUE 1
 #define SUCCESS 0
 #define FAILED -1
+#define CHILD 0
+
+#define COMMAND_NOT_FOUND_ERROR "command not found"
+#define PERMISSION_DENIED_ERROR "permission denied"
+
+#define COMMAND_NOT_FOUND_STATUS 127
+#define PERMISSION_DENIED_STATUS 126
 
 typedef struct s_word_list {
   struct s_word_list *next;
