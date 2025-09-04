@@ -64,14 +64,45 @@ char **convert_word_list_to_string_array(t_word_list *words) {
 }
 
 /*
-parseされたcommandを実行する.
-返り値は、EXECUTION_SUCCESSかEXECUTION_FAILURE.
+現在はコマンドが一つしかないが、任意の数のコマンドを動的に割り当てる
+必要が出てきたら、command自体も解放する。
 */
-int execute_command(t_command command) {
+void clean_command(t_command *command) {
+  t_word_list *iter = command->words;
+  while (iter) {
+    t_word_list *next = iter->next;
+    free(iter->word);
+    iter = next;
+  }
+  command == NULL;
+}
+
+/*
+parseされたcommandを実行する.
+*/
+void execute_command(t_command command) {
+  extern char **envrion;
   pid_t pid = fork();
   if (pid == CHILD) {
     char **command_and_arguments = convert_word_list_to_str_array(command.words);
-
+    if (ft_strchr(command_and_arguments[0], '/') > 0) {
+      execve(command_and_arguments[0], command_and_arguments, envrion);
+    }
+    // Skip implementing builtin
+    char *path = find_path(command_and_arguments[0]);
+    if (path == NULL) {
+      free_words(command_and_arguments);
+      // clean command
+      // print error message
+      // exit(COMMAND_NOT_FOUND)
+    }
+    if (access(path, X_OK) == FAILED) {
+      // free command and arguments
+      // clean command
+      // print error message
+      // exit(No permission)
+    }
+    execve(path, command_and_arguments, envrion);
   }
   // clean_command(command)
   // waitpid()
