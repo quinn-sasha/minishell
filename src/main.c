@@ -113,7 +113,7 @@ void execute_command(t_command command) {
     waitpid(pid, NULL, 0);
     return;
   }
-  char **command_and_arguments = convert_word_list_to_str_array(command.words);
+  char **command_and_arguments = convert_word_list_to_string_array(command.words);
   if (ft_strchr(command_and_arguments[0], '/') > 0) {
     execve(command_and_arguments[0], command_and_arguments, envrion);
   }
