@@ -23,7 +23,7 @@ inputを解析して、解析した結果を返す。
 クオートには対応していない。
 */
 int parse(char *input, t_command *command) {
-  t_word_list *dummy_head;
+  t_word_list *dummy_head = {NULL, NULL};
   t_word_list *words = dummy_head;
   int i = 0;
   while (input[i]) {
@@ -32,7 +32,7 @@ int parse(char *input, t_command *command) {
       continue;
     }
     int word_start = i;
-    while (!is_balnk(input[i])) {
+    while (!is_blank(input[i])) {
       i++;
     }
     char *word = ft_substr(input, word_start, i - 1);
