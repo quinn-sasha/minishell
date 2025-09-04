@@ -41,8 +41,26 @@ int parse(char *input, t_command *command) {
   return SUCCESS;
 }
 
-char **convert_word_list_to_string_array() {
-
+/*
+リンクトリストから文字列の配列に変換する。
+wordsには最低でも一つの文字列が入っていると仮定する。
+*/
+char **convert_word_list_to_string_array(t_word_list *words) {
+  int num_words = 0;
+  t_word_list *iter = words;
+  while (iter) {
+    num_words++;
+    iter = iter->next;
+  }
+  char **result = ft_calloc(num_words + 1, sizeof(char *));
+  int i = 0;
+  iter = words;
+  while (i < num_words) {
+    result[i] = iter->word;
+    i++;
+    iter = iter->next;
+  }
+  return result;
 }
 
 /*
@@ -50,10 +68,13 @@ parseされたcommandを実行する.
 返り値は、EXECUTION_SUCCESSかEXECUTION_FAILURE.
 */
 int execute_command(t_command command) {
-  char **command_and_arugments = convert_word_list_to_string_array();
+  pid_t pid = fork();
+  if (pid == CHILD) {
+    char **command_and_arguments = convert_word_list_to_str_array(command.words);
+
+  }
   // clean_command(command)
-  // fork
-  // 
+  // waitpid()
 }
 
 int main(void) {
