@@ -76,7 +76,7 @@ void clean_command(t_command *command) {
     free(iter->word);
     iter = next;
   }
-  command == NULL;
+  command = NULL;
 }
 
 /*
