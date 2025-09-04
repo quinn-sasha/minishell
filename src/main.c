@@ -19,6 +19,7 @@ t_word_list *new_word_list(char *word) {
 /*
 inputを解析して、解析した結果を返す。
 コマンド名とオプションをword_list構造体にいれる。
+クオートには対応していない。
 */
 int parse(char *input, t_command *command) {
   t_word_list *dummy_head;
