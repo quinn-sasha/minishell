@@ -14,6 +14,7 @@ t_word_list *new_word_list(char *word) {
   t_word_list *result = malloc(sizeof(t_word_list));
   result->word = word;
   result->next = NULL;
+  return result;
 }
 
 /*
