@@ -79,33 +79,35 @@ void clean_command(t_command *command) {
 
 /*
 parseされたcommandを実行する.
+終了ステータスは、現段階では受け取らない。
 */
 void execute_command(t_command command) {
   extern char **envrion;
   pid_t pid = fork();
-  if (pid == CHILD) {
-    char **command_and_arguments = convert_word_list_to_str_array(command.words);
-    if (ft_strchr(command_and_arguments[0], '/') > 0) {
-      execve(command_and_arguments[0], command_and_arguments, envrion);
-    }
-    // Skip implementing builtin
-    char *path = find_path(command_and_arguments[0]);
-    if (path == NULL) {
-      free_words(command_and_arguments);
-      // clean command
-      // print error message
-      // exit(COMMAND_NOT_FOUND)
-    }
-    if (access(path, X_OK) == FAILED) {
-      // free command and arguments
-      // clean command
-      // print error message
-      // exit(No permission)
-    }
-    execve(path, command_and_arguments, envrion);
+  if (pid != CHILD) {
+    waitpid(pid, NULL, 0);
+    return;
   }
-  // clean_command(command)
-  // waitpid()
+  char **command_and_arguments = convert_word_list_to_str_array(command.words);
+  if (ft_strchr(command_and_arguments[0], '/') > 0) {
+    execve(command_and_arguments[0], command_and_arguments, envrion);
+  }
+  // Skip implementing builtin
+  char *path = find_path(command_and_arguments[0]);
+  if (path == NULL) {
+    free_words(command_and_arguments);
+    clean_command(&command);
+    ft_putendl_fd(COMMAND_NOT_FOUND_ERROR, STDERR_FILENO);
+    exit(COMMAND_NOT_FOUND_STATUS);
+  }
+  if (access(path, X_OK) == FAILED) {
+    free(path);
+    free_words(command_and_arguments);
+    clean_command(&command);
+    ft_putendl_fd(PERMISSION_DENIED_ERROR, STDERR_FILENO);
+    exit(PERMISSION_DENIED_STATUS);
+  }
+  execve(path, command_and_arguments, envrion);
 }
 
 int main(void) {
@@ -117,7 +119,8 @@ int main(void) {
     }
     t_command command;
     parse(input, &command);
-    // execute_command(command);
-    // free everything
+    execute_command(command);
+    clean_command(&command);
+    free(input);
   }
 }
