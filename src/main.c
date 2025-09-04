@@ -32,7 +32,7 @@ int parse(char *input, t_command *command) {
       continue;
     }
     int word_start = i;
-    while (!is_blank(input[i])) {
+    while (input[i] && !is_blank(input[i])) {
       i++;
     }
     char *word = ft_substr(input, word_start, i - 1);
@@ -139,10 +139,8 @@ void execute_command(t_command command) {
 int main(void) {
   while (TRUE) {
     char *input = readline("> ");
-    if (input == NULL) {
-      free(input);
+    if (input == NULL)
       exit(EXIT_SUCCESS);
-    }
     t_command command;
     parse(input, &command);
     execute_command(command);
