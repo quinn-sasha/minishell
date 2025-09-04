@@ -23,7 +23,7 @@ inputを解析して、解析した結果を返す。
 クオートには対応していない。
 */
 int parse(char *input, t_command *command) {
-  t_word_list *dummy_head = {NULL, NULL};
+  t_word_list *dummy_head = new_word_list(NULL);
   t_word_list *words = dummy_head;
   int i = 0;
   while (input[i]) {
@@ -40,6 +40,7 @@ int parse(char *input, t_command *command) {
     words = words->next;
   }
   command->words = dummy_head->next;
+  free(dummy_head);
   return SUCCESS;
 }
 
@@ -107,7 +108,7 @@ parseされたcommandを実行する.
 終了ステータスは、現段階では受け取らない。
 */
 void execute_command(t_command command) {
-  extern char **envrion;
+  extern char **environ;
   pid_t pid = fork();
   if (pid != CHILD) {
     waitpid(pid, NULL, 0);
@@ -115,7 +116,7 @@ void execute_command(t_command command) {
   }
   char **command_and_arguments = convert_word_list_to_string_array(command.words);
   if (ft_strchr(command_and_arguments[0], '/') > 0) {
-    execve(command_and_arguments[0], command_and_arguments, envrion);
+    execve(command_and_arguments[0], command_and_arguments, environ);
   }
   // Skip implementing builtin
   char *path = find_path(command_and_arguments[0]);
@@ -132,7 +133,7 @@ void execute_command(t_command command) {
     ft_putendl_fd(PERMISSION_DENIED_ERROR, STDERR_FILENO);
     exit(PERMISSION_DENIED_STATUS);
   }
-  execve(path, command_and_arguments, envrion);
+  execve(path, command_and_arguments, environ);
 }
 
 int main(void) {
