@@ -27,3 +27,16 @@ typedef struct s_word_list {
 typedef struct s_command {
   t_word_list *words;
 } t_command;
+
+// utils.c
+int is_blank(int c);
+// parse.c
+t_word_list *new_word_list(char *word);
+char **convert_word_list_to_string_array(t_word_list *words);
+int parse(char *input, t_command *command);
+// destructor.c
+void clean_command(t_command *command);
+// exec.c
+char *find_path(char *command_name);
+void execute_command(t_command command);
+
