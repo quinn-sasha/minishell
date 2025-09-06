@@ -19,14 +19,29 @@
 #define COMMAND_NOT_FOUND_STATUS 127
 #define PERMISSION_DENIED_STATUS 126
 
-typedef struct s_word_list {
+typedef enum {
+  TOKEN_OPERATOR,
+  TOKEN_WORD,
+} t_token_kind;
+
+struct s_word_list {
   struct s_word_list *next;
   char *word;
-} t_word_list;
+};
 
-typedef struct s_command {
+struct s_command {
   t_word_list *words;
-} t_command;
+};
+
+struct s_token {
+  char *word;
+  t_token_kind token_kind;
+  struct s_token *next;
+};
+
+typedef struct s_word_list t_word_list;
+typedef struct s_command t_command;
+typedef struct s_token t_token;
 
 // utils.c
 int is_blank(int c);
