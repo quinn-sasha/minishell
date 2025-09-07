@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/03 11:51:01 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 08:50:38 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,21 @@
 
 # define STD_ERR 2
 
+typedef struct s_environ
+{
+	char	**env;
+	int		last_status;
+}	t_environ;
+
 // builtin.c
 int		check_builtin(const char *input);
 int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
 int		builtin_exit(void);
+
+// env.c
+int		copy_env(char ***dest, char **environ);
+int		initialize_environ(t_environ *env, char **environ);
 
 // execute_command.c
 void	print_command_not_found(const char *cmd);

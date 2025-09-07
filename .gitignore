@@ -4,3 +4,4 @@ test_main
 *.out
 *.sh
 .DS_Store
+prototypes.h

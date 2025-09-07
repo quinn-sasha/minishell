@@ -6,11 +6,13 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/03 09:12:15 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 08:50:51 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern char	**environ;
 
 /**
  * @brief
@@ -70,20 +72,26 @@ static void	process_input(char *input, char **envp)
  * @author yurishik
  * @return 
  */
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
-	char	*input;
+	char		*input;
+	t_environ	env;
 
-	(void)argc;
-	(void)argv;
+	if (initialize_environ(&env, environ) != 0)
+	{
+		perror("initialize env");
+		return (1);
+	}
+	print_str_array(env.env);
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		process_input(input, envp);
+		process_input(input, env.env);
 		free(input);
 	}
 	printf("exit\n");
+	free_str_array(env.env);
 	return (0);
 }
