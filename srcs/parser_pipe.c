@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/03 11:50:49 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:42:06 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
  *
  * @author yurishik
  * @param c 判定したい文字
- * @return パイプの記号であれば1、そうでなければ0
+ * @return パイプの記号であればFLG_TRUE、そうでなければFLG_FALSE
  */
 int	is_pipe(char c)
 {
 	if (c == '|')
-		return (1);
-	return (0);
+		return (FLG_TRUE);
+	return (FLG_FALSE);
 }
 
 /**

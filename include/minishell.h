@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 09:23:51 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:28:57 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # include <termcap.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 # define STD_ERR 2
+# define SUCCESS 0
+# define FAILURE 1
+# define FLG_TRUE 1
+# define FLG_FALSE 0
 
 typedef struct s_environ
 {

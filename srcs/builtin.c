@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:37:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/02 20:52:46 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:29:42 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	is_builtin(const char *input, const char *cmd)
 	int	len;
 
 	if (!input)
-		return (0);
+		return (FLG_FALSE);
 	i = 0;
 	len = ft_strlen(cmd);
 	while (input[i] != '\0' && is_separator(input[i]))
@@ -57,15 +57,15 @@ int	is_builtin(const char *input, const char *cmd)
 	while (j < len)
 	{
 		if (input[i + j] != cmd[j])
-			return (0);
+			return (FLG_FALSE);
 		j++;
 	}
 	i += len;
 	while (input[i] != '\0' && is_separator(input[i]))
 		i++;
 	if (input[i] == '\0')
-		return (1);
-	return (0);
+		return (FLG_TRUE);
+	return (FLG_FALSE);
 }
 
 /**
@@ -83,12 +83,12 @@ int	builtin_pwd(void)
 	{
 		printf("%s\n", cwd);
 		free(cwd);
-		return (0);
+		return (SUCCESS);
 	}
 	else
 	{
 		perror("pwd");
-		return (1);
+		return (FAILURE);
 	}
 }
 

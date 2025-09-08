@@ -6,12 +6,19 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 20:32:48 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/03 20:32:54 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:41:11 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief command not foundのエラーを出す
+ *
+ * @author yurishik
+ * @param cmd 出力するためのコマンド名
+ * TODO: ft_putstr_fdで書き換えたい気持ちがある
+ */
 void	print_command_not_found(const char *cmd)
 {
 	write(STD_ERR, "minishell: ", 11);
@@ -30,7 +37,7 @@ int	set_full_path(const char *dir, const char *cmd, char **full_path)
 	cmd_len = ft_strlen(cmd);
 	*full_path = (char *)malloc(dir_len + 1 + cmd_len + 1);
 	if (!(*full_path))
-		return (1);
+		return (FAILURE);
 	i = 0;
 	while (i < dir_len)
 	{
@@ -45,7 +52,7 @@ int	set_full_path(const char *dir, const char *cmd, char **full_path)
 		j++;
 	}
 	(*full_path)[i] = '\0';
-	return (0);
+	return (SUCCESS);
 }
 
 /**
@@ -59,10 +66,10 @@ int	set_full_path(const char *dir, const char *cmd, char **full_path)
 int	make_full_path(const char *dir, const char *cmd, char **full_path)
 {
 	if (!dir || !cmd || !full_path)
-		return (1);
+		return (FAILURE);
 	if (set_full_path(dir, cmd, full_path) != 0)
-		return (1);
-	return (0);
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 int	try_exec_paths(char **tokens, char **envp, char *path_env)
@@ -77,7 +84,7 @@ int	try_exec_paths(char **tokens, char **envp, char *path_env)
 	i = 0;
 	start = 0;
 	if (!tokens || !tokens[0] || !path_env)
-		return (1);
+		return (FAILURE);
 	while (path_env[i])
 	{
 		if (path_env[i] == ':')
@@ -87,7 +94,7 @@ int	try_exec_paths(char **tokens, char **envp, char *path_env)
 			{
 				free(dir);
 				free(full_path);
-				return (1);
+				return (FAILURE);
 			}
 			free(dir);
 			if (access(full_path, F_OK | X_OK) == 0)
@@ -97,7 +104,7 @@ int	try_exec_paths(char **tokens, char **envp, char *path_env)
 		}
 		i++;
 	}
-	return (1);
+	return (FAILURE);
 }
 
 void	execute_command(char **tokens, char **envp)
