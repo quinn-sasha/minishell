@@ -114,7 +114,7 @@ t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_st
 /*
 * @param command line input.
 * @param トークン化の結果を保持する.TOKENIZE_SUCCESS or SINGLE_QUOTE_ERROR.
-*        もしエラーであれば呼び出し側は返り値を開放する.
+*        もしエラーであれば呼び出し側は返り値を解放する.
 * @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
 */
 t_token *tokenize(char *input, int *error_status) {
@@ -141,6 +141,6 @@ t_token *tokenize(char *input, int *error_status) {
     token->next = consume_word(&input, input);
     token = token->next;
   }
-  token = new_token(TOKEN_EOF, NULL);
+  token->next = new_token(TOKEN_EOF, NULL);
   return dummy.next;
 }
