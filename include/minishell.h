@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 08:50:38 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:23:51 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ int		builtin_pwd(void);
 int		builtin_exit(void);
 
 // env.c
+int		get_env_size(char **env);
 int		copy_env(char ***dest, char **environ);
 int		initialize_environ(t_environ *env, char **environ);
+int		find_env_key(t_environ *env, const char *key);
+int		unset_env(t_environ *env, const char *name);
 
 // execute_command.c
 void	print_command_not_found(const char *cmd);
@@ -71,6 +74,7 @@ int		split_by_separator(const char *input, char ***result);
 // utils.c
 void	free_str_array(char **arr);
 int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
 int		ft_strndup(const char *s, size_t n, char **dest);
 

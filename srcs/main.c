@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 08:50:51 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:17:18 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	main(void)
 		perror("initialize env");
 		return (1);
 	}
+	print_str_array(env.env);
+	unset_env(&env, "USER");
 	print_str_array(env.env);
 	while (1)
 	{
