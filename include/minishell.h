@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdbool.h>
 
 #include "../libft/libft.h"
 
@@ -12,6 +13,9 @@
 #define SUCCESS 0
 #define FAILED -1
 #define CHILD 0
+
+#define TOKENIZE_SUCCESS 0
+#define SINGLE_QUOTE_ERROR 1
 
 #define COMMAND_NOT_FOUND_ERROR "command not found"
 #define PERMISSION_DENIED_ERROR "permission denied"
@@ -22,7 +26,12 @@
 typedef enum {
   TOKEN_OPERATOR,
   TOKEN_WORD,
+  TOKEN_EOF,
 } t_token_kind;
+
+typedef struct s_word_list t_word_list;
+typedef struct s_command t_command;
+typedef struct s_token t_token;
 
 struct s_word_list {
   struct s_word_list *next;
@@ -38,10 +47,6 @@ struct s_token {
   t_token_kind token_kind;
   struct s_token *next;
 };
-
-typedef struct s_word_list t_word_list;
-typedef struct s_command t_command;
-typedef struct s_token t_token;
 
 // utils.c
 // parse.c
