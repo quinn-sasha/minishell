@@ -30,20 +30,117 @@ int is_blank(int c) {
   return FALSE;
 }
 
-int is_metacharacter(int c) {
-
+int is_quote(int c) {
+  if (c == '\'' || c == "\"")
+    return TRUE;
+  return FALSE;
 }
 
-t_token *tokenize(char *input) {
-  t_token head;
-  t_token *token = &head;
+int is_metacharacter(int c) {
+  return ft_strchr("|<>", c) != NOT_FOUND;
+}
 
+t_token *new_token(t_token_kind token_kind, const char *word) {
+  t_token *new_token = ft_calloc(1, sizeof(t_token));
+  new_token->token_kind = token_kind;
+  new_token->word = (word);
+  new_token->next = NULL;
+  return new_token;
+}
+
+/*
+* @param オペレータの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
+* @param 元のinput文字列.
+* @return operator token
+*/
+t_token *consume_operator(char **input_to_advance, char *input) {
+  const char **operators = {"<", ">", "<<", ">>", "|", NULL};
+  int i = 0;
+  while (operators[i]) {
+    if (ft_strncmp(input, operators[i], ft_strlen(operators[i])) != 0) {
+      i++;
+      continue;
+    }
+    char *word = ft_strdup(operators[i]);
+    t_token *result = new_token(TOKEN_OPERATOR, word);
+    *input_to_advance += ft_strlen(operators[i]);
+    return result;
+  }
+  // fatal error
+}
+
+/*
+* @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
+* @param 元のinput文字列.
+* @return word token
+*/
+t_token *consume_word(char **input_to_advance, char *input) {
+  int i = 0;
+  while (input[i]) {
+    if (is_blank(input[i]))
+      break;
+    i++;
+  }
+  char *word = ft_substr(input, 0, i - 1);
+  t_token *result = new_token(TOKEN_WORD, word);
+  *input_to_advance += i;
+  return result;
+}
+
+/*
+* @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
+* @param 元のinput文字列.
+* @param もしシングルクオートエラーであれば、エラーステータスが設定される.
+* @return word token
+*/
+t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_status) {
+  int word_end;
+  if (*input == '\'') {
+    word_end = ft_strchr(input, '\'');
+  }
+  else {
+    word_end = ft_strchr(input, '\"');
+  }
+  if (word_end == NOT_FOUND) {
+    *error_status = SINGLE_QUOTE_ERROR;
+    word_end = ft_strlen(input) - 1;
+  }
+  char *word = ft_substr(input, 0, word_end);
+  t_token *result = new_token(TOKEN_WORD, word);
+  *input_to_advance += word_end + 1;
+  return result;
+}
+
+/*
+* @param command line input.
+* @param トークン化の結果を保持する.TOKENIZE_SUCCESS or SINGLE_QUOTE_ERROR.
+*        もしエラーであれば呼び出し側は返り値を開放する.
+* @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
+*/
+t_token *tokenize(char *input, int *error_status) {
+  t_token dummy;
+  dummy.next = NULL;
+  t_token *token = &dummy;
+
+  *error_status = TOKENIZE_SUCCESS;
   while (*input) {
     if (is_blank(input)) {
       input++;
       continue;
     }
-    if ()
+    if (is_metacharacter(*input)) {
+      token->next = consume_operator(&input, input);
+      token = token->next;
+      continue;
+    }
+    if (is_quote(*input)) {
+      token->next = consume_quoted_word(&input, input, error_status);
+      token = token->next;
+      continue;
+    }
+    token->next = consume_word(&input, input);
+    token = token->next;
   }
-
+  token = new_token(TOKEN_EOF, NULL);
+  return dummy.next;
 }
