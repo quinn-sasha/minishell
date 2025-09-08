@@ -43,9 +43,15 @@ int is_metacharacter(int c) {
 t_token *new_token(t_token_kind token_kind, const char *word) {
   t_token *new_token = ft_calloc(1, sizeof(t_token));
   new_token->token_kind = token_kind;
-  new_token->word = (word);
+  new_token->word = word;
   new_token->next = NULL;
   return new_token;
+}
+
+bool at_eof(t_token *token) {
+  if (token == NULL)
+    return false;
+  return token->token_kind == TOKEN_EOF;
 }
 
 /*
