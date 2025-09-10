@@ -15,13 +15,17 @@
 #define CHILD 0
 
 #define TOKENIZE_SUCCESS 0
-#define SINGLE_QUOTE_ERROR 1
-
-#define COMMAND_NOT_FOUND_ERROR "command not found"
-#define PERMISSION_DENIED_ERROR "permission denied"
+#define UNCLOSED_QUOTE_STATUS 1
+#define SINGLE_QUOTE_CHARCTER '\''
+#define DOUBLE_QUOTE_CHARACTER '"'
 
 #define COMMAND_NOT_FOUND_STATUS 127
 #define PERMISSION_DENIED_STATUS 126
+
+
+#define COMMAND_NOT_FOUND_ERROR "command not found"
+#define PERMISSION_DENIED_ERROR "permission denied"
+#define UNCLOSED_QUOTE_ERROR "unclosed quote"
 
 typedef enum {
   TOKEN_OPERATOR,
@@ -49,6 +53,16 @@ struct s_token {
 };
 
 // utils.c
+// tokenize.c
+int is_blank(int c);
+int is_quote(int c);
+int is_metacharacter(int c);
+t_token *new_token(t_token_kind token_kind, const char *word);
+bool at_eof(t_token *token);
+t_token *consume_operator(char **input_to_advance, char *input);
+t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_status);
+t_token *consume_word(char **input_to_advance, char *input);
+t_token *tokenize(char *input, int *error_status);
 // parse.c
 int is_blank(int c);
 t_word_list *new_word_list(char *word);
