@@ -60,7 +60,7 @@ bool at_eof(t_token *token) {
 * @return operator token
 */
 t_token *consume_operator(char **input_to_advance, char *input) {
-  static const char *operators[] = {"<", ">", "<<", ">>", "|", NULL};
+  static const char *operators[] = {"<<", ">>", "<", ">", "|", NULL};
   int i = 0;
   while (operators[i]) {
     if (ft_strncmp(input, operators[i], ft_strlen(operators[i])) != 0) {
