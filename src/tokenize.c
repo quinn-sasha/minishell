@@ -40,7 +40,7 @@ int is_metacharacter(int c) {
   return ft_strchr("|<>", c) != NOT_FOUND;
 }
 
-t_token *new_token(t_token_kind token_kind, const char *word) {
+t_token *new_token(t_token_kind token_kind, char *word) {
   t_token *new_token = ft_calloc(1, sizeof(t_token));
   new_token->token_kind = token_kind;
   new_token->word = word;
