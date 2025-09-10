@@ -31,7 +31,7 @@ int is_blank(int c) {
 }
 
 int is_quote(int c) {
-  if (c == '\'' || c == "\"")
+  if (c == SINGLE_QUOTE_CHARCTER || c == DOUBLE_QUOTE_CHARACTER)
     return TRUE;
   return FALSE;
 }
@@ -108,7 +108,7 @@ t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_st
     word_end = ft_strchr(input, '\"');
   }
   if (word_end == NOT_FOUND) {
-    *error_status = SINGLE_QUOTE_ERROR;
+    *error_status = UNCLOSED_QUOTE_STATUS;
     word_end = ft_strlen(input) - 1;
   }
   char *word = ft_substr(input, 0, word_end);
