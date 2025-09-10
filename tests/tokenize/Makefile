@@ -6,10 +6,12 @@ RM      = rm -f
 
 
 SRCS		= ../../src/tokenize.c \
+					../../src/destructor.c \
           main.c
 
 OBJS		= tokenize.o \
-          main.o
+          main.o \
+					destructor.o
 
 LIBFT_DIR	= ../../libft
 LIBFT		= $(LIBFT_DIR)/libft.a
