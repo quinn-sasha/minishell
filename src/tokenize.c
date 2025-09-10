@@ -60,7 +60,7 @@ bool at_eof(t_token *token) {
 * @return operator token
 */
 t_token *consume_operator(char **input_to_advance, char *input) {
-  const char **operators = {"<", ">", "<<", ">>", "|", NULL};
+  static const char *operators[] = {"<", ">", "<<", ">>", "|", NULL};
   int i = 0;
   while (operators[i]) {
     if (ft_strncmp(input, operators[i], ft_strlen(operators[i])) != 0) {
@@ -72,7 +72,8 @@ t_token *consume_operator(char **input_to_advance, char *input) {
     *input_to_advance += ft_strlen(operators[i]);
     return result;
   }
-  // fatal error
+  // TODO: fatal error
+  return NULL; // TODO
 }
 
 /*
@@ -130,7 +131,7 @@ t_token *tokenize(char *input, int *error_status) {
 
   *error_status = TOKENIZE_SUCCESS;
   while (*input) {
-    if (is_blank(input)) {
+    if (is_blank(*input)) {
       input++;
       continue;
     }
