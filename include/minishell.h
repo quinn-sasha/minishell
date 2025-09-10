@@ -70,6 +70,7 @@ char **convert_word_list_to_string_array(t_word_list *words);
 int parse(char *input, t_command *command);
 // destructor.c
 void clean_command(t_command *command);
+void free_token(t_token *token);
 // exec.c
 char *find_path(char *command_name);
 void execute_command(t_command command);
