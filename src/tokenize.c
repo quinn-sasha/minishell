@@ -101,16 +101,20 @@ t_token *consume_word(char **input_to_advance, char *input) {
 * @return word token
 */
 t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_status) {
-  int word_end;
-  if (*input == '\'') {
-    word_end = ft_strchr(input, '\'');
+  char quote_to_match = SINGLE_QUOTE_CHARCTER;
+  if (*input == DOUBLE_QUOTE_CHARACTER) {
+    quote_to_match = DOUBLE_QUOTE_CHARACTER;
   }
-  else {
-    word_end = ft_strchr(input, '\"');
+  int word_end = 1;
+  while (input[word_end]) {
+    if (input[word_end] == quote_to_match) {
+      break;
+    }
+    word_end++;
   }
-  if (word_end == NOT_FOUND) {
+  if (input[word_end] == '\0') {
     *error_status = UNCLOSED_QUOTE_STATUS;
-    word_end = ft_strlen(input) - 1;
+    word_end--;
   }
   char *word = ft_substr(input, 0, word_end);
   t_token *result = new_token(TOKEN_WORD, word);
