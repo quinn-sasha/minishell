@@ -34,4 +34,6 @@ bashではプログラミング言語的な機能もあるが、micro-shell は�
 - here document: 環境変数展開を以外の追加機能（例えば、コマンド置換など）
 - redirections: 1>, >&など
 - pipes: |&
+- job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
+
 
