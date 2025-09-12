@@ -23,7 +23,7 @@
 #define COMMAND_NOT_FOUND_STATUS 127
 #define PERMISSION_DENIED_STATUS 126
 
-
+#define PREFIX_ERROR "micro-shell: "
 #define COMMAND_NOT_FOUND_ERROR "command not found"
 #define PERMISSION_DENIED_ERROR "permission denied"
 #define UNCLOSED_QUOTE_ERROR "unclosed quote"
@@ -53,6 +53,9 @@ struct s_token {
   struct s_token *next;
 };
 
+// error.c
+void prefix_error(void);
+void syntax_error(const char *unexpected_token);
 // utils.c
 // tokenize.c
 int is_blank(int c);
