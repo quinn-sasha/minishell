@@ -35,6 +35,39 @@ bashではプログラミング言語的な機能もあるが、micro-shell は�
 - pipes: |&
 - job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
 
+## 定義
+
+- blank
+ A space or tab character.
+
+- control operator
+A token that performs a control function. It is a newline or '|'.
+
+- metacharacter
+A character that, when unquoted, separates words. A metacharacter is
+a space, tab, newline, or one of the following characters: ‘|’, ‘<’, or ‘>’.
+
+- token
+ A sequence of characters considered a single unit by the shell.
+ It is either a word or an operator.
+
+- operator
+A control operator or a redirection operator. See Redirections, for a list of
+redirection operators. Operators contain at least one unquoted metacharacter.
+
+- word
+A sequence of characters treated as a unit by the shell.
+ords may not include unquoted metacharacters.
+
+- name
+A word consisting solely of letters, numbers, and underscores, and beginning with a letter or underscore. Names are used as shell variable and function names. Also referred to as an identifier.
+
+- built-in
+A command that is implemented internally by the shell itself, rather than by an executable program somewhere in the file system.
+
+- environment:
+> プログラムが実行される際、環境変数と呼ばれる文字列配列が渡されます。これは「名前=値」の形式で構成される名前と値のペアのリストです。
+
 ## 受けつける入力の文法
 
 ```
@@ -101,3 +134,4 @@ delimiter がクオートで囲まれている場合、delimiter はクオート
 
 delimiter がクオートに囲まれていない場合は、読み込んだ入力は展開される.
 コマンド置換はサポートしない.
+
