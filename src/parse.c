@@ -55,3 +55,44 @@ char **convert_word_list_to_string_array(t_word_list *words) {
   }
   return result;
 }
+
+bool is_same_operator(t_token *token, char *operator) {
+  if (token->token_kind != TOKEN_OPERATOR)
+    return false;
+  if (ft_strncmp(token->word, operator, ft_strlen(operator)) == 0)
+    return true;
+  return false;
+}
+
+/*
+Syntax error:
+- パイプ `|` の左にコマンドがない
+- パイプ `|` の右にコマンドがない
+- パイプ `|` の次に control operator ( | ) がくる
+- リダイレクト (`>` `<` `<<` `>>` ) の次に word が来ない
+- クオートが閉じられていない (tokenize()で対応済み)
+*/
+bool is_valid_syntax(t_token *token) {
+  if (is_same_operator(token, PIPE)) {
+    // throw error
+    return false;
+  }
+  while (!at_eof(token)) {
+    if (token->token_kind == TOKEN_WORD) {
+      token = token->next;
+      continue;
+    }
+    if (is_same_operator(token, PIPE) &&
+        is_same_operator(token->next, PIPE)) {
+      // throw error
+      return false;
+    }
+    if (!is_same_operator(token, PIPE) &&
+        token->next->token_kind == TOKEN_OPERATOR) {
+      // throw error
+      return false;
+    }
+    token = token->next;
+  }
+  return true;
+}
