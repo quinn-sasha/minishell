@@ -72,8 +72,7 @@ t_token *consume_operator(char **input_to_advance, char *input) {
     *input_to_advance += ft_strlen(operators[i]);
     return result;
   }
-  // TODO: fatal error
-  return NULL; // TODO
+  return NULL;
 }
 
 /*
