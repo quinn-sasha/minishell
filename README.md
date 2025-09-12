@@ -35,5 +35,37 @@ bashではプログラミング言語的な機能もあるが、micro-shell は�
 - pipes: |&
 - job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
 
+## 受けつける入力の文法
 
+```
+// <pipeline> = <simple_command> ('|' <pipeline>)
+// <simple_command> = <command_element>+
+// <command_element> = <word> | <redirection>
+// <redirection> = '>' <word>
+//               | '<' <word>
+//               | '>>' <word>
+//               | '<<' <word>
+```
 
+pipelineとは 1つ以上のsimple_command とその間にある | で構成される.
+simple_command とは 1つ以上の<command_element>の連なりである.
+command_element とは word もしくは redirection である.
+
+## Simple command
+
+最もよく実行されるコマンド.
+空白で区切られた、word が連続したもの.
+最初の単語がコマンド名で、その後に続くのは全て引数.
+
+## Pipeline
+
+一つ以上のコマンドを、 `|` で区切り、連結させたもの.
+文法は以下の通りである：
+
+```
+command1 [ | command2 ] ...
+```
+command1 の出力が command2 の入力に繋がれる.
+command1 のリダイレクション設定は、パイプを繋いだ後に行われる.
+パイプで繋がれた各コマンドは、subshell 環境（定義を参照）で実行される. また各コマンドは非同期に実行される.
+パイプラインの終了ステータスは、最後のコマンドの終了ステータスである.
