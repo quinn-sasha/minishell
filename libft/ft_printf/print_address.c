@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   print_address.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 13:45:46 by squinn            #+#    #+#             */
-/*   Updated: 2025/09/12 17:28:43 by squinn           ###   ########.fr       */
+/*   Created: 2025/07/10 15:41:14 by squinn            #+#    #+#             */
+/*   Updated: 2025/09/12 15:45:03 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-int	ft_putstr_fd(const char *str, int fd)
+int	print_address(const void *address)
 {
-	int	num_bytes;
+	char				*buffer;
+	unsigned long long	num;
+	int					num_bytes;
 
-	if (str == NULL)
-		return (ft_putstr_fd("(null)", fd));
+	num = (unsigned long long)address;
+	buffer = unsigned_itoa(num, 16);
+	if (ft_strncmp(buffer, "0", 1) == 0)
+		return (ft_putstr("(nil)"));
 	num_bytes = 0;
-	while (*str)
-	{
-		num_bytes += ft_putchar_fd(*str, fd);
-		str++;
-	}
+	num_bytes += ft_putstr("0x");
+	num_bytes += ft_putstr(buffer);
 	return (num_bytes);
 }

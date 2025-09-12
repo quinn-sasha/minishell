@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   print_hexadecimal.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 13:45:46 by squinn            #+#    #+#             */
-/*   Updated: 2025/09/12 17:28:43 by squinn           ###   ########.fr       */
+/*   Created: 2025/07/11 13:46:20 by squinn            #+#    #+#             */
+/*   Updated: 2025/09/12 15:45:30 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-int	ft_putstr_fd(const char *str, int fd)
+int	print_hexadecimal(unsigned int n, int is_upper)
 {
-	int	num_bytes;
+	unsigned long long	num;
+	char				*buffer;
+	int					i;
 
-	if (str == NULL)
-		return (ft_putstr_fd("(null)", fd));
-	num_bytes = 0;
-	while (*str)
+	num = (unsigned long long)n;
+	buffer = unsigned_itoa(num, 16);
+	if (is_upper)
 	{
-		num_bytes += ft_putchar_fd(*str, fd);
-		str++;
+		i = 0;
+		while (buffer[i])
+		{
+			buffer[i] = (char)ft_toupper(buffer[i]);
+			i++;
+		}
 	}
-	return (num_bytes);
+	return (ft_putstr(buffer));
 }

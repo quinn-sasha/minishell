@@ -6,31 +6,32 @@
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:57:12 by squinn            #+#    #+#             */
-/*   Updated: 2025/07/07 16:42:10 by squinn           ###   ########.fr       */
+/*   Updated: 2025/09/12 17:26:57 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+int	ft_putnbr_fd(int num, int fd)
 {
-	if (n == -2147483648)
+	int	num_bytes;
+
+	num_bytes = 0;
+	if (num == -2147483648)
+		return (ft_putstr_fd("-2147483648", fd));
+	if (num < 0)
 	{
-		ft_putstr_fd("-2147483648", fd);
-		return ;
+		num = -num;
+		num_bytes += ft_putchar_fd('-', fd);
 	}
-	if (n < 0)
+	if (num < 10)
 	{
-		ft_putchar_fd('-', fd);
-		n = -n;
+		num_bytes += ft_putchar_fd(num + '0', fd);
+		return (num_bytes);
 	}
-	if (n < 10)
-	{
-		ft_putchar_fd(n + '0', fd);
-		return ;
-	}
-	ft_putnbr_fd(n / 10, fd);
-	ft_putnbr_fd(n % 10, fd);
+	num_bytes += ft_putnbr_fd(num / 10, fd);
+	num_bytes += ft_putnbr_fd(num % 10, fd);
+	return (num_bytes);
 }
 
 /*

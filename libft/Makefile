@@ -6,7 +6,7 @@
 #    By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:06:03 by squinn            #+#    #+#              #
-#    Updated: 2025/08/14 09:32:59 by squinn           ###   ########.fr        #
+#    Updated: 2025/09/12 17:46:00 by squinn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ AR = ar
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
+RM_DIR = rm -rf
 
-SRCS = ft_isalpha.c \
+NORMAL_SRCS = ft_isalpha.c \
 		ft_isdigit.c \
 		ft_isalnum.c \
 		ft_isascii.c \
@@ -53,17 +54,30 @@ SRCS = ft_isalpha.c \
 		ft_putnbr_fd.c \
 		get_next_line.c
 
-OBJS = $(SRCS:.c=.o)
+PRINTF_SRCS = ft_printf/ft_printf.c \
+							ft_printf/print_address.c \
+							ft_printf/print_hexadecimal.c \
+							ft_printf/printf_utils.c \
+							ft_printf/unsigned_itoa.c \
+							ft_printf/ft_dprintf_utils.c \
+							ft_printf/ft_dprintf.c
+
+SRCS = $(NORMAL_SRCS) $(PRINTF_SRCS)
+OBJ_DIR = obj
+OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) rcs $(NAME) $(OBJS)
 
-%.o: %.c
+# $(@D): directory name in target
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	$(RM_DIR) $(OBJ_DIR)
 	$(RM) $(OBJS)
 
 fclean: clean

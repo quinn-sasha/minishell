@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   unsigned_itoa.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 13:45:46 by squinn            #+#    #+#             */
-/*   Updated: 2025/09/12 17:28:43 by squinn           ###   ########.fr       */
+/*   Created: 2025/07/10 16:13:35 by squinn            #+#    #+#             */
+/*   Updated: 2025/09/12 15:46:04 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-int	ft_putstr_fd(const char *str, int fd)
+char	*unsigned_itoa(unsigned long long num, unsigned int base)
 {
-	int	num_bytes;
+	static char	buffer[MAX_ADDRESS_LENGTH + 1];
+	static char	*symbols = "0123456789abcdef";
+	char		*ptr;
 
-	if (str == NULL)
-		return (ft_putstr_fd("(null)", fd));
-	num_bytes = 0;
-	while (*str)
+	ptr = &buffer[MAX_ADDRESS_LENGTH];
+	*ptr = '\0';
+	if (num == 0)
 	{
-		num_bytes += ft_putchar_fd(*str, fd);
-		str++;
+		ptr--;
+		*ptr = '0';
+		return (ptr);
 	}
-	return (num_bytes);
+	while (num)
+	{
+		ptr--;
+		*ptr = symbols[num % base];
+		num /= base;
+	}
+	return (ptr);
 }
