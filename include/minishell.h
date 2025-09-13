@@ -73,7 +73,7 @@ struct s_redirect {
 };
 
 struct s_simple_command {
-  struct s_simple_command *next;
+  struct s_simple_command *next; // Next element or NULL
   t_token *arguments;
   t_redirect *redirect;
 };
