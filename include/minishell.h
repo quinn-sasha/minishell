@@ -28,29 +28,54 @@
 #define PERMISSION_DENIED_ERROR "permission denied"
 #define UNCLOSED_QUOTE_ERROR "unclosed quote"
 
-typedef enum {
+typedef enum e_token_kind t_token_kind;
+typedef enum e_redirect_kind t_redirect_kind;
+typedef union u_redirectee t_redirectee;
+typedef struct s_token t_token;
+typedef struct s_redirect t_redirect;
+typedef struct s_simple_command t_simple_command;
+
+typedef enum e_token_kind {
   TOKEN_OPERATOR,
   TOKEN_WORD,
   TOKEN_EOF,
 } t_token_kind;
 
-typedef struct s_word_list t_word_list;
-typedef struct s_command t_command;
-typedef struct s_token t_token;
-
-struct s_word_list {
-  struct s_word_list *next;
-  char *word;
-};
-
-struct s_command {
-  t_word_list *words;
-};
+// r_reading_until == here document
+typedef enum e_redirect_kind {
+  r_input_direction,
+  r_output_direction,
+  r_appending_to,
+  r_reading_until
+} t_redirect_kind;
 
 struct s_token {
   char *word;
   t_token_kind token_kind;
-  struct s_token *next;
+  t_token *next;
+};
+
+union u_redirectee {
+  int fd;
+  char *filename;
+};
+
+// e.g. > outfile
+// from.fd is STDOUT_FILENO
+// to.filename is outfile
+struct s_redirect {
+  t_redirect *next; // Next element or NULL
+  int open_flags;
+  t_redirectee from;
+  t_redirectee to;
+  t_redirect_kind redirect_kind;
+  char *here_doc_eof;
+};
+
+struct s_simple_command {
+  struct s_simple_command *next;
+  t_token *arguments;
+  t_redirect *redirect;
 };
 
 // error.c
@@ -69,13 +94,8 @@ t_token *consume_word(char **input_to_advance, char *input);
 t_token *tokenize(char *input, int *error_status);
 // parse.c
 int is_blank(int c);
-t_word_list *new_word_list(char *word);
-char **convert_word_list_to_string_array(t_word_list *words);
-int parse(char *input, t_command *command);
 // destructor.c
-void clean_command(t_command *command);
 void free_token(t_token *token);
 // exec.c
 char *find_path(char *command_name);
-void execute_command(t_command command);
 
