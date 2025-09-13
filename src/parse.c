@@ -1,6 +1,18 @@
 #include "../include/minishell.h"
 
-/**/
+/*
+* @param: 実行部に渡すコマンド構造体. 動的に割り当てる.
+* @param: トークンのリスト.
+* @return: PARSE_SUCCESS, PARSE_SYNTAX_ERROR or PARSE_MALLOC_FAILED
+* トークンからコマンド構造体をつくる.
+* parse()が成功した場合、以下の状態が達成されている.
+*   simple command 構造体が初期化されている.
+*   子プロセスがコマンドの数ぶん作られる.
+*   パイプがあれば、コマンドの読み込み口か書き込み口に向けられている.
+*/
+int parse(t_simple_command **command, t_token *token) {
+
+}
 
 
 /*
