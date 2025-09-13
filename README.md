@@ -145,7 +145,54 @@ delimiter がクオートに囲まれていない場合は、読み込んだ入�
 6. コマンドを実行する
 7. 全てのコマンドの実行が終了するのを待って、終了ステータスを環境変数$?に代入する
 
+### 入力を受け取る前の処理
+
+- 環境変数を保持したデータ構造の初期化
+- シグナルハンドラの設定
+
+### トークン化処理
+
+入力から token をつくる.
+以下の定義にしたがって、word と operator に分類される.
+
+```
+blank
+  A space or tab character.
+
+control operator
+  A token that performs a control function. It is a newline or '|'.
+
+metacharacter
+  A character that, when unquoted, separates words. A metacharacter is
+  a space, tab, newline, or one of the following characters: ‘|’, ‘<’, or ‘>’.
+
+token
+  A sequence of characters considered a single unit by the shell.
+  It is either a word or an operator.
+
+operator
+  A control operator or a redirection operator. See Redirections, for a list of
+  redirection operators. Operators contain at least one unquoted metacharacter.
+
+word
+  A sequence of characters treated as a unit by the shell.
+  Words may not include unquoted metacharacters.
+```
+
+
+token の種類は、TOKEN_OPERATOR, TOKEN_WORD, TOKEN_EOF の3つがある.
+TOKEN_EOF はトークンリストの最後の要素である.
+
+
+metacharacter によって、入力は分割される.
+例えば、`< infile cat | cat > outfile`という入力が来たら、トークンは、
+`<` -> `infile` -> `cat` -> `|` -> `cat` -> `>` -> `outfile` のように作られる.
+クオートで囲まれている文字列は、1つの word としてみなす. 
+トークン化処理で、クオートが閉じられていない文法エラーを検出する.
+ちなみに、入力が空文字の場合、TOKEN_EOF のみ作られる.
+
 ## Reference
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
+
 
