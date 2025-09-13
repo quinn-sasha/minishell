@@ -5,5 +5,6 @@ int main(void) {
     char *input = readline("> ");
     if (input == NULL)
       exit(EXIT_SUCCESS);
+    free(input);
   }
 }
