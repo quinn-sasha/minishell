@@ -135,7 +135,17 @@ delimiter がクオートで囲まれている場合、delimiter はクオート
 delimiter がクオートに囲まれていない場合は、読み込んだ入力は展開される.
 コマンド置換はサポートしない.
 
+## 実行の流れ
+
+1. ターミナルからユーザーの入力を受け取る.
+2. 入力を metacharacter によって分割し、トークンのリストを作る. トークンは word と operator に分類される.
+3. トークンを解析して、simple command を作成する.
+4. 以下で述べる[展開](#展開)を行う
+5. [Redirection](#Redirection)を行う
+6. コマンドを実行する
+7. 全てのコマンドの実行が終了するのを待って、終了ステータスを環境変数$?に代入する
 
 ## Reference
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
+
