@@ -135,3 +135,7 @@ delimiter がクオートで囲まれている場合、delimiter はクオート
 delimiter がクオートに囲まれていない場合は、読み込んだ入力は展開される.
 コマンド置換はサポートしない.
 
+
+## Reference
+- https://www.gnu.org/software/bash/manual/bash.html
+- https://github.com/usatie/minishell
