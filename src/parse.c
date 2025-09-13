@@ -74,7 +74,7 @@ Syntax error:
 */
 bool is_valid_syntax(t_token *token) {
   if (is_same_operator(token, PIPE)) {
-    // throw error
+    syntax_error(token->word);
     return false;
   }
   while (!at_eof(token)) {
@@ -82,14 +82,18 @@ bool is_valid_syntax(t_token *token) {
       token = token->next;
       continue;
     }
+    if (token->next->token_kind == TOKEN_EOF) {
+      syntax_error("newline");
+      return false;
+    }
     if (is_same_operator(token, PIPE) &&
         is_same_operator(token->next, PIPE)) {
-      // throw error
+      syntax_error(token->word);
       return false;
     }
     if (!is_same_operator(token, PIPE) &&
         token->next->token_kind == TOKEN_OPERATOR) {
-      // throw error
+      syntax_error(token->next->word);
       return false;
     }
     token = token->next;
