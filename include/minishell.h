@@ -87,7 +87,6 @@ struct s_simple_command {
 void prefix_error(void);
 void syntax_error(const char *unexpected_token);
 void fatal_error(const char *message);
-// utils.c
 // tokenize.c
 int is_blank(int c);
 int is_quote(int c);

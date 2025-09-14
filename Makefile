@@ -7,7 +7,6 @@ SRCFILES := destructor.c \
             exec.c \
 						main.c \
 						parse.c \
-						utils.c
 
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -I
