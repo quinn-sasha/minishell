@@ -8,6 +8,7 @@
 #include <stdbool.h>
 
 #include "../libft/libft.h"
+#include "xlibrary.h"
 
 #define TRUE 1
 #define SUCCESS 0
