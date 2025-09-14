@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /*
 blank
@@ -46,12 +46,6 @@ t_token *new_token(t_token_kind token_kind, char *word) {
   new_token->word = word;
   new_token->next = NULL;
   return new_token;
-}
-
-bool at_eof(t_token *token) {
-  if (token == NULL)
-    return false;
-  return token->token_kind == TOKEN_EOF;
 }
 
 /*

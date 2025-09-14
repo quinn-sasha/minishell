@@ -12,14 +12,6 @@ How to interpret input.
               | '<<' <word>
 */
 
-bool is_same_operator(t_token *token, char *operator) {
-  if (token->token_kind != TOKEN_OPERATOR)
-    return false;
-  if (ft_strncmp(token->word, operator, ft_strlen(operator)) == 0)
-    return true;
-  return false;
-}
-
 /*
 Syntax error:
 - パイプ `|` の左にコマンドがない
@@ -58,6 +50,22 @@ bool is_valid_syntax(t_token *token) {
 }
 
 /*
+コマンド構造体に、command element (定義は以下を参照) が追加される.
+進められたトークンが token_to_return に保存される.
+<command_element> = <word> | <redirection>
+*/
+void append_command_element(t_simple_command *command, t_token **token_to_return, t_token *token) {
+  if (token->token_kind == TOKEN_WORD) {
+    // append_token(&command->arguments, token);
+    // token_to_return = token->next;
+    return;
+  }
+  // t_redirect *redirect = new_redirect(&token)
+  // append_redirect(&command->redirect, redirect)
+  // token_to_return = token
+}
+
+/*
 * @param: token to advance until it reaches EOF or pipe. The change will be reflected at caller.
 * @param: token
 * @return: One simple command
@@ -66,7 +74,10 @@ bool is_valid_syntax(t_token *token) {
 */
 t_simple_command *make_simple_command(t_token **token_to_return, t_token *token) {
   t_simple_command *command = xcalloc(1, sizeof(t_simple_command));
-  while (!at_eof(token) && is_same_operator(token, PIPE_SYMBOL));
+  while (!at_eof(token) && is_same_operator(token, PIPE_SYMBOL)) {
+    // append command element
+  }
+  *token_to_return = token;
   return command;
 }
 
