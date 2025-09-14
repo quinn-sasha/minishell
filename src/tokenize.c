@@ -41,7 +41,7 @@ int is_metacharacter(int c) {
 }
 
 t_token *new_token(t_token_kind token_kind, char *word) {
-  t_token *new_token = ft_calloc(1, sizeof(t_token));
+  t_token *new_token = xcalloc(1, sizeof(t_token));
   new_token->token_kind = token_kind;
   new_token->word = word;
   new_token->next = NULL;
