@@ -16,6 +16,9 @@
 
 #define TOKENIZE_SUCCESS 0
 #define UNCLOSED_QUOTE_STATUS 1
+#define PARSE_SUCCESS 0
+#define PARSE_SYNTAX_ERROR 1
+
 #define SINGLE_QUOTE_CHARCTER '\''
 #define DOUBLE_QUOTE_CHARACTER '"'
 #define PIPE '|'
@@ -82,6 +85,7 @@ struct s_simple_command {
 // error.c
 void prefix_error(void);
 void syntax_error(const char *unexpected_token);
+void fatal_error(const char *message);
 // utils.c
 // tokenize.c
 int is_blank(int c);
