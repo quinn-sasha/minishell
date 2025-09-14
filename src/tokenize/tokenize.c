@@ -48,12 +48,6 @@ t_token *new_token(t_token_kind token_kind, char *word) {
   return new_token;
 }
 
-bool at_eof(t_token *token) {
-  if (token == NULL)
-    return false;
-  return token->token_kind == TOKEN_EOF;
-}
-
 /*
 * @param オペレータの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
 * @param 元のinput文字列.
