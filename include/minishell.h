@@ -87,18 +87,19 @@ struct s_simple_command {
 void prefix_error(void);
 void syntax_error(const char *unexpected_token);
 void fatal_error(const char *message);
+// token.c
+bool at_eof(t_token *token);
+bool is_same_operator(t_token *token, char *operator);
 // tokenize.c
 int is_blank(int c);
 int is_quote(int c);
 int is_metacharacter(int c);
 t_token *new_token(t_token_kind token_kind, char *word);
-bool at_eof(t_token *token);
 t_token *consume_operator(char **input_to_advance, char *input);
 t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_status);
 t_token *consume_word(char **input_to_advance, char *input);
 t_token *tokenize(char *input, int *error_status);
 // parse.c
-int is_blank(int c);
 // destructor.c
 void free_token(t_token *token);
 // exec.c
