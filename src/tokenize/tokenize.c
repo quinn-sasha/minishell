@@ -40,14 +40,6 @@ int is_metacharacter(int c) {
   return ft_strchr("|<>", c) != NOT_FOUND;
 }
 
-t_token *new_token(t_token_kind token_kind, char *word) {
-  t_token *new_token = xcalloc(1, sizeof(t_token));
-  new_token->token_kind = token_kind;
-  new_token->word = word;
-  new_token->next = NULL;
-  return new_token;
-}
-
 /*
 * @param オペレータの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
 * @param 元のinput文字列.

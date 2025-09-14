@@ -14,4 +14,10 @@ bool is_same_operator(t_token *token, char *operator) {
   return false;
 }
 
-
+t_token *new_token(t_token_kind token_kind, char *word) {
+  t_token *new_token = xcalloc(1, sizeof(t_token));
+  new_token->token_kind = token_kind;
+  new_token->word = word;
+  new_token->next = NULL;
+  return new_token;
+}
