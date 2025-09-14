@@ -59,7 +59,7 @@ bool at_eof(t_token *token) {
 * @param 元のinput文字列.
 * @return operator token
 */
-t_token *consume_operator(char **input_to_advance, char *input) {
+t_token *consume_operator(char **input_to_return, char *input) {
   static const char *operators[] = {"<<", ">>", "<", ">", "|", NULL};
   int i = 0;
   while (operators[i]) {
@@ -69,7 +69,7 @@ t_token *consume_operator(char **input_to_advance, char *input) {
     }
     char *word = ft_strdup(operators[i]);
     t_token *result = new_token(TOKEN_OPERATOR, word);
-    *input_to_advance += ft_strlen(operators[i]);
+    *input_to_return += ft_strlen(operators[i]);
     return result;
   }
   return NULL;
@@ -80,7 +80,7 @@ t_token *consume_operator(char **input_to_advance, char *input) {
 * @param 元のinput文字列.
 * @return word token
 */
-t_token *consume_word(char **input_to_advance, char *input) {
+t_token *consume_word(char **input_to_return, char *input) {
   int i = 0;
   while (input[i]) {
     if (is_blank(input[i]))
@@ -89,7 +89,7 @@ t_token *consume_word(char **input_to_advance, char *input) {
   }
   char *word = ft_substr(input, 0, i - 1);
   t_token *result = new_token(TOKEN_WORD, word);
-  *input_to_advance += i;
+  *input_to_return += i;
   return result;
 }
 
@@ -99,7 +99,7 @@ t_token *consume_word(char **input_to_advance, char *input) {
 * @param もしシングルクオートエラーであれば、エラーステータスが設定される.
 * @return word token
 */
-t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_status) {
+t_token *consume_quoted_word(char **input_to_return, char *input, int *error_status) {
   char quote_to_match = SINGLE_QUOTE_CHARCTER;
   if (*input == DOUBLE_QUOTE_CHARACTER) {
     quote_to_match = DOUBLE_QUOTE_CHARACTER;
@@ -117,7 +117,7 @@ t_token *consume_quoted_word(char **input_to_advance, char *input, int *error_st
   }
   char *word = ft_substr(input, 0, word_end);
   t_token *result = new_token(TOKEN_WORD, word);
-  *input_to_advance += word_end + 1;
+  *input_to_return += word_end + 1;
   return result;
 }
 
