@@ -29,7 +29,7 @@ Syntax error:
 - クオートが閉じられていない (tokenize()で対応済み)
 */
 bool is_valid_syntax(t_token *token) {
-  if (is_same_operator(token, PIPE)) {
+  if (is_same_operator(token, PIPE_SYMBOL)) {
     syntax_error(token->word);
     return false;
   }
@@ -42,12 +42,12 @@ bool is_valid_syntax(t_token *token) {
       syntax_error("newline");
       return false;
     }
-    if (is_same_operator(token, PIPE) &&
-        is_same_operator(token->next, PIPE)) {
+    if (is_same_operator(token, PIPE_SYMBOL) &&
+        is_same_operator(token->next, PIPE_SYMBOL)) {
       syntax_error(token->word);
       return false;
     }
-    if (!is_same_operator(token, PIPE) &&
+    if (!is_same_operator(token, PIPE_SYMBOL) &&
         token->next->token_kind == TOKEN_OPERATOR) {
       syntax_error(token->next->word);
       return false;
@@ -55,6 +55,19 @@ bool is_valid_syntax(t_token *token) {
     token = token->next;
   }
   return true;
+}
+
+/*
+* @param: token to advance until it reaches EOF or pipe. The change will be reflected at caller.
+* @param: token
+* @return: One simple command
+* It creates one simple command.
+* It advances token until EOF or next pipe. This advanced token is set to token_to_return.
+*/
+t_simple_command *make_simple_command(t_token **token_to_return, t_token *token) {
+  t_simple_command *command = xcalloc(1, sizeof(t_simple_command));
+  while (!at_eof(token) && is_same_operator(token, PIPE_SYMBOL));
+  return command;
 }
 
 /*
@@ -68,7 +81,10 @@ t_simple_command *make_simple_command_list(t_token *token) {
   if (token->token_kind == TOKEN_EOF)
     return NULL;
   t_simple_command *command = make_simple_command(&token, token);
-  if (is_sam)
+  if (is_same_operator(token, PIPE_SYMBOL)) {
+    command->next = make_simple_command_list(token->next);
+  }
+  return command;
 }
 
 /*
