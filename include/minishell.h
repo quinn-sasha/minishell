@@ -91,6 +91,7 @@ void fatal_error(const char *message);
 bool at_eof(t_token *token);
 bool is_same_operator(t_token *token, char *operator);
 t_token *new_token(t_token_kind token_kind, char *word);
+t_token *duplicate_token(t_token *token);
 // tokenize.c
 int is_blank(int c);
 int is_quote(int c);

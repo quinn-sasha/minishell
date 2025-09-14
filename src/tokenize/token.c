@@ -21,3 +21,11 @@ t_token *new_token(t_token_kind token_kind, char *word) {
   new_token->next = NULL;
   return new_token;
 }
+
+t_token *duplicate_token(t_token *token) {
+  char *word = xstrdup(token->word);
+  t_token *result = new_token(token->token_kind, word);
+  return result;
+}
+
+void append_token
