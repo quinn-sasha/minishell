@@ -115,6 +115,10 @@ void append_redirect(t_redirect **head, t_redirect *element) {
 コマンド構造体に、command element (定義は以下を参照) が追加される.
 進められたトークンが token_to_return に保存される.
 <command_element> = <word> | <redirection>
+<redirection> = '>' <word>
+              | '<' <word>
+              | '>>' <word>
+              | '<<' <word>
 */
 void append_command_element(t_simple_command *command, t_token **token_to_return, t_token *token) {
   if (token->token_kind == TOKEN_WORD) {
