@@ -50,6 +50,52 @@ bool is_valid_syntax(t_token *token) {
 }
 
 /*
+redirectの種類から、redirect構造体のメンバに値を書き込む.
+*/
+void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token) {
+  redirect->redirect_kind = r_kind;
+  if (r_kind == r_input_direction) {
+    redirect->from.fd = STDIN_FILENO;
+    redirect->to.filename = token->next->word;
+    redirect->open_flags = O_RDONLY;
+    return;
+  }
+  if (r_kind == r_output_direction) {
+    redirect->from.fd = STDOUT_FILENO;
+    redirect->to.filename = token->next->word;
+    redirect->open_flags = O_CREAT | O_TRUNC | O_WRONLY;
+    return;
+  }
+  if (r_kind == r_appending_to) {
+    redirect->from.fd = STDOUT_FILENO;
+    redirect->to.filename = token->next->word;
+    redirect->open_flags = O_CREAT | O_APPEND | O_WRONLY;
+    return;
+  }
+  redirect->here_doc_eof = token->next->word;
+}
+
+/*
+トークンの種類からリダイレクト構造体を作る.
+*/
+t_redirect *new_redirect(t_token *token) {
+  t_redirect *result = xcalloc(1, sizeof(t_redirect));
+  if (is_same_operator(token, "<")) {
+    result->redirect_kind = r_input_direction;
+
+  }
+  if (is_same_operator(token, ">")) {
+    result->redirect_kind = r_output_direction;
+  }
+  if (is_same_operator(token, "<<")) {
+    result->redirect_kind = r_reading_until;
+  }
+  if (is_same_operator(token, ">>")) {
+    result->redirect_kind = r_appending_to;
+  }
+}
+
+/*
 コマンド構造体に、command element (定義は以下を参照) が追加される.
 進められたトークンが token_to_return に保存される.
 <command_element> = <word> | <redirection>
@@ -60,9 +106,9 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
     token_to_return = token->next;
     return;
   }
-  // t_redirect *redirect = new_redirect(&token)
+  // t_redirect *redirect = new_redirect(token)
   // append_redirect(&command->redirect, redirect)
-  // token_to_return = token
+  // token_to_return = token->next->next;
 }
 
 /*
