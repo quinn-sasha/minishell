@@ -59,6 +59,8 @@ struct s_token {
   t_token *next;
 };
 
+// redirect.from is always fd
+// redirect.to is always filename
 union u_redirectee {
   int fd;
   char *filename;
