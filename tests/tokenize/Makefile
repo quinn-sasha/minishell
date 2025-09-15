@@ -5,12 +5,15 @@ CFLAGS	=	-Wall -Wextra -Werror
 RM      = rm -f
 
 SRCS    = ../../src/tokenize/tokenize.c \
-					../../src/tokenize/destructor.c \
+					../../src/destructor.c \
+					../../src/tokenize/token.c \
+					../../src/library/xcalloc.c \
+					../../src/library/xstrdup.c \
+					../../src/error.c \
 					main.c
 
-OBJS		= tokenize.o \
-          main.o \
-					destructor.o
+SRCFILES = $(notdir $(SRCS))
+OBJS = $(SRCFILES:%.c=%.o)
 
 LIBFT_DIR	= ../../libft
 LIBFT		= $(LIBFT_DIR)/libft.a
