@@ -1,27 +1,35 @@
-#include "../../include/minishell.h"
+#include "test_tokenize.h"
 
-int main(int argc, char *argv[]) {
-  if (argc != 2) {
-    printf("Too few arugments\n");
-    return FAILED;
-  }
-  char *input = argv[1];
-  if (!input || !*input) {
-    printf("Input string is empty\n");
-    return SUCCESS;
-  }
-
-  int error_status;
-  t_token *token = tokenize(input, &error_status);
-  if (error_status == UNCLOSED_QUOTE_STATUS) {
-    free_token(token);
-    ft_putendl_fd(UNCLOSED_QUOTE_ERROR, STDERR_FILENO);
-    return FAILED;
-  }
+bool assert_tokens_equal(t_token *token, t_expected_token *expected_tokens, int size) {
   t_token *iter = token;
-  while (!at_eof(iter)) {
-    printf("word: %s\n", iter->word);
+  for (int i = 0; i < size; i++) {
+    if (iter == NULL) {
+      printf("FAIL: Token list is too short. Expected more tokens\n");
+      return false;
+    }
+    if (iter->token_kind != expected_tokens[i].token_kind) {
+      printf("FAIL: Token kind is wrong\n");
+      printf("An error found at expected_tokens index: %d\n", i);
+      return false;
+    }
+    if (iter->word == NULL && expected_tokens[i].word == NULL) {
+      iter = iter->next;
+      continue;
+    }
+    if (strcmp(iter->word, expected_tokens[i].word) != 0) {
+      printf("FAIL: Token word is wrong.\n");
+      printf("Expected: %s, but got %s\n", expected_tokens[i].word, iter->word);
+    }
     iter = iter->next;
   }
-  free_token(token);
+  if (iter != NULL) {
+    printf("FAIL: Token is too long. Extra tokens found\n");
+    return false;
+  }
+  printf("PASS\n");
+  return true;
+}
+
+int main(void) {
+
 }
