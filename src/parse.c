@@ -97,6 +97,21 @@ t_redirect *new_redirect(t_token *token) {
 }
 
 /*
+append_token()と全く同じ処理だが、引数の型だけ異なる.
+*/
+void append_redirect(t_redirect **head, t_redirect *element) {
+  if (*head == NULL) {
+    *head = element;
+    return;
+  }
+  t_token *iter = *head;
+  while (iter->next) {
+    iter = iter->next;
+  }
+  iter->next = element;
+}
+
+/*
 コマンド構造体に、command element (定義は以下を参照) が追加される.
 進められたトークンが token_to_return に保存される.
 <command_element> = <word> | <redirection>
@@ -107,9 +122,9 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
     token_to_return = token->next;
     return;
   }
-  // t_redirect *redirect = new_redirect(token)
-  // append_redirect(&command->redirect, redirect)
-  // token_to_return = token->next->next;
+  t_redirect *redirect = new_redirect(token);
+  append_redirect(&command->redirect, redirect);
+  token = token->next->next;
 }
 
 /*
