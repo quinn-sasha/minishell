@@ -1,5 +1,25 @@
 #include "test_tokenize.h"
 
+int main(void) {
+  test_simple_command();
+}
+
+void test_simple_command() {
+  printf("Test simple command: 'ls -l' ...\n");
+  char *input = "ls -l";
+  t_expected_token expected[] = {
+    {TOKEN_WORD, "ls"},
+    {TOKEN_WORD, "-l"},
+    {TOKEN_EOF, NULL}
+  };
+  int status;
+  t_token *token = tokenize(input, &status);
+  int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
+  if (result == false)
+    exit(EXIT_FAILURE);
+  free_token(token);
+}
+
 bool assert_tokens_equal(t_token *token, t_expected_token *expected_tokens, int size) {
   t_token *iter = token;
   for (int i = 0; i < size; i++) {
@@ -30,6 +50,3 @@ bool assert_tokens_equal(t_token *token, t_expected_token *expected_tokens, int 
   return true;
 }
 
-int main(void) {
-
-}
