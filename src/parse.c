@@ -136,14 +136,15 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
 * @param: token
 * @return: One simple command
 * It creates one simple command.
-* It advances token until EOF or next pipe. This advanced token is set to token_to_return.
+* In addition, it advances token until EOF or next pipe. This advanced token is set to token_to_return.
 */
 t_simple_command *make_simple_command(t_token **token_to_return, t_token *token) {
   t_simple_command *command = xcalloc(1, sizeof(t_simple_command));
   while (!at_eof(token) && !is_same_operator(token, PIPE_SYMBOL)) {
-    // append command element
+    append_command_element(command, &token, token);
   }
-  // append token eof
+  t_token *tail = new_token(TOKEN_EOF, NULL);
+  append_token(command->arguments, tail);
   *token_to_return = token;
   return command;
 }
@@ -154,6 +155,7 @@ t_simple_command *make_simple_command(t_token **token_to_return, t_token *token)
 * Make simple command from valid token.
 * However, child pid is not assigned in this function,
 * but later in prepare_pipeline().
+* token eof かのチェックは実は不要だが、関数の独立性が高まるので追加した.
 */
 t_simple_command *make_simple_command_list(t_token *token) {
   if (token->token_kind == TOKEN_EOF)
