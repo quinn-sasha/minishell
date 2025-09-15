@@ -35,12 +35,12 @@ t_token *duplicate_token(t_token *token) {
 * CAUTION: token の末尾が TOKEN_EOF ではなく、NULL で示されているが、
 *          最終的に、呼び出し側の make_simple_command() で TOKEN_EOF が挿入される.
 */
-void append_token(t_token **token, t_token *element) {
-  if (*token == NULL) {
-    *token = element;
+void append_token(t_token **head, t_token *element) {
+  if (*head == NULL) {
+    *head = element;
     return;
   }
-  t_token *iter = *token;
+  t_token *iter = *head;
   while (iter->next) {
     iter = iter->next;
   }
