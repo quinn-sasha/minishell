@@ -56,8 +56,8 @@ bool is_valid_syntax(t_token *token) {
 */
 void append_command_element(t_simple_command *command, t_token **token_to_return, t_token *token) {
   if (token->token_kind == TOKEN_WORD) {
-    // append_token(&command->arguments, token);
-    // token_to_return = token->next;
+    append_token(&command->arguments, token);
+    token_to_return = token->next;
     return;
   }
   // t_redirect *redirect = new_redirect(&token)
@@ -74,9 +74,10 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
 */
 t_simple_command *make_simple_command(t_token **token_to_return, t_token *token) {
   t_simple_command *command = xcalloc(1, sizeof(t_simple_command));
-  while (!at_eof(token) && is_same_operator(token, PIPE_SYMBOL)) {
+  while (!at_eof(token) && !is_same_operator(token, PIPE_SYMBOL)) {
     // append command element
   }
+  // append token eof
   *token_to_return = token;
   return command;
 }
