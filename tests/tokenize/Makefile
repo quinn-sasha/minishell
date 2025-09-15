@@ -4,10 +4,9 @@ CC			=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 RM      = rm -f
 
-
-SRCS		= ../../src/tokenize.c \
-					../../src/destructor.c \
-          main.c
+SRCS    = ../../src/tokenize/tokenize.c \
+					../../src/tokenize/destructor.c \
+					main.c
 
 OBJS		= tokenize.o \
           main.o \
