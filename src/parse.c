@@ -183,6 +183,6 @@ int parse(t_simple_command **command, t_token *token) {
     return PARSE_SYNTAX_ERROR;
   }
   t_simple_command *command = make_simple_command_list(token);
-  prepare_pipeline(command);
+  // prepare_pipeline(command);
   return PARSE_SUCCESS;
 }
