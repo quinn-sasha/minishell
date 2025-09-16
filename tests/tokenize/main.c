@@ -109,6 +109,7 @@ bool assert_tokens_equal(t_token *token, t_expected_token *expected_tokens, int 
     if (strcmp(iter->word, expected_tokens[i].word) != 0) {
       printf("FAIL: Token word is wrong.\n");
       printf("Expected: %s, but got %s\n", expected_tokens[i].word, iter->word);
+      return false;
     }
     iter = iter->next;
   }
