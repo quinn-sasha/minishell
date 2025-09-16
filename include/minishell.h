@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 13:54:54 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:23:31 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@
 # define FLG_TRUE 1
 # define FLG_FALSE 0
 
-typedef struct s_environ
+typedef struct s_env
 {
-	char	**env;
-}	t_environ;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 // builtin.c
 int		check_builtin(const char *input);
@@ -47,11 +49,14 @@ int		builtin_pwd(void);
 int		builtin_exit(void);
 
 // env.c
-int		get_env_size(char **env);
-int		copy_env(char ***dest, char **environ);
-int		initialize_environ(t_environ *env, char **environ);
-int		find_env_key(t_environ *env, const char *key);
-int		unset_env(t_environ *env, const char *name);
+int		initialize_environ(t_env **dest, char **environ);
+t_env	*find_env_node(t_env *head, const char *key);
+int		is_env_key_name(const char *name);
+void	unset_mid_node(t_env *prev, t_env *current);
+int		unset_env(t_env **head, const char *name);
+
+// env_utils.c
+int		get_key_length(char *str);
 
 // execute_command.c
 void	print_command_not_found(const char *cmd);
@@ -59,8 +64,15 @@ int		make_full_path(const char *dir, const char *cmd, char **full_path);
 int		try_exec_paths(char **tokens, char **envp, char *path_env);
 void	execute_command(char **tokens, char **envp);
 
+// handle_env_list.c
+t_env	*env_lstnew(char *str);
+void	env_lstadd_back(t_env **lst, t_env *new);
+void	free_env_list(t_env *head);
+void	env_delone(t_env *lst);
+
 // just_for_debug.c
 void	print_str_array(char **arr);
+void	print_env(t_env *head);
 
 // parser_pipe.c
 int		is_pipe(char c);

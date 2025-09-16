@@ -8,6 +8,8 @@ SRCS = \
 	$(SRCS_DIR)/main.c\
 	$(SRCS_DIR)/utils.c\
 	$(SRCS_DIR)/env.c\
+	$(SRCS_DIR)/env_utils.c\
+	$(SRCS_DIR)/handle_env_list.c\
 	$(SRCS_DIR)/builtin.c\
 	$(SRCS_DIR)/parser_pipe.c\
 	$(SRCS_DIR)/parser_separator.c\
@@ -18,6 +20,8 @@ TESTS_DIR = tests
 TESTS_SRCS =\
 	$(SRCS_DIR)/utils.c\
 	$(SRCS_DIR)/env.c\
+	$(SRCS_DIR)/env_utils.c\
+	$(SRCS_DIR)/handle_env_list.c\
 	$(SRCS_DIR)/builtin.c\
 	$(SRCS_DIR)/parser_pipe.c\
 	$(SRCS_DIR)/parser_separator.c\

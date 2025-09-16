@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 09:17:18 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:31:14 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,30 +70,32 @@ static void	process_input(char *input, char **envp)
  * @brief
  *
  * @author yurishik
- * @return 
+ * @return
  */
 int	main(void)
 {
-	char		*input;
-	t_environ	env;
+	char	*input;
+	t_env	*env;
 
+	env = NULL;
 	if (initialize_environ(&env, environ) != 0)
 	{
 		perror("initialize env");
 		return (1);
 	}
-	print_str_array(env.env);
+	print_env(env);
+	printf("+++++++++++++++++++++++\n");
 	unset_env(&env, "USER");
-	print_str_array(env.env);
+	print_env(env);
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		process_input(input, env.env);
+		process_input(input, environ);
 		free(input);
 	}
 	printf("exit\n");
-	free_str_array(env.env);
+	free_env_list(env);
 	return (0);
 }
