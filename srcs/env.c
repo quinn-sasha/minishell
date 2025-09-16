@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 08:21:22 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 09:36:56 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:55:02 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	initialize_environ(t_environ *env, char **environ)
 {
 	if (copy_env(&env->env, environ) == FAILURE)
 		return (FAILURE);
-	env->last_status = 0;
 	return (SUCCESS);
 }
 
