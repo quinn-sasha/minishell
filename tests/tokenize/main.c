@@ -9,7 +9,7 @@ int main(void) {
 }
 
 void test_simple_command() {
-  printf("Test simple command: 'ls -l' ...\n");
+  printf("Test simple command: 'ls -l' ...  ");
   char *input = "ls -l";
   t_expected_token expected[] = {
     {TOKEN_WORD, "ls"},

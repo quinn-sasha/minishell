@@ -39,4 +39,14 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+TEST_DIR := tests
+TEST_DIRS := $(shell find $(TEST_DIR) -mindepth 1 -maxdepth 1 -type d)
+
+test:
+	@echo "==== Starting all tests ===="
+	@for test_dir in $(TEST_DIRS); do \
+		$(MAKE) -C $$test_dir test || exit 1; \
+	done; \
+	echo "==== All tests passed sucessfully ===="
+
+.PHONY: all clean fclean re test
