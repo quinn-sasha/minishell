@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 15:31:14 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:55:39 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 extern char	**environ;
 
 /**
- * @brief
+ * @brief 
  *
  * @author yurishik
  * @return 
@@ -83,10 +83,13 @@ int	main(void)
 		perror("initialize env");
 		return (1);
 	}
-	print_env(env);
+	printf("+++++++++++++++++++++++\n");
+	printf("%s\n", find_env(env, "USER"));
 	printf("+++++++++++++++++++++++\n");
 	unset_env(&env, "USER");
-	print_env(env);
+	printf("+++++++++++++++++++++++\n");
+	printf("%s\n", find_env(env, "USER"));
+	printf("+++++++++++++++++++++++\n");
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -96,6 +99,6 @@ int	main(void)
 		free(input);
 	}
 	printf("exit\n");
-	free_env_list(env);
+	env_lstfree(env);
 	return (0);
 }

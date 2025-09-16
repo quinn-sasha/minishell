@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 20:32:48 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:51 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:54:35 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	set_full_path(const char *dir, const char *cmd, char **full_path)
  * @param dir ディレクトリ部分
  * @param cmd コマンド名
  * @param full_path 出力用ポインタ malloc
- * @return 0: 成功, 1: メモリ確保失敗
+ * @return SUCCESS: 成功, FAILURE: メモリ確保失敗
  */
 int	make_full_path(const char *dir, const char *cmd, char **full_path)
 {

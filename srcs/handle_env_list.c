@@ -6,13 +6,22 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:16:35 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:46 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:39:46 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	create_value(t_env *new_node, char *str, int key_len)
+/**
+ * @brief 環境変数の文字列をもとにt_envのノードを作成する
+ *
+ * @author yurishik
+ * @param new_node valueを設定したいノード
+ * @param str 環境変数の文字列(USER=yurishik形式を想定)
+ * @param key_len key部分(=より前)の文字数
+ * @return 正常終了ならSUCCESS, エラー発生時はFAILURE
+ */
+int	create_value(t_env *new_node, char *str, int key_len)
 {
 	int	value_len;
 
@@ -26,6 +35,13 @@ static int	create_value(t_env *new_node, char *str, int key_len)
 	return (SUCCESS);
 }
 
+/**
+ * @brief 環境変数の文字列をもとにt_envのノードを作成する
+ *
+ * @author yurishik
+ * @param str 環境変数の文字列(USER=yurishik形式を想定)
+ * @return 新しく作成したノード、作成できなければNULL 
+ */
 t_env	*env_lstnew(char *str)
 {
 	t_env	*new_node;
@@ -48,6 +64,13 @@ t_env	*env_lstnew(char *str)
 	return (new_node);
 }
 
+/**
+ * @brief t_envのLinked Listの末尾に追加する
+ *
+ * @author yurishik
+ * @param lst Linked Listの先頭ポインタ
+ * @param new 追加したいt_envのノード
+ */
 void	env_lstadd_back(t_env **lst, t_env *new)
 {
 	t_env	*current;
@@ -65,7 +88,13 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 	current->next = new;
 }
 
-void	free_env_list(t_env *head)
+/**
+ * @brief t_envのLinked Listをすべて削除する
+ *
+ * @author yurishik
+ * @param lst Linked Listの先頭
+ */
+void	env_lstfree(t_env *head)
 {
 	t_env	*tmp;
 
@@ -79,6 +108,12 @@ void	free_env_list(t_env *head)
 	}
 }
 
+/**
+ * @brief t_envを一つ削除する
+ *
+ * @author yurishik
+ * @param lst 削除したいt_env形式のノード
+ */
 void	env_delone(t_env *lst)
 {
 	if (lst == NULL)

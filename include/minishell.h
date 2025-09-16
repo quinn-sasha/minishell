@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 15:59:42 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:49:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		builtin_exit(void);
 
 // env.c
 int		initialize_environ(t_env **dest, char **environ);
-t_env	*find_env_node(t_env *head, const char *key);
+char	*find_env(t_env *head, const char *key);
 int		is_env_key_name(const char *name);
 void	unset_mid_node(t_env *prev, t_env *current);
 int		unset_env(t_env **head, const char *name);
@@ -68,7 +68,7 @@ void	execute_command(char **tokens, char **envp);
 // handle_env_list.c
 t_env	*env_lstnew(char *str);
 void	env_lstadd_back(t_env **lst, t_env *new);
-void	free_env_list(t_env *head);
+void	env_lstfree(t_env *head);
 void	env_delone(t_env *lst);
 
 // just_for_debug.c

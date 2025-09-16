@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:40:33 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 08:54:43 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:06:09 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /**
  * @brief 文字列の配列を free する
  *
+ * @author yurishik
  * @param arr freeしたい配列
  */
 void	free_str_array(char **arr)
@@ -100,10 +101,11 @@ size_t	ft_strlen(const char *s)
 /**
  * @brief 文字列sの先頭n文字をコピーして新しい文字列に格納
  *
+ * @author yurishik
  * @param s コピー元の文字列
  * @param n コピーする文字数
  * @param dest コピー先のポインタ malloc
- * @return 0: 成功, 1: エラー
+ * @return SUCCESS: 成功, FAILURE: エラー
  */
 int	ft_strndup(const char *s, size_t n, char **dest)
 {
@@ -112,13 +114,13 @@ int	ft_strndup(const char *s, size_t n, char **dest)
 	char	*result;
 
 	if (!s || !dest)
-		return (1);
+		return (FAILURE);
 	i = 0;
 	while (s[i] && i < n)
 		i++;
 	result = (char *)malloc(i + 1);
 	if (!result)
-		return (1);
+		return (FAILURE);
 	j = 0;
 	while (j < i)
 	{
@@ -127,5 +129,5 @@ int	ft_strndup(const char *s, size_t n, char **dest)
 	}
 	result[i] = '\0';
 	*dest = result;
-	return (0);
+	return (SUCCESS);
 }

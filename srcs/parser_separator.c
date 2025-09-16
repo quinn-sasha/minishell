@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_separator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/03 11:50:49 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:07:02 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
  *
  * @author yurishik
  * @param c 判定したい文字
- * @return separatorに当てはまるなら1、そうでなければ0
+ * @return separatorに当てはまるならFLG_TRUE、そうでなければFLG_FALSE
  */
 int	is_separator(char c)
 {
 	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
+		return (FLG_TRUE);
+	return (FLG_FALSE);
 }
 
 /**
@@ -58,7 +58,7 @@ int	count_tokens(char *input)
  * @author yurishik
  * @param input 入力文字列
  * @param res 分割結果を格納する配列
- * @return 正常終了なら0、エラーなら1
+ * @return 正常終了ならSUCCESS、エラーならFAILURE
  */
 int	split_separator_loop(const char *input, char **res)
 {
@@ -76,7 +76,7 @@ int	split_separator_loop(const char *input, char **res)
 		if (i > start)
 		{
 			if (ft_strndup(input + start, i - start, &res[r_idx]) != 0)
-				return (1);
+				return (FAILURE);
 			r_idx++;
 		}
 		while (is_separator(input[i]))
@@ -84,7 +84,7 @@ int	split_separator_loop(const char *input, char **res)
 		start = i;
 	}
 	res[r_idx] = NULL;
-	return (0);
+	return (SUCCESS);
 }
 
 /**
@@ -94,7 +94,7 @@ int	split_separator_loop(const char *input, char **res)
  * @param input 分割したい文字列
  * @param commands 分割結果を入れる配列のポインタ malloc
  * @param num_cmd 分割したコマンド数
- * @return 正しく実行されたら0、エラーが起きたら1
+ * @return 正しく実行されたらSUCCESS、エラーが起きたらFAILURE
  */
 int	split_by_separator(const char *input, char ***tokens)
 {
@@ -102,7 +102,7 @@ int	split_by_separator(const char *input, char ***tokens)
 	int		num_tokens;
 
 	if (!input || !tokens)
-		return (1);
+		return (FAILURE);
 	num_tokens = count_tokens((char *)input);
 	result = (char **)malloc(sizeof(char *) * (num_tokens + 1));
 	if (!result)
@@ -110,8 +110,8 @@ int	split_by_separator(const char *input, char ***tokens)
 	if (split_separator_loop(input, result) != 0)
 	{
 		free_str_array(result);
-		return (1);
+		return (FAILURE);
 	}
 	*tokens = result;
-	return (0);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:52 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 15:14:58 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:28:35 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /**
  * @brief char **配列を表示する
  *
+ * @author yurishik
  * @param arr 配列
  */
 void	print_str_array(char **arr)
@@ -35,8 +36,9 @@ void	print_str_array(char **arr)
 }
 
 /**
- * @brief t_env構造体のリンクリストをすべて表示する
+ * @brief t_env構造体のLinked Listをすべて表示する
  *
+ * @author yurishik
  * @param head リストの先頭ノードへのポインタ
  */
 void	print_env(t_env *head)

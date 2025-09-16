@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 09:42:06 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:07:43 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	count_pipes(const char *input)
  * @author yurishik
  * @param input 入力文字列
  * @param res 分割結果を格納する配列
- * @return 正常終了なら0、エラーなら1
+ * @return 正常終了ならSUCCESS、エラーならFAILURE
  */
 int	split_pipe_loop(const char *input, char **res)
 {
@@ -74,16 +74,16 @@ int	split_pipe_loop(const char *input, char **res)
 			continue ;
 		}
 		if (ft_strndup(input + start, i - start, &res[r_idx]) != 0)
-			return (1);
+			return (FAILURE);
 		r_idx++;
 		start = i + 1;
 		i++;
 	}
 	if (ft_strndup(input + start, i - start, &res[r_idx]) != 0)
-		return (1);
+		return (FAILURE);
 	r_idx++;
 	res[r_idx] = NULL;
-	return (0);
+	return (SUCCESS);
 }
 
 /**
@@ -93,23 +93,23 @@ int	split_pipe_loop(const char *input, char **res)
  * @param input 分割したい文字列
  * @param commands 分割結果を入れる配列のポインタ malloc
  * @param num_cmd 分割したコマンド数
- * @return 正しく実行されたら0、エラーが起きたら1
+ * @return 正しく実行されたらSUCCESS、エラーが起きたらFAILURE
  */
 int	split_by_pipe(const char *input, char ***commands, int *num_cmd)
 {
 	char	**result;
 
 	if (!input || !commands)
-		return (1);
+		return (FAILURE);
 	*num_cmd = count_pipes(input) + 1;
 	result = (char **)malloc(sizeof(char *) * (*num_cmd + 1));
 	if (!result)
-		return (1);
+		return (FAILURE);
 	if (split_pipe_loop(input, result) != 0)
 	{
 		free_str_array(result);
-		return (1);
+		return (FAILURE);
 	}
 	*commands = result;
-	return (0);
+	return (SUCCESS);
 }
