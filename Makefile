@@ -7,6 +7,7 @@ SRCS_DIR = srcs
 SRCS = \
 	$(SRCS_DIR)/main.c\
 	$(SRCS_DIR)/utils.c\
+	$(SRCS_DIR)/utils2.c\
 	$(SRCS_DIR)/env.c\
 	$(SRCS_DIR)/env_utils.c\
 	$(SRCS_DIR)/handle_env_list.c\
@@ -20,6 +21,7 @@ OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 TESTS_DIR = tests
 TESTS_SRCS =\
 	$(SRCS_DIR)/utils.c\
+	$(SRCS_DIR)/utils2.c\
 	$(SRCS_DIR)/env.c\
 	$(SRCS_DIR)/env_utils.c\
 	$(SRCS_DIR)/handle_env_list.c\

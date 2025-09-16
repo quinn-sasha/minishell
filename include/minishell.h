@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 15:23:31 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:59:42 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int		unset_env(t_env **head, const char *name);
 int		get_key_length(char *str);
 
 // execute_command.c
-void	print_command_not_found(const char *cmd);
+int		set_full_path(const char *dir, const char *cmd, char **full_path);
 int		make_full_path(const char *dir, const char *cmd, char **full_path);
+int		check_and_exec(char *dir, char **tokens, char **envp);
 int		try_exec_paths(char **tokens, char **envp, char *path_env);
 void	execute_command(char **tokens, char **envp);
 
@@ -92,5 +93,8 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
 int		ft_strndup(const char *s, size_t n, char **dest);
+
+// utils2.c
+void	print_command_not_found(const char *cmd);
 
 #endif

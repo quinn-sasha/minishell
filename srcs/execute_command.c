@@ -6,25 +6,11 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 20:32:48 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/08 09:41:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:56:51 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * @brief command not foundのエラーを出す
- *
- * @author yurishik
- * @param cmd 出力するためのコマンド名
- * TODO: ft_putstr_fdで書き換えたい気持ちがある
- */
-void	print_command_not_found(const char *cmd)
-{
-	write(STD_ERR, "minishell: ", 11);
-	write(STD_ERR, cmd, strlen(cmd));
-	write(STD_ERR, ": command not found\n", 20);
-}
 
 int	set_full_path(const char *dir, const char *cmd, char **full_path)
 {
@@ -72,34 +58,44 @@ int	make_full_path(const char *dir, const char *cmd, char **full_path)
 	return (SUCCESS);
 }
 
+int	check_and_exec(char *dir, char **tokens, char **envp)
+{
+	char	*full_path;
+
+	full_path = NULL;
+	if (make_full_path(dir, tokens[0], &full_path) != 0)
+	{
+		free(dir);
+		free(full_path);
+		return (FAILURE);
+	}
+	if (access(full_path, F_OK | X_OK) == 0)
+	{
+		execve(full_path, tokens, envp);
+	}
+	free(full_path);
+	return (SUCCESS);
+}
+
 int	try_exec_paths(char **tokens, char **envp, char *path_env)
 {
-	char	*dir;
-	char	*full_path;
 	int		i;
 	int		start;
+	char	*dir;
 
-	dir = NULL;
-	full_path = NULL;
-	i = 0;
-	start = 0;
 	if (!tokens || !tokens[0] || !path_env)
 		return (FAILURE);
+	i = 0;
+	start = 0;
 	while (path_env[i])
 	{
 		if (path_env[i] == ':')
 		{
-			if (ft_strndup(path_env + start, i - start, &dir) != 0
-				|| make_full_path(dir, tokens[0], &full_path) != 0)
-			{
-				free(dir);
-				free(full_path);
+			if (ft_strndup(path_env + start, i - start, &dir) != 0)
 				return (FAILURE);
-			}
+			if (check_and_exec(dir, tokens, envp) == FAILURE)
+				return (FAILURE);
 			free(dir);
-			if (access(full_path, F_OK | X_OK) == 0)
-				execve(full_path, tokens, envp);
-			free(full_path);
 			start = i + 1;
 		}
 		i++;
