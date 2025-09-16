@@ -49,4 +49,9 @@ test:
 	done; \
 	echo "==== All tests passed sucessfully ===="
 
-.PHONY: all clean fclean re test
+clean_test:
+	for test_dir in $(TEST_DIRS); do \
+		$(MAKE) -C $$test_dir fclean; \
+	done;
+
+.PHONY: all clean fclean re test clean_test
