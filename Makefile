@@ -15,7 +15,8 @@ SRCS = \
 	$(SRCS_DIR)/parser_separator.c\
 	$(SRCS_DIR)/execute_command.c\
 	$(SRCS_DIR)/just_for_debug.c
-OBJS = $(SRCS:.c=.o)
+OBJS_DIR = objs
+OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 TESTS_DIR = tests
 TESTS_SRCS =\
 	$(SRCS_DIR)/utils.c\
@@ -40,15 +41,16 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 
-%.o: %.c
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+	mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	$(RM) -r $(OBJS_DIR)
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f $(TESTS_BIN)
+	$(RM) $(NAME)
+	$(RM) $(TESTS_BIN)
 
 re: fclean all
 
