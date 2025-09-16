@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_separator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:00:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 16:07:02 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:50:29 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
