@@ -191,8 +191,52 @@ metacharacter によって、入力は分割される.
 トークン化処理で、クオートが閉じられていない文法エラーを検出する.
 ちなみに、入力が空文字の場合、TOKEN_EOF のみ作られる.
 
+## Git push 前にテストを走らせる方法
+
+[Gitフック](https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA-Git-%E3%83%95%E3%83%83%E3%82%AF)というものを利用する。
+Gitの特定のアクションに紐付けて、スクリプトを走らせられる。
+`pre-push` という名前のスクリプトを `.git/hooks` というディレクトリに配置すると、push するたびにスクリプトが実行される。
+通常は `.git/hooks` というディレクトリにスクリプトがあるが、今回はチームで共有したい。
+共有の仕方は、[このサイト](https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)を参考にする。
+
+テスト内容： `make test` をして、各テストプログラムが成功したかどうかを終了条件で確認する。終了ステータスが0であれば成功、それ以外ならexitしてpushを取り止める。
+
+スクリプト（例）：
+```bash
+#!/bin/bash
+
+echo "==== Running tests before push... ===="
+
+make test
+
+status=$?
+
+if [ $status -ne 0]; then
+  echo "==== FAILED. Aborting push. ===="
+  exit 1
+fi
+
+echo "==== PASSED. Proceeding with push. ===="
+exit 0
+```
+
+もしテストをしたくない場合は、 `git push` に 以下のオプションをつける。
+
+```bash
+git push --no-verify ...
+```
+
+### テストプログラムの追加の仕方
+
+`tests` ディレクトリ配下に、テストしたい機能の名前のディレクトリを作成する。
+そのディレクトリの中に、ソースコードとMakefileを追加する。
+`make test` ができるように Makefile にルールを追加する。
+このルールは、コンパイルしたプログラムを実行する。
+プログラムはテストの結果を終了ステータスで示す。終了ステータスが0でなければ、そこで全体のテストが終了する。
+
 ## Reference
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
+- https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
 
 
