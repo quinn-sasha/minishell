@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:14:54 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 16:56:29 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:15:05 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,6 @@ char	*find_env(t_env *head, const char *key)
 		current = current->next;
 	}
 	return ("");
-}
-
-/**
- * @brief 環境変数名として問題ないかのvalid (TODO: 使える文字種かどうかを確認する部分を追記)
- *
- * @author yurishik
- * @param name チェックしたい文字列
- * @return 環境変数名としてOKならFLG_TRUE, NGならFLG_FALSE
- */
-int	is_env_key_name(const char *name)
-{
-	int	len;
-
-	len = ft_strlen(name);
-	if (len <= 0)
-		return (FLG_FALSE);
-	return (FLG_TRUE);
 }
 
 /**

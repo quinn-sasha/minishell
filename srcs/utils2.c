@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:57:10 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 16:04:01 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:32:20 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,25 @@ void	print_command_not_found(const char *cmd)
 	write(STD_ERR, "minishell: ", 11);
 	write(STD_ERR, cmd, strlen(cmd));
 	write(STD_ERR, ": command not found\n", 20);
+}
+
+int	ft_isalpha(int c)
+{
+	if ('A' <= c && c <= 'Z')
+		return (FLG_TRUE);
+	if ('a' <= c && c <= 'z')
+		return (FLG_TRUE);
+	return (FLG_FALSE);
+}
+
+int	ft_isdigit(int c)
+{
+	if ('0' <= c && c <= '9')
+		return (FLG_TRUE);
+	return (FLG_FALSE);
+}
+
+int	ft_isalnum(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c));
 }

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 16:49:49 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:22:37 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,66 @@
 # define FLG_TRUE 1
 # define FLG_FALSE 0
 
-typedef struct s_env
+typedef struct s_env			t_env;
+typedef enum e_token_kind		t_token_kind;
+typedef enum e_redirect_kind	t_redirect_kind;
+typedef union u_redirectee		t_redirectee;
+typedef struct s_token			t_token;
+typedef struct s_redirect		t_redirect;
+typedef struct s_simple_command	t_simple_command;
+
+struct	s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+};
 
+typedef enum e_token_kind
+{
+	TOKEN_OPERATOR,
+	TOKEN_WORD,
+	TOKEN_EOF,
+}	t_token_kind;
+
+typedef enum e_redirect_kind
+{
+	r_input_direction,
+	r_output_direction,
+	r_appending_to,
+	r_reading_until
+}	t_redirect_kind;
+
+struct s_token
+{
+	char			*word;
+	t_token_kind	token_kind;
+	t_token			*next;
+};
+
+union u_redirectee
+{
+	int		fd;
+	char	*filename;
+};
+
+struct s_redirect
+{
+	t_redirect			*next;
+	int					open_flags;
+	t_redirectee		from;
+	t_redirectee		to;
+	t_redirect_kind		redirect_kind;
+	char				*here_doc_eof;
+};
+
+struct s_simple_command
+{
+	struct s_simple_command	*next;
+	t_token					*arguments;
+	t_redirect				*redirect;
+	pid_t					child_pid;
+};
 // builtin.c
 int		check_builtin(const char *input);
 int		is_builtin(const char *input, const char *cmd);
@@ -51,12 +104,16 @@ int		builtin_exit(void);
 // env.c
 int		initialize_environ(t_env **dest, char **environ);
 char	*find_env(t_env *head, const char *key);
-int		is_env_key_name(const char *name);
 void	unset_mid_node(t_env *prev, t_env *current);
 int		unset_env(t_env **head, const char *name);
 
 // env_utils.c
 int		get_key_length(char *str);
+
+// expand_env.c
+int		is_env_key_first_char(char c);
+int		is_env_key_char(char c);
+int		is_env_key_name(const char *name);
 
 // execute_command.c
 int		set_full_path(const char *dir, const char *cmd, char **full_path);
@@ -96,5 +153,8 @@ int		ft_strndup(const char *s, size_t n, char **dest);
 
 // utils2.c
 void	print_command_not_found(const char *cmd);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalnum(int c);
 
 #endif
