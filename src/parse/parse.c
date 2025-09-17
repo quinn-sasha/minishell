@@ -49,23 +49,23 @@ bool is_valid_syntax(t_token *token) {
   return true;
 }
 
-
 /*
-* @param: 実行部に渡すコマンド構造体. 動的に割り当てる.
+* @param: 実行部に渡すコマンド構造体. parse()を呼び出した時点では動的に割り当てられていない.
 * @param: トークンのリスト.
 * @return: PARSE_SUCCESS or PARSE_SYNTAX_ERROR
 * トークンからコマンド構造体をつくる.
 * parse()が成功した場合、以下の状態が達成されている.
 *   simple command 構造体が初期化されている.
 *   子プロセスがコマンドの数ぶん作られる.
-*   パイプがあれば、コマンドの読み込み口か書き込み口に向けられている.
+*   パイプがあれば、コマンドの入出力先が、パイプの読み込み口か書き込み口に向けられている.
 */
 int parse(t_simple_command **command, t_token *token) {
   if (!is_valid_syntax(token)) {
     free_token(token);
     return PARSE_SYNTAX_ERROR;
   }
-  t_simple_command *command = make_simple_command_list(token);
+  *command = make_simple_command_list(token);
   // prepare_pipeline(command);
+  free_token(token);
   return PARSE_SUCCESS;
 }
