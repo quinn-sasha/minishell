@@ -1,37 +1,47 @@
 NAME := minishell
 SRC_DIR := src
-OBJ_DIR := obj
 INCLUDE_DIR := include
 LIBFT_DIR := libft
-SRCFILES := destructor.c \
-            exec.c \
-						main.c \
-						parse.c \
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -I
+CFLAGS := -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 RM := rm -f
 RMDIR := rm -rf
 
+TOKEN_FILES := tokenize/token.c \
+              tokenize/tokenize.c
+
+PARSE_FILES := parse/make_simple_command.c \
+							parse/parse.c \
+							parse/redirect.c
+
+LIBRARY_FILES := library/xcalloc.c \
+								library/xmalloc.c \
+								library/xstrdup.c
+
+ERROR_FILES := error/error.c
+EXECUTE_FILES := execute/execute.c
+
+SRCFILES := main.c destructor.c $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(EXECUTE_FILES)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
-OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS := $(SRCS:%.c=%.o)
+
 LIBFT := $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDE_DIR) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDE_DIR) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(RMDIR) $(OBJ_DIR)
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
