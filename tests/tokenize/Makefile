@@ -1,7 +1,8 @@
 NAME		=	test_tokenize
 
+INCLUDE_DIR = ../../include
 CC			=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -I$(INCLUDE_DIR)
 RM      = rm -f
 
 SRCS    = ../../src/tokenize/tokenize.c \
@@ -9,7 +10,7 @@ SRCS    = ../../src/tokenize/tokenize.c \
 					../../src/tokenize/token.c \
 					../../src/library/xcalloc.c \
 					../../src/library/xstrdup.c \
-					../../src/error.c \
+					../../src/error/error.c \
 					main.c
 
 SRCFILES = $(notdir $(SRCS))
