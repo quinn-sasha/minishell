@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void prefix_error(void) {
   ft_putendl_fd(PREFIX_ERROR, STDERR_FILENO);

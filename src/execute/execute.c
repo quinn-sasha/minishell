@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "minishell.h"
 
 /*
 command_nameに対応する実行可能ファイルへの、絶対パスを取得する。

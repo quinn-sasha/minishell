@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 bool at_eof(t_token *token) {
   if (token == NULL)

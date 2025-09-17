@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void free_token(t_token *token) {
   while (!at_eof(token)) {
