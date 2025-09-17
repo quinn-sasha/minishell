@@ -12,8 +12,6 @@
 #define UNCLOSED_QUOTE_ERROR "unclosed quote"
 
 typedef enum e_token_kind t_token_kind;
-typedef enum e_redirect_kind t_redirect_kind;
-typedef union u_redirectee t_redirectee;
 typedef struct s_token t_token;
 
 typedef enum e_token_kind {

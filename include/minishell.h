@@ -15,7 +15,6 @@
 #include "xlibrary.h"
 #include "tokenize.h"
 #include "parse.h"
-#include "command.h"
 
 #define TRUE 1
 #define SUCCESS 0

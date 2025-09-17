@@ -25,7 +25,6 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
 * @param: token
 * @return: One simple command
 * It creates one simple command.
-* In addition, it advances token until EOF or next pipe. This advanced token is set to token_to_return.
 */
 t_simple_command *make_simple_command(t_token **token_to_return, t_token *token) {
   t_simple_command *command = xcalloc(1, sizeof(t_simple_command));
