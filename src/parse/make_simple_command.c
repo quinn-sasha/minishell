@@ -12,7 +12,7 @@
 void append_command_element(t_simple_command *command, t_token **token_to_return, t_token *token) {
   if (token->token_kind == TOKEN_WORD) {
     append_token(&command->arguments, token);
-    token_to_return = token->next;
+    *token_to_return = token->next;
     return;
   }
   t_redirect *redirect = new_redirect(token);
@@ -32,7 +32,7 @@ t_simple_command *make_simple_command(t_token **token_to_return, t_token *token)
     append_command_element(command, &token, token);
   }
   t_token *tail = new_token(TOKEN_EOF, NULL);
-  append_token(command->arguments, tail);
+  append_token(&command->arguments, tail);
   *token_to_return = token;
   return command;
 }
