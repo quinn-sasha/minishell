@@ -1,0 +1,13 @@
+#ifndef TOKENIZE_H
+#define TOKENIZE_H
+
+#define TOKENIZE_SUCCESS 0
+#define UNCLOSED_QUOTE_STATUS 1
+#define PARSE_SUCCESS 0
+#define PARSE_SYNTAX_ERROR 1
+
+#define SINGLE_QUOTE_CHARCTER '\''
+#define DOUBLE_QUOTE_CHARACTER '"'
+#define PIPE_SYMBOL "|"
+
+#endif

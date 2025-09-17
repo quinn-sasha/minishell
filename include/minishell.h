@@ -1,3 +1,6 @@
+#ifndef MINISHELL_H
+#define MINISHELL_H
+
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -9,21 +12,13 @@
 
 #include "../libft/libft.h"
 #include "xlibrary.h"
+#include "tokenize.h"
+#include "parse.h"
 
 #define TRUE 1
 #define SUCCESS 0
 #define FAILED -1
 #define CHILD 0
-
-#define TOKENIZE_SUCCESS 0
-#define UNCLOSED_QUOTE_STATUS 1
-#define PARSE_SUCCESS 0
-#define PARSE_SYNTAX_ERROR 1
-
-#define SINGLE_QUOTE_CHARCTER '\''
-#define DOUBLE_QUOTE_CHARACTER '"'
-#define PIPE_SYMBOL "|"
-
 #define COMMAND_NOT_FOUND_STATUS 127
 #define PERMISSION_DENIED_STATUS 126
 
@@ -109,3 +104,4 @@ void free_token(t_token *token);
 // exec.c
 char *find_path(char *command_name);
 
+#endif
