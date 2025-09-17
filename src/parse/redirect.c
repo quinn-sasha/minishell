@@ -55,7 +55,7 @@ void append_redirect(t_redirect **head, t_redirect *element) {
     *head = element;
     return;
   }
-  t_token *iter = *head;
+  t_redirect *iter = *head;
   while (iter->next) {
     iter = iter->next;
   }
