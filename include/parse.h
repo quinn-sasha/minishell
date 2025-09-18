@@ -51,6 +51,7 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
 t_simple_command *make_simple_command(t_token **token_to_return, t_token *token);
 t_simple_command *make_simple_command_list(t_token *token);
 // parse.c
+bool is_same_operator(t_token *token, char *operator);
 bool is_valid_syntax(t_token *token);
 int parse(t_simple_command **command, t_token *token);
 
