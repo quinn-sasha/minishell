@@ -43,7 +43,7 @@ void clean_command(t_simple_command **command) {
   if ((*command)->redirect) {
     clean_redirect((*command)->redirect);
   }
-  free(command);
+  free(*command);
   *command = NULL;
   clean_command(&next);
 }
