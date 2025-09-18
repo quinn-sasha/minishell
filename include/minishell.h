@@ -29,6 +29,8 @@
 
 // destructor.c
 void free_token(t_token *token);
+void clean_redirect(t_redirect *redirect);
+void clean_command(t_simple_command **command);
 // exec.c
 char *find_path(char *command_name);
 
