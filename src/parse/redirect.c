@@ -4,26 +4,30 @@
 redirectの種類から、redirect構造体のメンバに値を書き込む.
 */
 void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token) {
+  char *filename;
   redirect->redirect_kind = r_kind;
   if (r_kind == r_input_direction) {
     redirect->from.fd = STDIN_FILENO;
-    redirect->to.filename = token->next->word;
+    filename = xstrdup(token->next->word);
+    redirect->to.filename = filename;
     redirect->open_flags = O_RDONLY;
     return;
   }
   if (r_kind == r_output_direction) {
     redirect->from.fd = STDOUT_FILENO;
-    redirect->to.filename = token->next->word;
+    filename = xstrdup(token->next->word);
+    redirect->to.filename = filename;
     redirect->open_flags = O_CREAT | O_TRUNC | O_WRONLY;
     return;
   }
   if (r_kind == r_appending_to) {
     redirect->from.fd = STDOUT_FILENO;
-    redirect->to.filename = token->next->word;
+    filename = xstrdup(token->next->word);
+    redirect->to.filename = filename;
     redirect->open_flags = O_CREAT | O_APPEND | O_WRONLY;
     return;
   }
-  redirect->here_doc_eof = token->next->word;
+  redirect->here_doc_eof = xstrdup(token->next->word);
 }
 
 /*

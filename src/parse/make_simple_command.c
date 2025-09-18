@@ -11,7 +11,7 @@
 */
 void append_command_element(t_simple_command *command, t_token **token_to_return, t_token *token) {
   if (token->token_kind == TOKEN_WORD) {
-    append_token(&command->arguments, token);
+    append_token(&command->arguments, duplicate_token(token));
     *token_to_return = token->next;
     return;
   }
