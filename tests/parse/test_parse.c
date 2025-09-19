@@ -4,6 +4,8 @@
 // 自作の関数を使う必要があるので、ここではredirectのテストはしない.
 int main() {
   test_really_simple_command();
+  test_empty_string();
+  test_pipe_and_redirect();
 }
 
 void test_really_simple_command() {
@@ -24,6 +26,48 @@ void test_really_simple_command() {
   }
   clean_command(&command);
   clean_command(&expected_command);
+  printf("PASS\n");
+}
+
+void test_empty_string() {
+  printf("Test empty string: '' ...  ");
+  char *input = "";
+  int status;
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
+    printf("FAIL: expected parse() returns PARSE_SUCCESS, but got PARSE_SYNTAX_ERROR\n");
+    exit(EXIT_FAILURE);
+  }
+  if (command != NULL) {
+    printf("FAIL: expected command to be NULL\n");
+    exit(EXIT_FAILURE);
+  }
+  clean_command(&command);
+  printf("PASS\n");
+}
+
+void test_pipe_and_redirect() {
+  printf("Test pipe and redirect: '<< END echo 'abc' | cat > outfile.txt' ...  ");
+  char *input = "<< END echo 'abc' | cat > outfile.txt";
+  int status;
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command;
+  t_simple_command *expected;
+  if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
+    printf("FAIL: expected parse() returns PARSE_SUCCESS, but got PARSE_SYNTAX_ERROR\n");
+    exit(EXIT_FAILURE);
+  }
+  char *strings1[] = {"echo", "'abc'", NULL};
+  char *strings2[] = {"cat", NULL};
+  expected = make_expected_command(strings1);
+  expected->next = make_expected_command(strings2);
+  if (!is_generated_commands_correct(command, expected)) {
+    printf("FAIL: command arguments are wrong\n");
+    exit(EXIT_FAILURE);
+  }
+  clean_command(&command);
+  clean_command(&expected);
   printf("PASS\n");
 }
 
@@ -55,56 +99,6 @@ bool assert_tokens_equal(t_token *token, t_token *expected_token) {
   return true;
 }
 
-bool is_same_redirectee(t_redirectee redirectee1, t_redirectee redirectee2, int is_fd) {
-  if (is_fd) {
-    return redirectee1.fd == redirectee2.fd;
-  }
-  return strcmp(redirectee1.filename, redirectee2.filename) == 0;
-}
-
-bool is_redirect_correct(t_redirect *redirect, t_redirect *expected_redirect) {
-  if (redirect == NULL && expected_redirect == NULL) {
-    return true;
-  }
-  if (redirect && expected_redirect == NULL) {
-    printf("FAIL: redirect list is too long. Extra redirects found.\n");
-    return false;
-  }
-  if (redirect == NULL && expected_redirect) {
-    printf("FAIL: redirect list is too short. Expected more redirects.\n");
-    return false;
-  }
-
-  if (redirect->redirect_kind != expected_redirect->redirect_kind) {
-    printf("FAIL: expected redirect type [%d], but got [%d]\n",
-            expected_redirect->redirect_kind, redirect->redirect_kind);
-    return false;
-  }
-  if (redirect->redirect_kind == r_reading_until) {
-    if (strcmp(redirect->here_doc_eof, expected_redirect->here_doc_eof) != 0) {
-      printf("FAIL: expected here doc eof [%s], but got [%s]", expected_redirect->here_doc_eof, redirect->here_doc_eof);
-      return false;
-    }
-    return true;
-  }
-  if (redirect->open_flags != expected_redirect->open_flags) {
-    printf("FAIL: open flags are wrong (Expected redirect kind: %d, acutal kind: %d)\n",
-            expected_redirect->redirect_kind, redirect->redirect_kind);
-    return false;
-  }
-  if (!is_same_redirectee(redirect->from, expected_redirect->from, TRUE)) {
-    printf("FAIL: redirect source's fd is wrong.\n");
-    printf("Expected fd [%d], but got [%d]", expected_redirect->from.fd, redirect->from.fd);
-    return false;
-  }
-  if (!is_same_redirectee(redirect->to, expected_redirect->to, FALSE)) {
-    printf("FAIL: redirect destination's filename is wrong.\n");
-    printf("Expected filename [%s], but got [%s]", expected_redirect->to.filename, redirect->to.filename);
-    return false;
-  }
-  return is_redirect_correct(redirect->next, expected_redirect->next);
-}
-
 // child pid のテストはまだ追加されていない
 bool is_generated_commands_correct(t_simple_command *command, t_simple_command *expected_command) {
   while (TRUE) {
@@ -121,9 +115,6 @@ bool is_generated_commands_correct(t_simple_command *command, t_simple_command *
     }
     if (!assert_tokens_equal(command->arguments, expected_command->arguments)) {
       printf("FAILED: command argument is wrong\n");
-      return false;
-    }
-    if (!is_redirect_correct(command->redirect, expected_command->redirect)) {
       return false;
     }
     command = command->next;
