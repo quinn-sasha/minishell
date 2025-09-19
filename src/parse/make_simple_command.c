@@ -17,7 +17,7 @@ void append_command_element(t_simple_command *command, t_token **token_to_return
   }
   t_redirect *redirect = new_redirect(token);
   append_redirect(&command->redirect, redirect);
-  token = token->next->next;
+  *token_to_return = token->next->next;
 }
 
 /*
