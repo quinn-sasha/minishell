@@ -63,8 +63,6 @@ bool is_valid_syntax(t_token *token) {
 * トークンからコマンド構造体をつくる.
 * parse()が成功した場合、以下の状態が達成されている.
 *   simple command 構造体が初期化されている.
-*   子プロセスがコマンドの数と等しい数作られる.
-*   パイプがあれば、コマンドの入出力先が、パイプの読み込み口か書き込み口に向けられている.
 *   tokenize()の返り値であるトークンが解放されている.
 */
 int parse(t_simple_command **command, t_token *token) {
@@ -73,7 +71,6 @@ int parse(t_simple_command **command, t_token *token) {
     return PARSE_SYNTAX_ERROR;
   }
   *command = make_simple_command_list(token);
-  // prepare_pipeline(command);
   free_token(token);
   return PARSE_SUCCESS;
 }
