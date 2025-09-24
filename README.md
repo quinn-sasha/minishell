@@ -72,6 +72,7 @@ A command that is implemented internally by the shell itself, rather than by an 
 - pipes: |&
 - job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
 - バックスラッシュ（\）によるエスケープ文字の処理
+- シェル変数など、環境変数以外のbashで使われている変数
 
 
 ## 受けつける入力の文法
@@ -287,6 +288,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
