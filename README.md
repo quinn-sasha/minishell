@@ -3,39 +3,6 @@
 シェルの機能は、シェルコマンドを読み取り実行すること。
 bashではプログラミング言語的な機能もあるが、micro-shell はもっともよく使われる簡単なコマンドの実行のみをサポートする。
 
-## 必要な機能
-
-- プロンプトを表示する
-- コマンドの実行履歴（heredocの場合は履歴に残らない）
-- bashでは特別な意味を持つが、課題では求められていない記号は特別な意味を持たない
-	- \ (backslash) or ; (semicolon)
-- '(single quote)で囲まれた文字列は、一つの単語として解釈する
-	- メタ文字は解釈しない
-- "(single quote)で囲まれた文字列は、一つの単語として解釈する
-	- メタ文字は $(環境変数展開) のみ解釈する
-- redirections: <, >, <<, >>
-- here document での、環境変数の展開
-- pipes: | 
-- 環境変数展開: $name
-	- $?という環境変数に、最新の終了ステータスを保存する
-- ctrl-C, ctrl-D and ctrl-\ (bashと同じような挙動にする)
-- 以下の built-in command:
-	-  echo with option -n
-	-  cd with only a relative or absolute path
-	-  pwd with no options
-	-  export with no options
-	-  unset with no options
-	-  env with no options or arguments
-	-  exit with no options
-
-## サポートしない機能
-
-- here documentの、環境変数展開を以外の追加機能（例えば、コマンド置換など）
-- here documentで、delimiterがクオートに囲まれているかどうかで、変数展開などをするか否か変更できる機能
-- redirections: 1>, >&など
-- pipes: |&
-- job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
-- バックスラッシュ（\）によるエスケープ文字の処理
 
 ## 定義
 
@@ -70,6 +37,43 @@ A command that is implemented internally by the shell itself, rather than by an 
 - environment:
 > プログラムが実行される際、環境変数と呼ばれる文字列配列が渡されます。これは「名前=値」の形式で構成される名前と値のペアのリストです。
 
+
+## 必要な機能
+
+- プロンプトを表示する
+- コマンドの実行履歴（heredocの場合は履歴に残らない）
+- bashでは特別な意味を持つが、課題では求められていない記号は特別な意味を持たない
+	- \ (backslash) or ; (semicolon)
+- '(single quote)で囲まれた文字列は、一つの単語として解釈する
+	- メタ文字は解釈しない
+- "(single quote)で囲まれた文字列は、一つの単語として解釈する
+	- メタ文字は $(環境変数展開) のみ解釈する
+- redirections: <, >, <<, >>
+- here document での、環境変数の展開
+- pipes: | 
+- 環境変数展開: $name
+	- $?という環境変数に、最新の終了ステータスを保存する
+- ctrl-C, ctrl-D and ctrl-\ (bashと同じような挙動にする)
+- 以下の built-in command:
+	-  echo with option -n
+	-  cd with only a relative or absolute path
+	-  pwd with no options
+	-  export with no options
+	-  unset with no options
+	-  env with no options or arguments
+	-  exit with no options
+
+
+## サポートしない機能
+
+- here documentの、環境変数展開を以外の追加機能（例えば、コマンド置換など）
+- here documentで、delimiterがクオートに囲まれているかどうかで、変数展開などをするか否か変更できる機能
+- redirections: 1>, >&など
+- pipes: |&
+- job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
+- バックスラッシュ（\）によるエスケープ文字の処理
+
+
 ## 受けつける入力の文法
 
 ```
@@ -82,15 +86,17 @@ A command that is implemented internally by the shell itself, rather than by an 
 //               | '<<' <word>
 ```
 
-pipelineとは 1つ以上のsimple_command とその間にある | で構成される.
-simple_command とは 1つ以上の<command_element>の連なりである.
-command_element とは word もしくは redirection である.
+- pipelineとは 1つ以上のsimple_command とその間にある | で構成される
+- simple_command とは 1つ以上の<command_element>の連なりである
+- command_element とは word もしくは redirection である
+
 
 ## Simple command
 
 最もよく実行されるコマンド.
 空白で区切られた、word が連続したもの.
 最初の単語がコマンド名で、その後に続くのは全て引数.
+
 
 ## Pipeline
 
@@ -104,6 +110,7 @@ command1 の出力が command2 の入力に繋がれる.
 command1 のリダイレクション設定は、パイプを繋いだ後に行われる.
 パイプで繋がれた各コマンドは、subshell 環境（定義を参照）で実行される. また各コマンドは非同期に実行される.
 パイプラインの終了ステータスは、最後のコマンドの終了ステータスである.
+
 
 ## Redirection
 
@@ -123,6 +130,7 @@ ls > out > out2
 ```
 結果：空の out ファイルと、ls の出力結果が入った out2 が作られる.
 
+
 ### Here documents
 
 ```
@@ -137,6 +145,7 @@ delimiter がクオートで囲まれている場合、delimiter はクオート
 delimiter がクオートに囲まれていない場合は、読み込んだ入力は展開される.
 コマンド置換はサポートしない.
 
+
 ## 実行の流れ
 
 1. ターミナルからユーザーの入力を受け取る.
@@ -147,10 +156,12 @@ delimiter がクオートに囲まれていない場合は、読み込んだ入�
 6. コマンドを実行する
 7. 全てのコマンドの実行が終了するのを待って、終了ステータスを環境変数$?に代入する
 
+
 ### 入力を受け取る前の処理
 
 - 環境変数を保持したデータ構造の初期化
 - シグナルハンドラの設定
+
 
 ### トークン化処理
 
@@ -193,11 +204,13 @@ metacharacter によって、入力は分割される.
 トークン化処理で、クオートが閉じられていない文法エラーを検出する.
 ちなみに、入力が空文字の場合、TOKEN_EOF のみ作られる.
 
+
 ## Signalについて
 
 プロセス間通信の一つ。
 
 非同期的なイベントをプロセスに通知する手段。
+
 
 ### シグナルを受け取る流れ
 
@@ -211,7 +224,8 @@ metacharacter によって、入力は分割される.
 - CTRL+c（古いUNIXでは DEL キー）を押下すると、SIGINT を送信し、デフォルトではそのプロセスを終了させる。
 - CTRL+\ を押下すると、SIGQUIT を送信し、デフォルトではプロセスを終了させ[コアダンプ](https://ja.wikipedia.org/wiki/%E3%82%B3%E3%82%A2%E3%83%80%E3%83%B3%E3%83%97)させる。
 
-### 実装
+
+### シグナルの実装
 
 |  | コマンドの実行前(heredocも含む） | コマンドの実行中 |
 | --- | --- | --- |
@@ -220,6 +234,7 @@ metacharacter によって、入力は分割される.
 - 実行の初期段階で、SiGINTシグナルハンドラの設定と、readline()がSIGINTを検知できるように rl_event_hook() に readline() がシグナルを受けっとた時の処理を行う関数を入れておく
 - SIGQUITに対して、ただ無視する設定にしておけばいい
 - 実行前に、2つのシグナルハンドラをデフォルトに戻しておく
+
 
 ## Git push 前にテストを走らせる方法
 
@@ -259,6 +274,7 @@ exit 0
 git push --no-verify ...
 ```
 
+
 ### テストプログラムの追加の仕方
 
 `tests` ディレクトリ配下に、テストしたい機能の名前のディレクトリを作成する。
@@ -271,6 +287,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
