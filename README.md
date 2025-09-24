@@ -192,6 +192,34 @@ metacharacter によって、入力は分割される.
 トークン化処理で、クオートが閉じられていない文法エラーを検出する.
 ちなみに、入力が空文字の場合、TOKEN_EOF のみ作られる.
 
+## Signalについて
+
+プロセス間通信の一つ。
+
+非同期的なイベントをプロセスに通知する手段。
+
+### シグナルを受け取る流れ
+
+- シグナルを発生させるイベントが起こる
+- OSがそのイベントを検知して、対象のプロセスにシグナルを起こる
+- 実行が中断されて、登録しておいたシグナルハンドラが呼び出される
+- 実行が再開する
+
+対応するシグナルの種類：
+
+- CTRL+c（古いUNIXでは DEL キー）を押下すると、SIGINT を送信し、デフォルトではそのプロセスを終了させる。
+- CTRL+\ を押下すると、SIGQUIT を送信し、デフォルトではプロセスを終了させ[コアダンプ](https://ja.wikipedia.org/wiki/%E3%82%B3%E3%82%A2%E3%83%80%E3%83%B3%E3%83%97)させる。
+
+### 実装
+
+|  | コマンドの実行前(heredocも含む） | コマンドの実行中 |
+| --- | --- | --- |
+| Ctrl-c (SIGINT) | 新しいプロンプトを再表示する | default |
+| Ctrl-\ (SIGQUIT) | 何も起こらない | default |
+- 実行の初期段階で、SiGINTシグナルハンドラの設定と、readline()がSIGINTを検知できるように rl_event_hook() に readline() がシグナルを受けっとた時の処理を行う関数を入れておく
+- SIGQUITに対して、ただ無視する設定にしておけばいい
+- 実行前に、2つのシグナルハンドラをデフォルトに戻しておく
+
 ## Git push 前にテストを走らせる方法
 
 [Gitフック](https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA-Git-%E3%83%95%E3%83%83%E3%82%AF)というものを利用する。
@@ -222,6 +250,8 @@ echo "==== PASSED. Proceeding with push. ===="
 exit 0
 ```
 
+
+
 もしテストをしたくない場合は、 `git push` に 以下のオプションをつける。
 
 ```bash
@@ -240,6 +270,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
