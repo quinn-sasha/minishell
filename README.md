@@ -154,7 +154,7 @@ delimiter がクオートに囲まれていない場合は、読み込んだ入�
 1. ターミナルからユーザーの入力を受け取る.
 2. 入力を metacharacter によって分割し、トークンのリストを作る. トークンは word と operator に分類される.
 3. トークンを解析して、simple command を作成する.
-4. 以下で述べる[Shell expansion](#Shell expansions)を行う
+4. 以下で述べる[Expansion](#Expansion)を行う
 5. [Redirection](#Redirection)を行う
 6. コマンドを実行する
 7. 全てのコマンドの実行が終了するのを待って、終了ステータスを環境変数$?に代入する
@@ -209,7 +209,7 @@ metacharacter によって、入力は分割される.
 
 ## 環境変数
 
-## Shell expansions
+## Expansion
 
 ### shell parameter expansion
 
@@ -299,3 +299,4 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
