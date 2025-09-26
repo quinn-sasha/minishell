@@ -7,7 +7,7 @@ void signal_handler(int signum) {
 }
 
 /*
-* @brief: Ctrl-cもしくはCrtl-/が押された時のシグナルハンドラを設定する
+* @brief: Ctrl-cもしくはCrtl-\が押された時のシグナルハンドラを設定する
 */
 void set_signal_handler(int signum) {
   struct sigaction sa;
