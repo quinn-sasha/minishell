@@ -243,8 +243,10 @@ metacharacter によって、入力は分割される.
 | --- | --- | --- |
 | Ctrl-c (SIGINT) | 新しいプロンプトを再表示する | default |
 | Ctrl-\ (SIGQUIT) | 何も起こらない | default |
-- 実行の初期段階で、SiGINTシグナルハンドラの設定と、readline()がSIGINTを検知できるように rl_event_hook() に readline() がシグナルを受けっとた時の処理を行う関数を入れておく
-- SIGQUITに対して、ただ無視する設定にしておけばいい
+- 実行の初期段階で設定すること
+	- SiGINTシグナルハンドラの設定
+ 	- rl_event_hook() に readline() がシグナルを受けっとた時の処理を行う関数を入れておく
+- SIGQUITに対しては、ただ無視する設定にしておけばいい
 - 実行前に、2つのシグナルハンドラをデフォルトに戻しておく
 
 
@@ -299,4 +301,5 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
