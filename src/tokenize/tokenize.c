@@ -98,6 +98,7 @@ t_token *consume_quoted_word(char **input_to_return, char *input, int *error_sta
     word_end++;
   }
   if (input[word_end] == '\0') {
+    unclosed_quote_error();
     *error_status = UNCLOSED_QUOTE_STATUS;
     word_end--;
   }
@@ -109,7 +110,7 @@ t_token *consume_quoted_word(char **input_to_return, char *input, int *error_sta
 
 /*
 * @param command line input.
-* @param トークン化の結果を保持する.TOKENIZE_SUCCESS or SINGLE_QUOTE_ERROR.
+* @param トークン化の結果を保持する.TOKENIZE_SUCCESS or UNCLOSED_QUOTE_STATUS.
 *        もしエラーであれば呼び出し側は返り値を解放する.
 * @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
 */

@@ -4,6 +4,11 @@ void prefix_error(void) {
   ft_putendl_fd(PREFIX_ERROR, STDERR_FILENO);
 }
 
+void unclosed_quote_error(void) {
+  prefix_error();
+  ft_dprintf(STDERR_FILENO, "syntax error: unclosed quote\n");
+}
+
 void syntax_error(const char *unexpected_token) {
   prefix_error();
   ft_dprintf(STDERR_FILENO, "syntax error near unexpected token: %s\n", unexpected_token);
