@@ -1,10 +1,35 @@
 #include "minishell.h"
 
+void interpret(char *input) {
+  int status;
+  t_token *token = tokenize(input, &status);
+  if (status == UNCLOSED_QUOTE_STATUS) {
+    free_token(token);
+    return;
+  }
+  if (at_eof(token)) {
+    free_token(token);
+    return;
+  }
+  t_simple_command *command = NULL;
+  if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
+    return;
+  }
+  // expansion
+  // execute
+  // clean command
+}
+
 int main(void) {
+  // initialize environment
+  // set up signal
   while (TRUE) {
-    char *input = readline("> ");
+    char *input = readline("micro-shell> ");
     if (input == NULL)
-      exit(EXIT_SUCCESS);
+      return;
+    if (*input)
+      add_history(input);
+    interpret(input);
     free(input);
   }
 }
