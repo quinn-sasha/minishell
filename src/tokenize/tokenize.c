@@ -85,7 +85,7 @@ t_token *consume_word(char **input_to_return, char *input) {
 * @param もしシングルクオートエラーであれば、エラーステータスが設定される.
 * @return word token
 */
-t_token *consume_quoted_word(char **input_to_return, char *input, int *error_status) {
+t_token *consume_quoted_word(char **input_to_return, char *input, int *status) {
   char quote_to_match = SINGLE_QUOTE_CHARCTER;
   if (*input == DOUBLE_QUOTE_CHARACTER) {
     quote_to_match = DOUBLE_QUOTE_CHARACTER;
@@ -99,7 +99,7 @@ t_token *consume_quoted_word(char **input_to_return, char *input, int *error_sta
   }
   if (input[word_end] == '\0') {
     unclosed_quote_error();
-    *error_status = UNCLOSED_QUOTE_STATUS;
+    *status = UNCLOSED_QUOTE_STATUS;
     word_end--;
   }
   char *word = ft_substr(input, 0, word_end);
@@ -114,12 +114,12 @@ t_token *consume_quoted_word(char **input_to_return, char *input, int *error_sta
 *        もしエラーであれば呼び出し側は返り値を解放する.
 * @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
 */
-t_token *tokenize(char *input, int *error_status) {
+t_token *tokenize(char *input, int *status) {
   t_token dummy;
   dummy.next = NULL;
   t_token *token = &dummy;
 
-  *error_status = TOKENIZE_SUCCESS;
+  *status = TOKENIZE_SUCCESS;
   while (*input) {
     if (is_blank(*input)) {
       input++;
@@ -131,7 +131,7 @@ t_token *tokenize(char *input, int *error_status) {
       continue;
     }
     if (is_quote(*input)) {
-      token->next = consume_quoted_word(&input, input, error_status);
+      token->next = consume_quoted_word(&input, input, status);
       token = token->next;
       continue;
     }
