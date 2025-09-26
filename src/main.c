@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+volatile sig_atomic_t g_signal_number;
+
 void interpret(char *input) {
   int status;
   t_token *token = tokenize(input, &status);

@@ -11,6 +11,7 @@
 #include <stdbool.h>
 
 #include "../libft/libft.h"
+#include "signal.h"
 #include "error.h"
 #include "xlibrary.h"
 #include "tokenize.h"

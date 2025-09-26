@@ -8,6 +8,9 @@ CFLAGS := -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 RM := rm -f
 RMDIR := rm -rf
 
+# TODO
+SIGNAL_FILES := signal/
+
 TOKEN_FILES := tokenize/token.c \
               tokenize/tokenize.c
 
@@ -22,7 +25,7 @@ LIBRARY_FILES := library/xcalloc.c \
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c
 
-SRCFILES := main.c destructor.c $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES)
+SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)
 
