@@ -39,7 +39,26 @@ void reset_signal(int signum) {
   }
 }
 
+void check_state(void) {
+  if (g_signal_number == 0) {
+    return;
+  }
+  if (g_signal_number == SIGINT) {
+    g_signal_number = 0;
+    ft_dprintf(STDERR_FILENO, "\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    rl_done = true;
+  }
+}
+
 void set_up_signal(void) {
   g_signal_number = 0;
-
+  set_signal_handler(SIGINT);
+  ignore_signal(SIGQUIT);
+  rl_outstream = stderr;
+  if (isatty(STDIN_FILENO)) {
+    rl_event_hook = check_state;
+  }
 }
