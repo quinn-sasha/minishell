@@ -218,6 +218,48 @@ metacharacter によって、入力は分割される.
 
 ### word splitting
 
+変数の展開によって、一つしかなかった単語が2つ以上に分割されたり、展開によって文法エラーになるような場合に対応するための処理.
+
+展開した文字列が（ダブル）クオートで囲まれていなかったら、その文字列に対して word splitting を行う.
+
+そもそも展開されていなければ、word splitting は行わない（トークンのメンバに is_expanded とかいう変数いれておくと良さそう）.
+
+Word splitting は 「IFSホワイトスペース」を区切り文字として文字列を分割する.
+
+> IFS（内部フィールド区切り文字）のホワイトスペース文字とは、上記の定義（「定義」参照）におけるホワイトスペース文字のうち、IFSの値に含まれるものを指します。スペース、タブ、改行は常にIFSホワイトスペースとみなされ、たとえそのロケールのスペースカテゴリに含まれていない場合でも同様です。
+> 
+
+例）
+
+- 変数の値が IFSホワイトスペースのみで構成されている場合
+
+```bash
+export TAB_AND_SPACE="   "  
+squinn@c6r2s4:~/project/minishell$ echo $TAB_AND_SPACE | cat -e
+$
+```
+
+環境変数 TAB_AND_SPACE には空白とタブしか入っていないので、word splitting の結果空文字列になった.
+
+ちなみに、このような変数がクオートで囲まれると、分割されなくなる.
+
+```bash
+squinn@c6r2s4:~/project/minishell$ export SPACES="       "
+squinn@c6r2s4:~/project/minishell$ echo "$SPACES" | cat -e
+       $
+```
+
+- ２つに分割される場合
+
+```bash
+squinn@c6r2s4:~/project/minishell$ export TWO_WORDS="Hello world"
+squinn@c6r2s4:~/project/minishell$ echo $TWO_WORDS
+Hello world
+```
+
+- 展開した結果、文法エラーになるような場合
+    - 展開した文字列のクオートが閉じらていない
+
 ### quote removal
 
 ## Signalについて
@@ -304,6 +346,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
