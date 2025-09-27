@@ -3,6 +3,22 @@
 シェルの機能は、シェルコマンドを読み取り実行すること。
 bashではプログラミング言語的な機能もあるが、micro-shell はもっともよく使われる簡単なコマンドの実行のみをサポートする。
 
+## 目次
+## 目次
+- [定義](#定義)
+- [必要な機能](#必要な機能)
+- [サポートしない機能](#サポートしない機能)
+- [受けつける入力の文法](#受けつける入力の文法)
+	- [Simple command](#Simple command)
+	- [Pipeline](#Pipeline)
+	- [Redirection](#Redirection)
+ 	- [Here documents](#Here documents)
+- [実行の流れ](#実行の流れ)
+	- [入力を受け取る前の処理](#入力を受け取る前の処理)
+ 	- [トークン化処理](#トークン化処理)
+  	- [解析](#解析)
+	- [変数展開](#変数展開)
+ 	- [コマンドの実行](#コマンドの実行)
 
 ## 定義
 
@@ -94,14 +110,14 @@ A command that is implemented internally by the shell itself, rather than by an 
 - command_element とは word もしくは redirection である
 
 
-## Simple command
+### Simple command
 
 最もよく実行されるコマンド.
 空白で区切られた、word が連続したもの.
 最初の単語がコマンド名で、その後に続くのは全て引数.
 
 
-## Pipeline
+### Pipeline
 
 一つ以上のコマンドを、 `|` で区切り、連結させたもの.
 文法は以下の通りである：
@@ -115,7 +131,7 @@ command1 のリダイレクション設定は、パイプを繋いだ後に行�
 パイプラインの終了ステータスは、最後のコマンドの終了ステータスである.
 
 
-## Redirection
+### Redirection
 
 リダイレクションは、コマンドが読み書きをするファイルを変更できる.
 文法は以下の通りである:
@@ -384,6 +400,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
