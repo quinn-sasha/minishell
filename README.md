@@ -232,7 +232,31 @@ metacharacter によって、入力は分割される.
 
 ## 変数展開
 
+変数展開は以下の3種類ある.
+
+上から下の順番で実行する.
+
+1. shell parameter expansion
+2. word splitting
+3. quote removal
+
 ### shell parameter expansion
+
+$記号に続く環境変数名を、環境変数の値で置き換える.
+
+Micro-shellは基本的な環境変数の展開のみサポートしているので、${abc}d が $abc で展開されるような機能は実装しない.
+
+```bash
+# 文法
+$name
+# => value
+```
+
+変数名は、はアルファベット、数字、およびアンダースコアのみで構成され、先頭がアルファベットまたはアンダースコアである文字列に限定される。それ以外の文字列は無効な変数名である.
+
+変数が存在しないと、空の文字列に展開される.
+
+環境変数の中に環境変数が設定されている場合、中の環境変数が展開された状態で保持される.
 
 ### word splitting
 
@@ -411,6 +435,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
