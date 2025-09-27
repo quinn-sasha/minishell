@@ -249,7 +249,7 @@ metacharacter によって、入力は分割される.
 ちなみに、入力が空文字の場合、TOKEN_EOF のみ作られる.
 
 
-## 変数展開
+### 変数展開
 
 変数展開は以下の3種類ある.
 
@@ -496,6 +496,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
