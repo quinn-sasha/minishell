@@ -321,7 +321,17 @@ Hello world
 - 展開した結果、文法エラーになるような場合
     - 展開した文字列のクオートが閉じらていない
 
-### quote removal
+### Quote removal
+
+実行するまえに、トークンからクオート文字(`’` や `"`)を削除する.
+
+**ただし、環境変数を展開した結果生じたクオートは削除しない.**
+
+```bash
+$ VAR='"quoted word"'
+$ echo $VAR "another word"
+"quoted word" another word
+```
 
 ## Signal
 
@@ -454,6 +464,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
