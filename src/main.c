@@ -28,7 +28,7 @@ int main(void) {
   while (TRUE) {
     char *input = readline("micro-shell> ");
     if (input == NULL)
-      return;
+      return EXIT_SUCCESS;
     if (*input)
       add_history(input);
     interpret(input);

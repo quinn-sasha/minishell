@@ -39,18 +39,18 @@ void reset_signal(int signum) {
   }
 }
 
-void check_state(void) {
+int check_state(void) {
   if (g_signal_number == 0) {
-    return;
+    return SUCCESS;
   }
   if (g_signal_number == SIGINT) {
     g_signal_number = 0;
-    ft_dprintf(STDERR_FILENO, "\n");
+    ft_dprintf(STDOUT_FILENO, "\n");
     rl_on_new_line();
     rl_replace_line("", 0);
-    rl_redisplay();
     rl_done = true;
   }
+  return SUCCESS;
 }
 
 void set_up_signal(void) {
