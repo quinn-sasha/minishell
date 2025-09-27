@@ -13,10 +13,11 @@
 
 #include "../libft/libft.h"
 #include "error.h"
+#include "signal_handler.h"
+#include "environ.h"
 #include "xlibrary.h"
 #include "tokenize.h"
 #include "parse.h"
-#include "signal_handler.h"
 
 #define TRUE 1
 #define SUCCESS 0
