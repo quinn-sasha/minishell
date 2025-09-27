@@ -142,10 +142,13 @@ ls > out > out2
 delimiter が入力されるまで、ユーザーからの入力を読み込み続ける.
 今まで読みこんだ全ての行を、コマンドの入力とする.
 delimiter に対してはいかなる展開もしない.
+例えば、
 delimiter がクオートで囲まれている場合、delimiter はクオートを除外したものになる.
 また読みこんだ行は展開されなくなる.
+**しかしこの機能は実装しない.** delmiterはそのままの文字列として解釈する.
 
 delimiter がクオートに囲まれていない場合は、読み込んだ入力は展開される.
+**この実装では常に展開をする.**
 コマンド置換はサポートしない.
 
 
@@ -301,5 +304,6 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
