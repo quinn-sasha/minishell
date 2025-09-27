@@ -277,6 +277,38 @@ $name
 
 環境変数の中に環境変数が設定されている場合、中の環境変数が展開された状態で保持される.
 
+```bash
+$ export foo="foo"
+$ export bar="$foo bar"
+# $foo => foo
+# $bar => foo bar (not "$foo bar")
+```
+
+#### 展開したことによる文法エラー
+
+展開して初めて、文法エラーであることがわかる場合もある.
+
+```bash
+$ export HELLO="hello world"
+$ cat < $HELLO
+bash: $HELLO: ambiguous redirect
+
+$ cat < $EMPTY
+bash: $EMPTY: ambiguous redirect
+```
+
+入力として特別な意味を持つ記号(パイプやリダイレクト)を環境変数に入れると、展開後には特別な意味を失っていることがわかる.
+
+```bash
+$ export PIPE_CHAR="|"
+$ ls | cat | $PIPE_CHAR
+|: command not found
+
+$ export redirect_char="<"
+$ ls < $redirect_char 
+bash: <: No such file or directory
+```
+
 ### word splitting
 
 変数の展開によって、一つしかなかった単語が2つ以上に分割されたり、展開によって文法エラーになるような場合に対応するための処理.
@@ -464,6 +496,7 @@ git push --no-verify ...
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
