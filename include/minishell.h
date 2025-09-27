@@ -9,13 +9,14 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include <signal.h>
 
 #include "../libft/libft.h"
-#include "signal.h"
 #include "error.h"
 #include "xlibrary.h"
 #include "tokenize.h"
 #include "parse.h"
+#include "signal_handler.h"
 
 #define TRUE 1
 #define SUCCESS 0

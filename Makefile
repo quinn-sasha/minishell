@@ -8,8 +8,7 @@ CFLAGS := -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 RM := rm -f
 RMDIR := rm -rf
 
-# TODO
-SIGNAL_FILES := signal/
+SIGNAL_FILES := signal/signal_handler.c
 
 TOKEN_FILES := tokenize/token.c \
               tokenize/tokenize.c
