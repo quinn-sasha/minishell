@@ -45,10 +45,10 @@ int check_state(void) {
   }
   if (g_signal_number == SIGINT) {
     g_signal_number = 0;
-    ft_dprintf(STDOUT_FILENO, "\n");
+    rl_done = true;
+    write(STDERR_FILENO, "\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
-    rl_done = true;
   }
   return SUCCESS;
 }
