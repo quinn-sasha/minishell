@@ -21,6 +21,9 @@ int map_delete(t_map *map, const char *name) {
   while (node) {
     if (ft_strcmp(node->name, name) == 0) {
       prev->next = node->next;
+      free(node->name);
+      free(node->value);
+      free(node);
       return SUCCESS;
     }
     prev = prev->next;
