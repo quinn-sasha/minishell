@@ -6,7 +6,7 @@
 #    By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/04 13:06:03 by squinn            #+#    #+#              #
-#    Updated: 2025/09/12 17:46:00 by squinn           ###   ########.fr        #
+#    Updated: 2025/09/28 16:47:43 by squinn           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ NORMAL_SRCS = ft_isalpha.c \
 		ft_tolower.c \
 		ft_strchr.c \
 		ft_strrchr.c \
+		ft_strcmp.c \
 		ft_strncmp.c \
 		ft_memchr.c \
 		ft_memcmp.c \
