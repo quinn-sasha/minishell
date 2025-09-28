@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 void prefix_error(void) {
-  ft_putendl_fd(PREFIX_ERROR, STDERR_FILENO);
+  ft_putstr_fd(PREFIX_ERROR, STDERR_FILENO);
 }
 
 void unclosed_quote_error(void) {
@@ -23,5 +23,15 @@ void fatal_error(const char *message) {
   ft_dprintf(STDOUT_FILENO, "Fatal error: %s\n", message);
   perror(NULL);
   exit(EXIT_FAILURE);
+}
+
+void perror_wrapper(const char *s1, const char *s2, const char *message) {
+  prefix_error();
+  ft_dprintf(STDERR_FILENO, "%s: ", s1);
+  ft_dprintf(STDERR_FILENO, "%s: ", s2);
+  if (message)
+    ft_dprintf(STDERR_FILENO, "%s\n", message);
+  else
+    perror(NULL);
 }
 
