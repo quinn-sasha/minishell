@@ -17,14 +17,14 @@ void set_name_and_value(const char *string, char **name, char **value) {
 }
 
 void map_insert(t_map *map, const char *name, const char *value) {
-  t_item *item = new_item(name, value);
+  t_item *item = new_item(xstrdup(name), xstrdup(value));
   item->next = map->head.next;
   map->head.next = item;
 }
 
 void map_update_item(t_item *item, const char *value) {
   free(item->value);
-  item->value = value;
+  item->value = xstrdup(value);
 }
 
 void map_set_internal(t_map *map, char *name, char *value) {
@@ -45,4 +45,6 @@ void map_set(t_map *map, const char *string) {
     return;
   }
   map_set_internal(map, name, value);
+  free(name);
+  free(value);
 }
