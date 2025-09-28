@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-void init_envmap(t_map *envmap, const char **environ) {
+t_map *init_environment(void) {
+  extern char **environ;
+  t_map *envmap = xcalloc(1, sizeof(t_map));
   while (*environ) {
     map_set(envmap, *environ);
     environ++;
@@ -13,12 +15,6 @@ void init_envmap(t_map *envmap, const char **environ) {
       map_set_internal(envmap, "PWD", cwd);
   }
   map_set_internal(envmap, "OLDPWD", NULL);
-}
-
-t_map *init_environment(void) {
-  extern char **environ;
-  t_map *environment_map = xcalloc(1, sizeof(t_map));
-  init_envmap(environment_map, environ);
-  return environment_map;
+  return envmap;
 }
 

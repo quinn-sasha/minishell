@@ -23,7 +23,7 @@ void interpret(char *input) {
 }
 
 int main(void) {
-  // initialize environment
+  // init_environment()
   set_up_signal();
   while (TRUE) {
     char *input = readline("micro-shell> ");

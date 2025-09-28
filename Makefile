@@ -10,6 +10,12 @@ RMDIR := rm -rf
 
 SIGNAL_FILES := signal/signal_handler.c
 
+ENVIRON_FILES := environ/environ.c \
+								 environ/is_identifier.c \
+								 environ/item.c \
+								 environ/map_set.c \
+								 environ/map.c
+
 TOKEN_FILES := tokenize/token.c \
               tokenize/tokenize.c
 
@@ -24,7 +30,7 @@ LIBRARY_FILES := library/xcalloc.c \
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c
 
-SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES)
+SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)
 

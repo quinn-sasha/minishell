@@ -29,7 +29,6 @@ int map_delete(t_map *map, const char *name);
 // item.c
 t_item *new_item(char *name, char *value);
 // environ.c
-void init_envmap(t_map *envmap, const char **environ);
 t_map *init_environment(void);
 
 #endif
