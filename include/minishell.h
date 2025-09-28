@@ -10,6 +10,7 @@
 #include <readline/history.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <linux/limits.h>
 
 #include "../libft/libft.h"
 #include "error.h"
