@@ -10,7 +10,11 @@
 #include <readline/history.h>
 #include <stdbool.h>
 #include <signal.h>
+#if defined(__linux__)
 #include <linux/limits.h>
+#else
+#define PATH_MAX 4096
+#endif
 
 #include "../libft/libft.h"
 #include "error.h"
@@ -19,6 +23,7 @@
 #include "xlibrary.h"
 #include "tokenize.h"
 #include "parse.h"
+#include "expand.h"
 
 #define TRUE 1
 #define SUCCESS 0
@@ -34,6 +39,7 @@
 // destructor.c
 void free_token(t_token *token);
 void clean_redirect(t_redirect *redirect);
+void clean_environment(t_map *envmap);
 void clean_command(t_simple_command **command);
 // exec.c
 char *find_path(char *command_name);
