@@ -2,10 +2,10 @@
 
 volatile sig_atomic_t g_signal_number;
 
-void interpret(char *input) {
-  int status;
-  t_token *token = tokenize(input, &status);
-  if (status == UNCLOSED_QUOTE_STATUS) {
+void interpret(char *input, t_map *envmap) {
+  int tokenize_status;
+  t_token *token = tokenize(input, &tokenize_status);
+  if (tokenize_status == UNCLOSED_QUOTE_STATUS) {
     free_token(token);
     return;
   }
@@ -23,7 +23,7 @@ void interpret(char *input) {
 }
 
 int main(void) {
-  // init_environment()
+  t_map *environment = init_environment()
   set_up_signal();
   while (TRUE) {
     char *input = readline("micro-shell> ");
@@ -31,7 +31,7 @@ int main(void) {
       return EXIT_SUCCESS;
     if (*input)
       add_history(input);
-    interpret(input);
+    interpret(input, environment);
     free(input);
   }
 }
