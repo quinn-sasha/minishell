@@ -29,6 +29,18 @@ void clean_redirect(t_redirect *redirect) {
   clean_redirect(next);
 }
 
+void clean_environment(t_map *envmap) {
+  t_item *node = envmap->head.next;
+  while (node) {
+    t_item *next = node->next;
+    free(node->name);
+    free(node->value);
+    free(node);
+    node = next;
+  }
+  free(envmap);
+}
+
 /*
 * @brief 動的に割り当てたコマンド構造体のリストを解放する. 解放後は NULL を代入する.
 */
