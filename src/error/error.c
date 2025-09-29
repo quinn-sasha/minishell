@@ -35,3 +35,9 @@ void perror_wrapper(const char *s1, const char *s2, const char *message) {
     perror(NULL);
 }
 
+void assert_error(const char *message) {
+  prefix_error();
+  ft_dprintf(STDERR_FILENO, "Assert error: %s\n", message);
+  exit(ASSERT_ERROR_STATUS);
+}
+
