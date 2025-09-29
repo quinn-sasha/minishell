@@ -1,22 +1,18 @@
 #include "minishell.h"
 
-void expand_token_words(t_token *token) {
-
-}
-
-// リダイレクト先のファイル名のみを展開する. here_doc_eofは展開しない.
-void expand_redirect_words(t_redirect *redirect) {
-
-}
-
-void expand_shell_parameter(t_simple_command *command, t_map *envmap) {
-  t_simple_command *iter = command;
-  while (iter) {
-    // expland token
-    expand_token_words(command->arguments);
-
-    iter = iter->next;
+void append_character(char **string, int c) {
+  char *new_string;
+  if (*string == NULL) {
+    new_string = xcalloc(2, sizeof(char));
+    new_string[0] = c;
+    *string = new_string;
+    return;
   }
+  size_t new_length = ft_strlen(*string) + 1;
+  new_string = xcalloc(new_length + 1, sizeof(char));
+  ft_strlcpy(new_string, *string, new_length + 1);
+  new_string[new_length - 1] = c;
+  *string = new_string;
 }
 
 int expand(t_simple_command *command, t_map *envmap) {
