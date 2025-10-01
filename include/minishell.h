@@ -30,6 +30,8 @@
 #define FAILED -1
 #define CHILD 0
 
+// utils.c
+char	*unsigned_itoa(unsigned long long num, unsigned int base);
 // destructor.c
 void free_token(t_token *token);
 void clean_redirect(t_redirect *redirect);
