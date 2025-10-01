@@ -15,6 +15,14 @@ void append_character(char **string, int c) {
   *string = new_string;
 }
 
+void append_string_to_string(char **dest, char *src) {
+  int i = 0;
+  while (src[i]) {
+    append_character(dest, src[i]);
+    i++;
+  }
+}
+
 int expand(t_simple_command *command, t_map *envmap) {
   // expand_shell_parameter()
   // check syntax error
