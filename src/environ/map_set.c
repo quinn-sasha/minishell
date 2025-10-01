@@ -3,13 +3,8 @@
 void set_name_and_value(const char *string, char **name, char **value) {
   int name_end = ft_strchr(string, '=');
   if (name_end == NOT_FOUND) {
-    *name = ft_substr(string, 0, name_end - 1);
+    *name = xstrdup(string);
     *value = NULL;
-    return;
-  }
-  if (name_end == 0) {
-    *name = xstrdup("");
-    *value = xstrdup(string + 1);
     return;
   }
   *name = ft_substr(string, 0, name_end - 1);
