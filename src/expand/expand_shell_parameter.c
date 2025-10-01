@@ -63,7 +63,14 @@ void expand_token_words(t_token *token, t_map *envmap) {
 
 // リダイレクト先のファイル名のみを展開する. here_doc_eofは展開しない.
 void expand_redirect_words(t_redirect *redirect, t_map *envmap) {
-
+  while (redirect) {
+    if (redirect->redirect_kind == r_reading_until) {
+      redirect = redirect->next;
+      continue;
+    }
+    expand_word(&redirect->to.filename, envmap);
+    redirect = redirect->next;
+  }
 }
 
 void expand_shell_parameter(t_simple_command *command, t_map *envmap) {
