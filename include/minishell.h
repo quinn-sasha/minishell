@@ -12,7 +12,8 @@
 #include <signal.h>
 #if defined(__linux__)
 #include <linux/limits.h>
-#else
+#endif
+#ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
 
