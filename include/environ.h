@@ -17,6 +17,7 @@ struct s_map {
 
 // is_identifier.c
 bool is_alpha_underscore(int c);
+bool is_alpha_underscore_num(int c);
 bool is_identifier(const char *s);
 // map_set.c
 void set_name_and_value(const char *string, char **name, char **value);
