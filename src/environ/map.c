@@ -31,3 +31,10 @@ int map_delete(t_map *map, const char *name) {
   }
   return FAILED;
 }
+
+char *xgetenv(t_map *envmap, const char *name) {
+  t_item *item = map_get(envmap, name);
+  if (item == NULL)
+    return NULL;
+  return item->value;
+}
