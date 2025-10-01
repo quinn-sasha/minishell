@@ -12,6 +12,7 @@ struct s_item {
 
 struct s_map {
   t_item head;
+  int last_status;
 };
 
 // is_identifier.c
