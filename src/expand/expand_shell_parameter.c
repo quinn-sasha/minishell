@@ -12,11 +12,28 @@ bool need_to_expand(char *word) {
   return false;
 }
 
-void expand_variable() {
-
+void expand_parameter(char *new_word, char **iter_to_return, char *iter, t_map *envmap) {
+  iter++;
+  if (!is_alpha_underscore(*iter)) {
+    *iter++;
+    *iter_to_return = iter;
+    return;
+  }
+  char *name = xcalloc(1, sizeof(char));
+  while (is_alpha_underscore_num(*iter)) {
+    append_character(&name, *iter);
+    iter++;
+  }
+  *iter_to_return = iter;
+  char *expanded = xgetenv(envmap, name);
+  free(name);
+  if (expanded == NULL) {
+    return;
+  }
+  append_string_to_string(&new_word, expanded);
 }
 
-void expand_word(char **word) {
+void expand_word(char **word, t_map *envmap) {
   if (!need_to_expand(*word)) {
     return;
   }
@@ -28,28 +45,32 @@ void expand_word(char **word) {
       iter++;
       continue;
     }
-    // todo: expand variable
+    if (is_special_parameter(iter)) {
+      expand_special_parameter(new_word, &iter, iter, envmap->last_status);
+      continue;
+    }
+    expand_parameter(new_word, &iter, iter, envmap);
   }
   *word = new_word;
 }
 
-void expand_token_words(t_token *token) {
+void expand_token_words(t_token *token, t_map *envmap) {
   while (!at_eof(token)) {
-    expand_word(&token->word);
+    expand_word(&token->word, envmap);
     token = token->next;
   }
 }
 
 // リダイレクト先のファイル名のみを展開する. here_doc_eofは展開しない.
-void expand_redirect_words(t_redirect *redirect) {
+void expand_redirect_words(t_redirect *redirect, t_map *envmap) {
 
 }
 
 void expand_shell_parameter(t_simple_command *command, t_map *envmap) {
   t_simple_command *iter = command;
   while (iter) {
-    expand_token_words(iter->arguments);
-    expand_redirect_words(iter->redirect);
+    expand_token_words(iter->arguments, envmap);
+    expand_redirect_words(iter->redirect, envmap);
     iter = iter->next;
   }
 }
