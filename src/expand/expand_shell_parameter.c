@@ -1,13 +1,23 @@
 #include "minishell.h"
 
 // $not_exist みたいな存在しない変数は空文字列に展開されるので、trueを返す
+/*
+展開する条件は:
+- $記号が含まれている
+- $記号の次の文字が、アルファベット、アンダースコア（'_'）、もしくは特別な記号('?')
+*/
 bool need_to_expand(char *word) {
   if (*word == SINGLE_QUOTE_CHARCTER)
     return false;
-  while (*word) {
-    if (*word == '$')
-      return true;
-    word++;
+  int dollar_position = ft_strchr(word, '$');
+  if (dollar_position == NOT_FOUND) {
+    return false;
+  }
+  if (is_special_parameter(word + dollar_position)) {
+    return true;
+  }
+  if (is_alpha_underscore(word[dollar_position + 1])) {
+    return true;
   }
   return false;
 }
