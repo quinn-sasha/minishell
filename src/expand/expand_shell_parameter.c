@@ -54,7 +54,7 @@ void expand_word(char **word, t_map *envmap) {
       continue;
     }
     if (is_special_parameter(iter)) {
-      expand_special_parameter(new_word, &iter, iter, envmap->last_status);
+      expand_special_parameter(&new_word, &iter, iter, envmap->last_status);
       continue;
     }
     expand_parameter(&new_word, &iter, iter, envmap);

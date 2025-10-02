@@ -17,10 +17,10 @@ void append_num_to_string(char **dest, unsigned int num) {
   }
 }
 
-void expand_special_parameter(char *new_word, char **iter_to_return, char *iter, int last_status) {
+void expand_special_parameter(char **new_word, char **iter_to_return, char *iter, int last_status) {
   if (last_status < 0)
     assert_error("last status should not be negative");
-  append_num_to_string(&new_word, last_status);
+  append_num_to_string(new_word, last_status);
   iter += 2;
   *iter_to_return = iter;
 }
