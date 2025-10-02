@@ -12,13 +12,21 @@ void set_name_and_value(const char *string, char **name, char **value) {
 }
 
 void map_insert(t_map *map, const char *name, const char *value) {
-  t_item *item = new_item(xstrdup(name), xstrdup(value));
+  t_item *item;
+  if (value == NULL)
+    item = new_item(xstrdup(name), NULL);
+  else
+    item = new_item(xstrdup(name), xstrdup(value));
   item->next = map->head.next;
   map->head.next = item;
 }
 
 void map_update_item(t_item *item, const char *value) {
   free(item->value);
+  if (value == NULL) {
+    item->value = NULL;
+    return;
+  }
   item->value = xstrdup(value);
 }
 
