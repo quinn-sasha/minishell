@@ -27,9 +27,8 @@ void test_append_ten_times(void) {
   assert(strcmp(expected, s) == 0);
 }
 
-int main(void) {
+void test_append_character(void) {
   test_append_to_null();
   test_append_to_normal_string();
   test_append_ten_times();
 }
-
