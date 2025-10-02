@@ -22,7 +22,7 @@ bool need_to_expand(char *word) {
   return false;
 }
 
-void expand_parameter(char *new_word, char **iter_to_return, char *iter, t_map *envmap) {
+void expand_parameter(char **new_word, char **iter_to_return, char *iter, t_map *envmap) {
   iter++;
   if (!is_alpha_underscore(*iter)) {
     assert_error("Invalid variable was not to be exapanded, but now in expand_parameter()");
@@ -38,7 +38,7 @@ void expand_parameter(char *new_word, char **iter_to_return, char *iter, t_map *
   if (expanded == NULL) {
     return;
   }
-  append_string_to_string(&new_word, expanded);
+  append_string_to_string(new_word, expanded);
 }
 
 void expand_word(char **word, t_map *envmap) {
@@ -57,7 +57,7 @@ void expand_word(char **word, t_map *envmap) {
       expand_special_parameter(new_word, &iter, iter, envmap->last_status);
       continue;
     }
-    expand_parameter(new_word, &iter, iter, envmap);
+    expand_parameter(&new_word, &iter, iter, envmap);
   }
   *word = new_word;
 }
