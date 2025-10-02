@@ -25,7 +25,7 @@ bool need_to_expand(char *word) {
 void expand_parameter(char *new_word, char **iter_to_return, char *iter, t_map *envmap) {
   iter++;
   if (!is_alpha_underscore(*iter)) {
-    *iter++;
+    iter++;
     *iter_to_return = iter;
     return;
   }
@@ -51,7 +51,7 @@ void expand_word(char **word, t_map *envmap) {
   char *iter = *word;
   while (iter) {
     if (*iter != '$') {
-      append_char(&new_word, *iter);
+      append_character(&new_word, *iter);
       iter++;
       continue;
     }
@@ -78,7 +78,7 @@ void expand_redirect_words(t_redirect *redirect, t_map *envmap) {
       redirect = redirect->next;
       continue;
     }
-    expand_word(&redirect->to.filename, envmap);
+    expand_word(&(redirect->to.filename), envmap);
     redirect = redirect->next;
   }
 }
