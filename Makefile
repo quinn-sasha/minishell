@@ -13,6 +13,7 @@ SRCS = \
 	$(SRCS_DIR)/handle_env_list.c\
 	$(SRCS_DIR)/expand_env.c\
 	$(SRCS_DIR)/builtin.c\
+	$(SRCS_DIR)/builtin_env.c\
 	$(SRCS_DIR)/builtin_exit.c\
 	$(SRCS_DIR)/builtin_export.c\
 	$(SRCS_DIR)/builtin_pwd.c\
@@ -32,6 +33,7 @@ TESTS_SRCS =\
 	$(SRCS_DIR)/handle_env_list.c\
 	$(SRCS_DIR)/expand_env.c\
 	$(SRCS_DIR)/builtin.c\
+	$(SRCS_DIR)/builtin_env.c\
 	$(SRCS_DIR)/builtin_exit.c\
 	$(SRCS_DIR)/builtin_export.c\
 	$(SRCS_DIR)/builtin_pwd.c\

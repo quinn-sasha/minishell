@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 15:59:42 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:14:23 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,11 @@ struct s_simple_command
 };
 
 // builtin.c
-int		check_builtin(char *input);
+int		check_builtin(t_env **env, char *input);
 int		is_builtin(const char *input, const char *cmd);
+
+// builtin_env.c
+void	builtin_env(t_env *head);
 
 // builtin_exit.c
 int		builtin_exit(char **tokens);
@@ -145,7 +148,6 @@ void	env_delone(t_env *lst);
 
 // just_for_debug.c
 void	print_str_array(char **arr);
-void	print_env(t_env *head);
 
 // parser_pipe.c
 int		is_pipe(char c);

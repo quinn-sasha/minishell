@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:37:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 15:47:10 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:21:31 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param argv 
  * @return ビルトインを実行したら1、実行しなかったら0
  */
-int	check_builtin(char *input)
+int	check_builtin(t_env **env, char *input)
 {
 	char	**tokens;
 	int		status;
@@ -29,11 +29,25 @@ int	check_builtin(char *input)
 		printf("error: cannot split by separator\n");
 		return (0);
 	}
+	/*
+	if (is_builtin(tokens[0], "echo"))
+		status = builtin_echo(tokens); // echo with option -n
+	if (is_builtin(tokens[0], "cd"))
+		status = builtin_cd(tokens); // cd with only a relative or absolute path
+	*/
 	if (is_builtin(tokens[0], "pwd"))
-		status = builtin_pwd();
+		status = builtin_pwd(); // pwd with no options
+	if (is_builtin(tokens[0], "export"))
+		status = builtin_export(env, tokens[1]); // export with no options
+	if (is_builtin(tokens[0], "unset"))
+		status = builtin_unset(env, tokens[1]); // unset with no options
+	if (is_builtin(tokens[0], "env"))
+	{
+		builtin_env(*env); // env with no options or arguments
+		return (1);
+	}
 	if (is_builtin(tokens[0], "exit"))
-		status = builtin_exit(tokens);
-
+		status = builtin_exit(tokens); // exit with no options
 	return (0);
 }
 

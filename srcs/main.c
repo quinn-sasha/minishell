@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 15:26:27 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:21:02 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,17 @@ static void	process_command(char *cmd, char **envp)
  * @author yurishik
  * @return 
  */
-static void	process_input(char *input, char **envp)
+static void	process_input(char *input, t_env **env, char **envp)
 {
 	char	**commands;
 	int		num_cmd;
 	int		i;
 
+	printf("%s\n", input);
 	num_cmd = 0;
 	if (*input == '\0')
 		return ;
-	if (check_builtin(input))
+	if (check_builtin(env, input))
 		return ;
 	if (split_by_pipe(input, &commands, &num_cmd) != 0)
 	{
@@ -91,7 +92,7 @@ int	main(void)
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
-		process_input(input, environ);
+		process_input(input, &env, environ);
 		free(input);
 	}
 	printf("exit\n");
