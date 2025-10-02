@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:57:10 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 18:50:35 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:02:50 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,20 @@ int	ft_isdigit(int c)
 int	ft_isalnum(int c)
 {
 	return (ft_isalpha(c) || ft_isdigit(c));
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	unsigned char	ch;
+
+	ch = (unsigned char)c;
+	while (*s != '\0')
+	{
+		if (*s == ch)
+			return ((char *)s);
+		s++;
+	}
+	if (ch == '\0')
+		return ((char *)s);
+	return (NULL);
 }

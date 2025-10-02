@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:14:54 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 13:46:58 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:33:40 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ int	update_env(t_env **head, char *key, char *value)
 		if (ft_strncmp(current->key, key, key_len) == 0)
 		{
 			free(current->value);
-			current->value = value;
+			if (ft_strndup(value, ft_strlen(value), &current->value) == FAILURE)
+				return (FAILURE);
 			return (SUCCESS);
 		}
 		current = current->next;

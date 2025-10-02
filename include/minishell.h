@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 13:51:12 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:13:17 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int		builtin_exit(void);
 // builtin_export.c
 char	*get_key(char *str);
 char	*get_value(char *str);
+t_env	*env_lstempty(char *key);
+int		set_enpty_export(t_env **env, char *str);
 int		builtin_export(t_env **env, char *str);
 
 // env.c
@@ -162,5 +164,6 @@ void	print_command_not_found(const char *cmd);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
+char	*ft_strchr(const char *s, int c);
 
 #endif

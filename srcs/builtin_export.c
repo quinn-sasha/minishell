@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 13:51:41 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:34:03 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,35 @@ char	*get_value(char *str)
 	return (value);
 }
 
+t_env	*env_lstempty(char *key)
+{
+	t_env	*new_node;
+	int		key_len;
+
+	key_len = ft_strlen(key);
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	if (ft_strndup(key, key_len, &new_node->key) == FAILURE)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	new_node->value = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+int	set_empty_export(t_env **env, char *str)
+{
+	if (find_env(*env, str) != NULL)
+	{
+		return (SUCCESS);
+	}
+	env_lstadd_back(env, env_lstempty(str));
+	return (SUCCESS);
+}
+
 int	builtin_export(t_env **env, char *str)
 {
 	char	*key;
@@ -48,6 +77,8 @@ int	builtin_export(t_env **env, char *str)
 	int		status;
 
 	status = SUCCESS;
+	if (ft_strchr(str, '=') == NULL)
+		return (set_empty_export(env, str));
 	key = get_key(str);
 	if (key == NULL)
 		return (FAILURE);
