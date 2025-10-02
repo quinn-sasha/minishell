@@ -9,5 +9,5 @@ int main() {
     iter = iter->next;
   }
   clean_environment(envmap);
-  printf("--- END ---");
+  printf("--- END ---\n");
 }
