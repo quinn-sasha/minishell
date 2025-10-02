@@ -23,9 +23,14 @@ void append_string_to_string(char **dest, char *src) {
   }
 }
 
+/*
+* @return: 展開して文法エラーが発生したら EXPAND_SYNTAX_ERROR を返す.
+           それ以外は EXPAND_SUCESS
+*/
 int expand(t_simple_command *command, t_map *envmap) {
   expand_shell_parameter(command, envmap);
   // check syntax error
   // split_word()
   // remove_quote()
+  return EXPAND_SUCCESS;
 }

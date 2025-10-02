@@ -4,6 +4,9 @@
 #include "parse.h"
 #include "environ.h"
 
+#define EXPAND_SUCCESS 0
+#define EXPAND_SYNTAX_ERROR 1
+
 // special_parameter.c
 bool is_special_parameter(const char *s);
 void append_num_to_string(char **dest, unsigned int num);
