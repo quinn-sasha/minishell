@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:37:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 15:28:21 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:47:10 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,20 @@
  */
 int	check_builtin(char *input)
 {
-	if (is_builtin(input, "pwd"))
+	char	**tokens;
+	int		status;
+
+	status = 0;
+	if (split_by_separator(input, &tokens) != 0)
 	{
-		builtin_pwd();
-		return (1);
+		printf("error: cannot split by separator\n");
+		return (0);
 	}
-	if (is_builtin(input, "exit"))
-	{
-		builtin_exit();
-		return (1);
-	}
+	if (is_builtin(tokens[0], "pwd"))
+		status = builtin_pwd();
+	if (is_builtin(tokens[0], "exit"))
+		status = builtin_exit(tokens);
+
 	return (0);
 }
 
