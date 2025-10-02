@@ -25,9 +25,7 @@ bool need_to_expand(char *word) {
 void expand_parameter(char *new_word, char **iter_to_return, char *iter, t_map *envmap) {
   iter++;
   if (!is_alpha_underscore(*iter)) {
-    iter++;
-    *iter_to_return = iter;
-    return;
+    assert_error("Invalid variable was not to be exapanded, but now in expand_parameter()");
   }
   char *name = xcalloc(1, sizeof(char));
   while (is_alpha_underscore_num(*iter)) {
