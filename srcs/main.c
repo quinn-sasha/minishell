@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 18:50:24 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:52:04 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int	main(void)
 		return (1);
 	}
 	printf("%s\n", find_env(env, "USER"));
-	printf("+++++++++++++++++++++++\n");
 	unset_env(&env, "USER");
-	printf("+++++++++++++++++++++++\n");
+	printf("%s\n", find_env(env, "USER"));
+	builtin_export(&env, "USER=yurishikkkk");
 	printf("%s\n", find_env(env, "USER"));
 	while (1)
 	{

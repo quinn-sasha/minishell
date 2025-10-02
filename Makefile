@@ -13,6 +13,7 @@ SRCS = \
 	$(SRCS_DIR)/handle_env_list.c\
 	$(SRCS_DIR)/expand_env.c\
 	$(SRCS_DIR)/builtin.c\
+	$(SRCS_DIR)/builtin_export.c\
 	$(SRCS_DIR)/parser_pipe.c\
 	$(SRCS_DIR)/parser_separator.c\
 	$(SRCS_DIR)/execute_command.c\
@@ -28,6 +29,7 @@ TESTS_SRCS =\
 	$(SRCS_DIR)/handle_env_list.c\
 	$(SRCS_DIR)/expand_env.c\
 	$(SRCS_DIR)/builtin.c\
+	$(SRCS_DIR)/builtin_export.c\
 	$(SRCS_DIR)/parser_pipe.c\
 	$(SRCS_DIR)/parser_separator.c\
 	$(SRCS_DIR)/execute_command.c\

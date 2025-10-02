@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:14:54 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 18:50:04 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:46:58 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	initialize_environ(t_env **dest, char **environ)
 }
 
 /**
- * @brief 環境変数を名前で指定してunsetする
+ * @brief 環境変数を名前で指定して検索する
  *
  * @author yurishik
  * @param head t_envのLinked Listの先頭
@@ -57,7 +57,7 @@ char	*find_env(t_env *head, const char *key)
 	size_t	key_len;
 
 	if (head == NULL || key == NULL)
-		return ("");
+		return (NULL);
 	key_len = ft_strlen(key);
 	current = head;
 	while (current != NULL)
@@ -66,7 +66,7 @@ char	*find_env(t_env *head, const char *key)
 			return (current->value);
 		current = current->next;
 	}
-	return ("");
+	return (NULL);
 }
 
 /**
@@ -114,4 +114,26 @@ int	unset_env(t_env **head, const char *name)
 	}
 	unset_mid_node(prev, current);
 	return (SUCCESS);
+}
+
+int	update_env(t_env **head, char *key, char *value)
+{
+	t_env	*current;
+	size_t	key_len;
+
+	if (head == NULL || key == NULL)
+		return (FAILURE);
+	key_len = ft_strlen(key);
+	current = *head;
+	while (current != NULL)
+	{
+		if (ft_strncmp(current->key, key, key_len) == 0)
+		{
+			free(current->value);
+			current->value = value;
+			return (SUCCESS);
+		}
+		current = current->next;
+	}
+	return (FAILURE);
 }

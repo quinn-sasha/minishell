@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/09/16 18:22:37 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:51:12 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,17 @@ int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
 int		builtin_exit(void);
 
+// builtin_export.c
+char	*get_key(char *str);
+char	*get_value(char *str);
+int		builtin_export(t_env **env, char *str);
+
 // env.c
 int		initialize_environ(t_env **dest, char **environ);
 char	*find_env(t_env *head, const char *key);
 void	unset_mid_node(t_env *prev, t_env *current);
 int		unset_env(t_env **head, const char *name);
+int		update_env(t_env **head, char *key, char *value);
 
 // env_utils.c
 int		get_key_length(char *str);
