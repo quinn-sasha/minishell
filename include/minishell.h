@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:28:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 14:13:17 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:52:27 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int		check_builtin(const char *input);
 int		is_builtin(const char *input, const char *cmd);
 int		builtin_pwd(void);
 int		builtin_exit(void);
+int		builtin_unset(t_env **head, const char *name);
+
 
 // builtin_export.c
 char	*get_key(char *str);

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:37:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 13:02:17 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:48:19 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,9 @@ int	builtin_exit(void)
 	printf("exit\n");
 	exit(0);
 	return (0);
+}
+
+int	builtin_unset(t_env **head, const char *name)
+{
+	return unset_env(head, name);
 }
