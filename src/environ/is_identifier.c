@@ -16,7 +16,7 @@ bool is_identifier(const char *s) {
     return false;
   }
   while (*s) {
-    if (is_alpha_underscore_num(*s)) {
+    if (!is_alpha_underscore_num(*s)) {
       return false;
     }
     s++;
