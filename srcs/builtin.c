@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:37:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 14:48:19 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:28:21 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 /**
  * @brief 入力文字列がビルトインコマンドか判定して実行する
  *
- * @param input ユーザー入力文字列
+ * @param argv 
  * @return ビルトインを実行したら1、実行しなかったら0
  */
-int	check_builtin(const char *input)
+int	check_builtin(char *input)
 {
 	if (is_builtin(input, "pwd"))
 	{
@@ -66,46 +66,4 @@ int	is_builtin(const char *input, const char *cmd)
 	if (input[i] == '\0')
 		return (FLG_TRUE);
 	return (FLG_FALSE);
-}
-
-/**
- * @brief ビルトイン関数のpwd
- *
- * @author yurishik
- * @return 正常なら0、エラーなら1(ディレクトリが存在しない場合などに発生)
- */
-int	builtin_pwd(void)
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		printf("%s\n", cwd);
-		free(cwd);
-		return (SUCCESS);
-	}
-	else
-	{
-		perror("pwd");
-		return (FAILURE);
-	}
-}
-
-/**
- * @brief ビルトイン関数のexit
- *
- * @author yurishik
- * @return exitするので到達はしないはず
- */
-int	builtin_exit(void)
-{
-	printf("exit\n");
-	exit(0);
-	return (0);
-}
-
-int	builtin_unset(t_env **head, const char *name)
-{
-	return unset_env(head, name);
 }
