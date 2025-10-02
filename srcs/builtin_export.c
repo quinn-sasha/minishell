@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 14:34:03 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:51:05 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ t_env	*env_lstempty(char *key)
 int	set_empty_export(t_env **env, char *str)
 {
 	if (find_env(*env, str) != NULL)
-	{
 		return (SUCCESS);
-	}
 	env_lstadd_back(env, env_lstempty(str));
 	return (SUCCESS);
 }

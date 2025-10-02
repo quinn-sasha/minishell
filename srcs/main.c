@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:27:42 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 16:21:02 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:56:15 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	process_input(char *input, t_env **env, char **envp)
 	num_cmd = 0;
 	if (*input == '\0')
 		return ;
-	if (check_builtin(env, input))
+	if (check_builtin(env, input) == SUCCESS)
 		return ;
 	if (split_by_pipe(input, &commands, &num_cmd) != 0)
 	{
