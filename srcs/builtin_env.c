@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:15:39 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 16:21:13 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:46:53 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

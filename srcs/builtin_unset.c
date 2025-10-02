@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:24:13 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 15:24:19 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:46:58 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

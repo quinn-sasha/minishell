@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp      +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/02 15:23:50 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/02 15:24:08 by yurishik         ###   ########.fr       */
+/*   Created: 2025/10/02 16:46:19 by yurishik          #+#    #+#             */
+/*   Updated: 2025/10/02 16:46:25 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
