@@ -53,6 +53,6 @@ fclean	: clean
 re		: fclean all
 
 test: $(NAME)
-	export HELLO="hello world" && ./$(NAME)
+	export HELLO="hello world" && export NESTED_QUOTE="'$$HOME'" && ./$(NAME)
 
 .PHONY	: all clean fclean re test
