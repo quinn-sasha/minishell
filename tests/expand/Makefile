@@ -53,6 +53,6 @@ fclean	: clean
 re		: fclean all
 
 test: $(NAME)
-	export HELLO="hello world\n"; ./$(NAME)
+	export HELLO="hello world" && ./$(NAME)
 
 .PHONY	: all clean fclean re test
