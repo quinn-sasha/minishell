@@ -14,6 +14,11 @@ void syntax_error(const char *unexpected_token) {
   ft_dprintf(STDERR_FILENO, "syntax error near unexpected token: %s\n", unexpected_token);
 }
 
+void ambiguous_redirect_error(void) {
+  prefix_error();
+  ft_dprintf(STDERR_FILENO, "ambiguous redirect\n");
+}
+
 /*
 Call this function when important system calls fail.
 It exits the program without freeing resources.
