@@ -3,9 +3,10 @@
 t_map *init_environment(void) {
   extern char **environ;
   t_map *envmap = xcalloc(1, sizeof(t_map));
-  while (*environ) {
-    map_set(envmap, *environ);
-    environ++;
+  int i = 0;
+  while (environ[i]) {
+    map_set(envmap, environ[i]);
+    i++;
   }
   char cwd[PATH_MAX];
   if (map_get(envmap, "PWD") == NULL) {
