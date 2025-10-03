@@ -32,7 +32,26 @@ void test_simple_expansion(void) {
   printf("PASS\n");
 }
 
+void test_special_parameter_expansion(void) {
+  printf("Test '$?' ... ");
+  t_map *envmap = init_environment();
+  envmap->last_status = 127;
+  int status;
+  char *input = "$?";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand(command, envmap);
+
+  t_token *iter = command->arguments;
+  assert_same_string(iter->word, "127");
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
 int main() {
   test_append_character();
   test_simple_expansion();
+  test_special_parameter_expansion();
 }
