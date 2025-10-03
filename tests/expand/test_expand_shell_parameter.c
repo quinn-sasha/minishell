@@ -76,8 +76,29 @@ void test_pipe_expansion(void) {
   printf("PASS\n");
 }
 
+void test_non_existing_variable(void) {
+  printf("Test '$100abc ... ");
+  t_map *envmap = init_environment();
+  int status;
+  char *input = "$100abc";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand(command, envmap);
+
+  t_simple_command *node = command;
+  t_token *arg = node->arguments;
+  assert_same_string(arg->word, "00abc");
+
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
 int main() {
   test_append_character();
   test_simple_expansion();
   test_special_parameter_expansion();
+  test_pipe_expansion();
+  test_non_existing_variable();
 }
