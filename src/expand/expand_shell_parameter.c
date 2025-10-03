@@ -22,17 +22,17 @@ bool need_to_expand(char *word) {
   return false;
 }
 
-void expand_parameter(char **new_word, char **iter_to_return, char *iter, t_map *envmap) {
-  iter++;
-  if (!is_alpha_underscore(*iter)) {
+void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr, t_map *envmap) {
+  char_ptr++;
+  if (!is_alpha_underscore(*char_ptr)) {
     assert_error("Invalid variable was not to be exapanded, but now in expand_parameter()");
   }
   char *name = xcalloc(1, sizeof(char));
-  while (is_alpha_underscore_num(*iter)) {
-    append_character(&name, *iter);
-    iter++;
+  while (is_alpha_underscore_num(*char_ptr)) {
+    append_character(&name, *char_ptr);
+    char_ptr++;
   }
-  *iter_to_return = iter;
+  *char_ptr_to_return = char_ptr;
   char *expanded = xgetenv(envmap, name);
   free(name);
   if (expanded == NULL) {
@@ -46,18 +46,18 @@ void expand_word(char **word, t_map *envmap) {
     return;
   }
   char *new_word = xcalloc(1, sizeof(char));
-  char *iter = *word;
-  while (iter) {
-    if (*iter != '$') {
-      append_character(&new_word, *iter);
-      iter++;
+  char *char_ptr = *word;
+  while (*char_ptr) {
+    if (*char_ptr != '$') {
+      append_character(&new_word, *char_ptr);
+      char_ptr++;
       continue;
     }
-    if (is_special_parameter(iter)) {
-      expand_special_parameter(&new_word, &iter, iter, envmap->last_status);
+    if (is_special_parameter(char_ptr)) {
+      expand_special_parameter(&new_word, &char_ptr, char_ptr, envmap->last_status);
       continue;
     }
-    expand_parameter(&new_word, &iter, iter, envmap);
+    expand_parameter(&new_word, &char_ptr, char_ptr, envmap);
   }
   *word = new_word;
 }
