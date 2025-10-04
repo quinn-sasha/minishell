@@ -29,7 +29,10 @@ void append_string_to_string(char **dest, char *src) {
 */
 int expand(t_simple_command *command, t_map *envmap) {
   expand_shell_parameter(command, envmap);
-  // check syntax error
+  if (!is_valid_syntax_after_expansion(command->redirect)) {
+      ambiguous_redirect_error();
+      return EXPAND_SYNTAX_ERROR;
+  }
   // split_word()
   // remove_quote()
   return EXPAND_SUCCESS;

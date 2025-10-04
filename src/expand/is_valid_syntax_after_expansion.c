@@ -24,7 +24,6 @@ int is_valid_syntax_after_expansion(t_redirect *redirect) {
     }
     char *filename = iter->to.filename;
     if (!is_valid_filename(filename)) {
-      ambiguous_redirect_error();
       return false;
     }
     iter = iter->next;

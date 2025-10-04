@@ -17,13 +17,16 @@ void interpret(char *input, t_map *envmap) {
   if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
     return;
   }
-  // expansion
+  if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
+    // free command
+    return;
+  }
   // execute
   // clean command
 }
 
 int main(void) {
-  t_map *environment = init_environment()
+  t_map *environment = init_environment();
   set_up_signal();
   while (TRUE) {
     char *input = readline("micro-shell> ");
@@ -34,4 +37,5 @@ int main(void) {
     interpret(input, environment);
     free(input);
   }
+  // free environment
 }
