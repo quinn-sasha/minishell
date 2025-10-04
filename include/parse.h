@@ -31,6 +31,7 @@ struct s_redirect {
   int open_flags;
   t_redirectee from;
   t_redirectee to;
+  bool is_filename_expanded;
   t_redirect_kind redirect_kind;
   char *here_doc_eof;
 };
