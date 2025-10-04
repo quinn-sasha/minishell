@@ -10,6 +10,8 @@
 #define EXPANDED 0
 #define NOT_EXPANDED 1
 
+#define DEFAULT_IFS_CHARS " \t\n"
+
 // special_parameter.c
 bool is_special_parameter(const char *s);
 void append_num_to_string(char **dest, unsigned int num);
@@ -21,6 +23,9 @@ int expand_word(char **word, t_map *envmap);
 void expand_token_words(t_token *token, t_map *envmap);
 void expand_redirect_words(t_redirect *redirect, t_map *envmap);
 void expand_shell_parameter(t_simple_command *command, t_map *envmap);
+// is_valid_syntax_after_expansion.c
+bool is_valid_filename(const char *filename);
+int is_valid_syntax_after_expansion(t_redirect *redirect);
 // expand.c
 void append_character(char **string, int c);
 void append_string_to_string(char **dest, char *src);
