@@ -10,6 +10,7 @@ t_token *new_token(t_token_kind token_kind, char *word) {
   t_token *new_token = xcalloc(1, sizeof(t_token));
   new_token->token_kind = token_kind;
   new_token->word = word;
+  new_token->is_expanded = false;
   new_token->next = NULL;
   return new_token;
 }
