@@ -41,9 +41,12 @@ void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr
   append_string_to_string(new_word, expanded);
 }
 
-void expand_word(char **word, t_map *envmap) {
+/*
+* @return: もし展開されたら EXPANDED、それ以外は NOT_EXPANDED を返す
+*/
+int expand_word(char **word, t_map *envmap) {
   if (!need_to_expand(*word)) {
-    return;
+    return NOT_EXPANDED;
   }
   char *new_word = xcalloc(1, sizeof(char));
   char *char_ptr = *word;
@@ -60,11 +63,14 @@ void expand_word(char **word, t_map *envmap) {
     expand_parameter(&new_word, &char_ptr, char_ptr, envmap);
   }
   *word = new_word;
+  return EXPANDED;
 }
 
 void expand_token_words(t_token *token, t_map *envmap) {
   while (!at_eof(token)) {
-    expand_word(&token->word, envmap);
+    if (expand_word(&token->word, envmap) == EXPANDED) {
+      token->is_expanded = true;
+    }
     token = token->next;
   }
 }
@@ -76,7 +82,9 @@ void expand_redirect_words(t_redirect *redirect, t_map *envmap) {
       redirect = redirect->next;
       continue;
     }
-    expand_word(&(redirect->to.filename), envmap);
+    if (expand_word(&(redirect->to.filename), envmap) == EXPANDED) {
+      redirect->is_filename_expanded = true;
+    }
     redirect = redirect->next;
   }
 }

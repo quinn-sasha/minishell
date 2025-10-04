@@ -6,6 +6,9 @@
 
 #define EXPAND_SUCCESS 0
 #define EXPAND_SYNTAX_ERROR 1
+// expand_word() return values
+#define EXPANDED 0
+#define NOT_EXPANDED 1
 
 // special_parameter.c
 bool is_special_parameter(const char *s);
@@ -14,7 +17,7 @@ void expand_special_parameter(char **new_word, char **iter_to_return, char *iter
 // expand_shell_parameter.c
 bool need_to_expand(char *word);
 void expand_parameter(char **new_word, char **iter_to_return, char *iter, t_map *envmap);
-void expand_word(char **word, t_map *envmap);
+int expand_word(char **word, t_map *envmap);
 void expand_token_words(t_token *token, t_map *envmap);
 void expand_redirect_words(t_redirect *redirect, t_map *envmap);
 void expand_shell_parameter(t_simple_command *command, t_map *envmap);
