@@ -22,7 +22,7 @@ int	wait_pipe(pid_t last_pid)
 			if (errno == EINTR)
 				continue;
 			else
-				perror("wait"); // TODO
+				fatal_error("wait"); // TODO
 		}
 	}
 	return (last_status);
