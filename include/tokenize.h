@@ -32,6 +32,7 @@ bool at_eof(t_token *token);
 t_token *new_token(t_token_kind token_kind, char *word);
 t_token *duplicate_token(t_token *token);
 void append_token(t_token **token, t_token *element);
+void insert_next_token(t_token *token, t_token *new_token);
 // tokenize.c
 int is_blank(int c);
 int is_quote(int c);
