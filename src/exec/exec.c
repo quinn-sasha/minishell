@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 20:12:41 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:18:06 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 
 	command->redirect->file_fd = open(command->redirect->to.filename,
 			command->redirect->open_flags);
-	if (is_builtin())
+	if (command->next == NULL && is_builtin())
 	{
 		status = exec_builtin();
 	}
