@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 14:40:04 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:42:22 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@ void	error_and_exit(const char *cmd, const char *message, int status)
 	else
 		ft_dprintf(STDERR_FILENO, "%s\n", message);
 	exit(status);
+}
+
+void	free_array(char	**array)
+{
+	int	i;
+
+	if (array == NULL)
+		return ;
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
 
 static char	*path_join(const char *dir_path, const char *cmd)
