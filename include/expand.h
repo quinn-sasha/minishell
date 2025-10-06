@@ -32,6 +32,7 @@ void split_token_words(t_token *token);
 // expand.c
 void append_character(char **string, int c);
 void append_string_to_string(char **dest, char *src);
+static void remove_unnecessary_tail_token(t_token **token);
 int expand(t_simple_command *command, t_map *envmap);
 
 #endif
