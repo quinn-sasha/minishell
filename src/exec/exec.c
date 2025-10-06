@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 20:18:06 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:15:33 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,18 @@ void	do_redirect(t_redirect *redirect)
 	do_redirect(redirect->next);
 }
 
+void	reset_redirect(t_redirect *redirect)
+{
+	if (redirect == NULL)
+		return ;
+	reset_redirect(redirect->next);
+	if (redirect->stash_fd > 0)
+	{
+		xdup2(redirect->stash_fd, redirect->from.fd);
+		close(redirect->stash_fd);
+	}
+}
+
 void	validate_access(char *path, char *cmd)
 {
 	struct stat	st;
@@ -218,7 +230,7 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 	do_redirect(command->redirect);
 	execve(path, argv, environ);
 	free_array(argv);
-	// reset_redirect //TODO
+	reset_redirect(command->redirect);
 	free_array(environ);
 	fatal_error("execve");
 }
@@ -270,6 +282,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 
 	if (command == NULL || command->arguments == NULL)
 		return (-1);
+	// prepare_pipes();
 	pid = fork();
 	if (pid < 0)
 		fatal_error("fork");
