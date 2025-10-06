@@ -25,7 +25,9 @@ PARSE_FILES := parse/make_simple_command.c \
 
 LIBRARY_FILES := library/xcalloc.c \
 								library/xmalloc.c \
-								library/xstrdup.c
+								library/xstrdup.c \
+								library/xdup.c \
+								library/xdup2.c
 
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c

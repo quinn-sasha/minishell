@@ -34,6 +34,8 @@ struct s_redirect {
   bool is_filename_expanded;
   t_redirect_kind redirect_kind;
   char *here_doc_eof;
+  int stash_fd;
+  int file_fd;
 };
 
 struct s_simple_command {

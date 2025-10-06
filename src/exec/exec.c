@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abc123456 <yurishik@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 17:08:27 by abc123456        ###   ########.fr       */
+/*   Updated: 2025/10/06 20:12:41 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,20 +169,15 @@ char	**tokens_to_argv(t_token *token)
 	return (argv);
 }
 
-/*
 void	do_redirect(t_redirect *redirect)
 {
 	if (redirect == NULL)
 		return ;
-	if (is_redirect(redirect))
-	{
-		// stashfdに当たる部分が必要ということ？ちょい混乱中なので後回し
-	}
-	else
-		assert_error("redirect");
+	redirect->stash_fd = xdup(redirect->from.fd);
+	xdup2(redirect->file_fd, redirect->from.fd);
+	close(redirect->file_fd);
 	do_redirect(redirect->next);
 }
-*/
 
 void	validate_access(char *path, char *cmd)
 {
@@ -220,7 +215,7 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 		path = search_path(path, envmap);
 	validate_access(path, argv[0]);
 	environ = get_envmap(envmap);
-	// do_redirect(command->redirect); //TODO
+	do_redirect(command->redirect);
 	execve(path, argv, environ);
 	free_array(argv);
 	// reset_redirect //TODO
@@ -258,12 +253,12 @@ int	wait_pipe(pid_t last_pid)
 	return (last_status);
 }
 
-void exec_builtin()
+int	exec_builtin(void)
 {
-	return ; // TODO
+	return (0);
 }
 
-int	is_builtin()
+int	is_builtin(void)
 {
 	return (0); // TODO
 }
@@ -292,4 +287,23 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 	if (command->next)
 		return (exec_pipe(command->next, envmap));
 	return (pid);
+}
+
+int	exec(t_simple_command *command, t_map *envmap)
+{
+	pid_t	last_pid;
+	int		status;
+
+	command->redirect->file_fd = open(command->redirect->to.filename,
+			command->redirect->open_flags);
+	if (is_builtin())
+	{
+		status = exec_builtin();
+	}
+	else
+	{
+		last_pid = exec_pipe(command, envmap);
+		status = wait_pipe(last_pid);
+	}
+	return (status);
 }
