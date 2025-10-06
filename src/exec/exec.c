@@ -6,9 +6,63 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 14:42:22 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/06 15:36:18 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+static char	*join_str_separator(const char *s1, const char *s2, char sep)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*result;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *)xcalloc(len1 + len2 + 2, sizeof(char));
+	ft_memcpy(result, s1, len1);
+	result[len1] = sep;
+	ft_memcpy(result + len1 + 1, s2, len2);
+	return (result);
+}
+
+size_t	count_map_item(t_map *envmap)
+{
+	t_item	*item;
+	size_t	count;
+
+	if (envmap == NULL)
+		return (0);
+	count = 0;
+	item = envmap->head.next;
+	while (item != NULL)
+	{
+		count++;
+		item = item->next;
+	}
+	return (count);
+}
+
+char	**get_envmap(t_map *envmap)
+{
+	char	**env_array;
+	t_item	*item;
+	size_t	count;
+	size_t	i;
+
+	if (envmap == NULL)
+		return (xcalloc(1, sizeof(char *)));
+	count = count_map_item(envmap);
+	env_array = (char **)xcalloc(count + 1, sizeof(char *));
+	item = envmap->head.next;
+	i = 0;
+	while (item != NULL)
+	{
+		env_array[i] = join_str_separator(item->name, item->value, '=');
+		item = item->next;
+		i++;
+	}
+	return (env_array);
+}
 
 void	error_and_exit(const char *cmd, const char *message, int status)
 {
@@ -36,29 +90,14 @@ void	free_array(char	**array)
 	free(array);
 }
 
-static char	*path_join(const char *dir_path, const char *cmd)
-{
-	size_t	dir_len;
-	size_t	cmd_len;
-	char	*result;
-
-	dir_len = ft_strlen(dir_path);
-	cmd_len = ft_strlen(cmd);
-	result = (char *)xcalloc(dir_len + cmd_len + 2, sizeof(char));
-	ft_memcpy(result, dir_path, dir_len);
-	result[dir_len] = '/';
-	ft_memcpy(result + dir_len + 1, cmd, cmd_len);
-	return (result);
-}
-
-char	*search_path_mode(const char *filename, int mode)
+char	*search_path_mode(const char *filename, int mode, t_map *envmap)
 {
 	char	*envpath;
 	char	**paths;
 	char	*full_cmd_path;
 	int		i;
 
-	envpath = xgetenv("PATH");
+	envpath = xgetenv(envmap, "PATH");
 	if (!envpath)
 		return (NULL);
 	paths = ft_split(envpath, ':');
@@ -67,7 +106,7 @@ char	*search_path_mode(const char *filename, int mode)
 	i = 0;
 	while (paths[i])
 	{
-		full_cmd_path = path_join(paths[i], filename);
+		full_cmd_path = join_str_separator(paths[i], filename, '/');
 		if (access(full_cmd_path, mode) == SUCCESS)
 		{
 			free_array(paths);
@@ -82,20 +121,20 @@ char	*search_path_mode(const char *filename, int mode)
 
 // X_OKやってからF_OKやるらしい(shellの挙動として)
 // その辺を修正しつつpipexからコードを持ってきたり
-char	*search_path(const char *filename)
+char	*search_path(const char *filename, t_map *envmap)
 {
 	char	*path;
 
-	path = search_path_mode(filename, X_OK);
+	path = search_path_mode(filename, X_OK, envmap);
 	if (path)
 		return (path);
-	path = search_path_mode(filename, F_OK);
+	path = search_path_mode(filename, F_OK, envmap);
 	return (path);
 }
 
-int	count_token(t_token *token)
+size_t	count_token(t_token *token)
 {
-	int		i;
+	size_t	i;
 	t_token	*current;
 
 	i = 0;
@@ -167,17 +206,24 @@ void	validate_access(char *path, char *cmd)
 }
 
 // コマンド構造体を元にbuiltinではない関数を実行する
-void	exec_nonbuiltin(t_simple_command *command)
+void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 {
 	char	**argv;
 	char	*path;
+	char	**environ;
 
 	argv = tokens_to_argv(command->arguments);
 	path = argv[0];
 	if (ft_strchr(path, '/') == -1)
-		path = search_path(path);
+		path = search_path(path, envmap);
 	validate_access(path, argv[0]);
-	// do_redirect(command->redirect);
+	environ = get_envmap(envmap);
+	// do_redirect(command->redirect); //TODO
+	execve(path, argv, environ);
+	free_array(argv);
+	// reset_redirect //TODO
+	free_array(environ);
+	fatal_error("execve");
 }
 
 // return last_status
