@@ -25,6 +25,7 @@
 #include "tokenize.h"
 #include "parse.h"
 #include "expand.h"
+#include "exec.h"
 
 #define TRUE 1
 #define SUCCESS 0

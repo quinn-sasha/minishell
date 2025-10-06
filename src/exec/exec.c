@@ -6,9 +6,11 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 15:36:18 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/06 15:57:42 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 static char	*join_str_separator(const char *s1, const char *s2, char sep)
 {

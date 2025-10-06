@@ -29,8 +29,9 @@ LIBRARY_FILES := library/xcalloc.c \
 
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c
+EXEC_FILES := exec/exec.c
 
-SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES)
+SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES) $(EXEC_FILES)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)
 
