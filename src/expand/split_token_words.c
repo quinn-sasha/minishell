@@ -12,22 +12,22 @@ static bool is_default_ifs(int c) {
 
 static int get_word_end(const char *s, int start) {
   int i = start;
-  while (!is_default_ifs(s[i])) {
+  while (s[i] && !is_default_ifs(s[i])) {
     i++;
   }
   return i;
 }
 
 /*
-* 不要なトークンが作成されるので、これは後の処理で取り除く必要がある.
-* 例えば token->word が空文字列または NULL になっているものは除外する必要がある.
+* 不要なトークンがリストの末尾（実際の末尾は TOKE_EOF）に作成されるので、これは後の処理で取り除く必要がある.
+* その末尾トークンの token->word は NULL になっている.
 */
 void split_token_word(t_token *token) {
-  if (*(token->word) == '\0')
-    return;
   char *trimmed = ft_strtrim(token->word, DEFAULT_IFS_CHARS);
   if (*trimmed == '\0') {
     free(trimmed);
+    free(token->word);
+    token->word = NULL;
     return;
   }
   char *to_free = token->word;
@@ -47,11 +47,13 @@ void split_token_word(t_token *token) {
   free(to_free);
 }
 
+// 分割して増えたトークンは、is_expanded == false になっている
 void split_token_words(t_token *token) {
-  while (!at_eof(token)) {
-    if (token->is_expanded) {
-      split_token_word(token);
+  t_token *iter = token;
+  while (!at_eof(iter)) {
+    if (iter->is_expanded) {
+      split_token_word(iter);
     }
-    token = token->next;
+    iter = iter->next;
   }
 }
