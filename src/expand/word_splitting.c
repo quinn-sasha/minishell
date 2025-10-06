@@ -6,7 +6,17 @@
 * ファイル名の前後から空白などを取り除く処理だけ行う.
 */
 void trim_redirect_filename(t_redirect *redirect) {
-
+  t_redirect *iter = redirect;
+  while (iter) {
+    if (!iter->is_filename_expanded) {
+      iter = iter->next;
+      continue;
+    }
+    char *original = redirect->to.filename;
+    char *trimmed = ft_strtrim(original, DEFAULT_IFS_CHARS);
+    redirect->to.filename = trimmed;
+    free(original);
+  }
 }
 
 // split_token_words()によって生じた不要な末尾トークンを削除する
@@ -34,7 +44,7 @@ static void remove_unnecessary_tail_token(t_token **token) {
 * @brief 展開された変数が空になったり、2つ以上になった場合に、トークンを分割する処理を行う
 */
 void split_words(t_simple_command *command) {
-  // split token words
+  split_token_words(command->arguments);
   remove_unnecessary_tail_token(&command->arguments);
-  // split redirect words
+  trim_redirect_filename(command->redirect);
 }
