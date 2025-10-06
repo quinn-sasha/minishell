@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: abc123456 <yurishik@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 16:12:23 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:08:27 by abc123456        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,4 +256,40 @@ int	wait_pipe(pid_t last_pid)
 		}
 	}
 	return (last_status);
+}
+
+void exec_builtin()
+{
+	return ; // TODO
+}
+
+int	is_builtin()
+{
+	return (0); // TODO
+}
+
+// return last pid
+pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
+{
+	pid_t	pid;
+
+	if (command == NULL || command->arguments == NULL)
+		return (-1);
+	pid = fork();
+	if (pid < 0)
+		fatal_error("fork");
+	if (pid == 0)
+	{
+		reset_signal(SIGQUIT);
+		reset_signal(SIGINT);
+		// prepare_pipe_child(command);
+		if (is_builtin())
+			exec_builtin();
+		else
+			exec_nonbuiltin(command, envmap);
+	}
+	// prepare_pipe_parent(command);
+	if (command->next)
+		return (exec_pipe(command->next, envmap));
+	return (pid);
 }
