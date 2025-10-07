@@ -1,0 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   xpipe.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 16:27:39 by yurishik          #+#    #+#             */
+/*   Updated: 2025/10/07 16:28:22 by yurishik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+#include "minishell.h"
+
+int	xpipe(int pipefd[2])
+{
+	int	ret;
+
+	ret = pipe(pipefd);
+	if (ret < 0)
+		fatal_error("xpipe");
+	return (ret);
+}

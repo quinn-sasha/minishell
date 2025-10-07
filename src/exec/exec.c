@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 15:33:55 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 16:26:18 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 
 	if (command == NULL || command->arguments == NULL)
 		return (-1);
-	// prepare_pipes();
+	prepare_pipe(command);
 	pid = fork();
 	if (pid < 0)
 		fatal_error("fork");
@@ -300,13 +300,13 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 	{
 		reset_signal(SIGQUIT);
 		reset_signal(SIGINT);
-		// prepare_pipe_child(command);
+		prepare_pipe_child(command);
 		if (is_builtin())
 			exec_builtin(command, envmap);
 		else
 			exec_nonbuiltin(command, envmap);
 	}
-	// prepare_pipe_parent(command);
+	prepare_pipe_parent(command);
 	if (command->next)
 		return (exec_pipe(command->next, envmap));
 	return (pid);

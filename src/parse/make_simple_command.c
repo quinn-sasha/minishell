@@ -34,6 +34,10 @@ t_simple_command *make_simple_command(t_token **token_to_return, t_token *token)
   t_token *tail = new_token(TOKEN_EOF, NULL);
   append_token(&command->arguments, tail);
   *token_to_return = token;
+  command->inpipe[0] = STDIN_FILENO;
+  command->inpipe[1] = -1;
+  command->outpipe[0] = -1;
+  command->outpipe[1] = STDOUT_FILENO;
   return command;
 }
 

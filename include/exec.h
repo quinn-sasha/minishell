@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:46:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 15:33:02 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 16:25:50 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,9 @@ void	error_and_exit(const char *cmd, const char *message, int status);
 void	free_array(char **array);
 
 void	reset_signal(int signum);
+
+void	prepare_pipe(t_simple_command *command);
+void	prepare_pipe_child(t_simple_command *command);
+void	prepare_pipe_parent(t_simple_command *command);
 
 #endif
