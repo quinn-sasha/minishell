@@ -24,7 +24,7 @@ static void remove_unnecessary_tail_token(t_token **token) {
   while (!at_eof(*token) && (*token)->word == NULL) {
     t_token *temp = *token;
     *token = (*token)->next;
-    free_token(temp);
+    free(temp);
   }
   if (at_eof(*token))
     return;
@@ -36,7 +36,7 @@ static void remove_unnecessary_tail_token(t_token **token) {
     }
     t_token *to_remove = iter->next;
     iter->next = iter->next->next;
-    free_token(to_remove);
+    free(to_remove);
   }
 }
 
