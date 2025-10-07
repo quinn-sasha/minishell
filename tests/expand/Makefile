@@ -27,7 +27,9 @@ SRCS = ../../src/library/xcalloc.c \
 			 ../../src/destructor.c \
 			 ../../src/utils.c \
        test_append_character.c \
-			 test_expand_shell_parameter.c
+			 test_split_word.c \
+			 test_expand_shell_parameter.c \
+			 test_expand.c
 
 SRCFILES = $(notdir $(SRCS))
 OBJS = $(SRCFILES:%.c=%.o)
