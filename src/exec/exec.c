@@ -6,26 +6,11 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 17:03:22 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:12:37 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*join_str_separator(const char *s1, const char *s2, char sep)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*result;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	result = (char *)xcalloc(len1 + len2 + 2, sizeof(char));
-	ft_memcpy(result, s1, len1);
-	result[len1] = sep;
-	ft_memcpy(result + len1 + 1, s2, len2);
-	return (result);
-}
 
 // t_tokenのargumentsをchar**にする
 char	**tokens_to_argv(t_token *token)

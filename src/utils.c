@@ -74,3 +74,18 @@ void	free_array(char	**array)
 	}
 	free(array);
 }
+
+char	*join_str_separator(const char *s1, const char *s2, char sep)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*result;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *)xcalloc(len1 + len2 + 2, sizeof(char));
+	ft_memcpy(result, s1, len1);
+	result[len1] = sep;
+	ft_memcpy(result + len1 + 1, s2, len2);
+	return (result);
+}

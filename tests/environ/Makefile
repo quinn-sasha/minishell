@@ -15,7 +15,8 @@ SRCS = ../../src/environ/environ.c \
 			 ../../src/error/error.c \
 			 ../../src/destructor.c \
 			 ../../src/tokenize/token.c \
-			 print_environment_variables.c
+			 print_environment_variables.c \
+			 ../../src/utils.c
 
 
 SRCFILES = $(notdir $(SRCS))

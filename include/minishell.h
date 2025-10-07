@@ -37,6 +37,8 @@
 char	*unsigned_itoa(unsigned long long num, unsigned int base);
 int	count_words(char const *s, const char *set);
 void	free_array(char **array);
+char	*join_str_separator(const char *s1, const char *s2, char sep);
+
 
 // destructor.c
 void free_token(t_token *token);

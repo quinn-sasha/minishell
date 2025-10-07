@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:46:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 17:04:28 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:12:53 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <sys/stat.h>
 
 // exec.c
-char	*join_str_separator(const char *s1, const char *s2, char sep);
 char	**tokens_to_argv(t_token *token);
 void	validate_access(char *path, char *cmd);
 void	exec_nonbuiltin(t_simple_command *command, t_map *envmap);
