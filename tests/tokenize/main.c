@@ -21,7 +21,7 @@ void test_simple_command() {
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
-  free_token(token);
+  free_token_list(token);
 }
 
 void test_empty_string() {
@@ -35,7 +35,7 @@ void test_empty_string() {
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
-  free_token(token);
+  free_token_list(token);
 }
 
 void test_blank() {
@@ -49,7 +49,7 @@ void test_blank() {
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
-  free_token(token);
+  free_token_list(token);
 }
 
 void test_pipe_and_redirect() {
@@ -71,7 +71,7 @@ void test_pipe_and_redirect() {
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
-  free_token(token);
+  free_token_list(token);
 }
 
 void test_unclosed_quote() {
@@ -85,7 +85,7 @@ void test_unclosed_quote() {
   else {
     printf("FAIL: unclosed errro was not detected\n");
   }
-  free_token(token);
+  free_token_list(token);
 }
 
 void test_pipe_and_redirect();

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void free_token(t_token *token) {
+void free_token_list(t_token *token) {
   while (!at_eof(token)) {
     t_token *next = token->next;
     free(token->word);
@@ -50,7 +50,7 @@ void clean_command(t_simple_command **command) {
   }
   t_simple_command *next = (*command)->next;
   if ((*command)->arguments) {
-    free_token((*command)->arguments);
+    free_token_list((*command)->arguments);
   }
   if ((*command)->redirect) {
     clean_redirect((*command)->redirect);

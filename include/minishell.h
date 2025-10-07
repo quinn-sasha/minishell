@@ -35,7 +35,7 @@
 char	*unsigned_itoa(unsigned long long num, unsigned int base);
 int	count_words(char const *s, const char *set);
 // destructor.c
-void free_token(t_token *token);
+void free_token_list(t_token *token);
 void clean_redirect(t_redirect *redirect);
 void clean_environment(t_map *envmap);
 void clean_command(t_simple_command **command);
