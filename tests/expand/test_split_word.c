@@ -3,6 +3,8 @@
 /*
 このコマンドがすでに実行されているという前提で、テストが行われます.
 export HELLO="hello world"
+export SPACES="      "
+export THREE_WORDS="kiss me baby"
 */
 
 static void test_simple_expansion(void) {
@@ -29,23 +31,46 @@ static void test_simple_expansion(void) {
   printf("PASS\n");
 }
 
-// void test_special_parameter_expansion(void) {
-//   printf("Test '$?' ... ");
-//   t_map *envmap = init_environment();
-//   envmap->last_status = 127;
-//   int status;
-//   char *input = "$?";
-//   t_token *token = tokenize(input, &status);
-//   t_simple_command *command = NULL;
-//   parse(&command, token);
-//   expand_shell_parameter(command, envmap);
+void test_special_parameter_expansion(void) {
+  printf("Test '$?' ... ");
+  t_map *envmap = init_environment();
+  envmap->last_status = 127;
+  int status;
+  char *input = "$?";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
 
-//   t_token *iter = command->arguments;
-//   assert_same_string(iter->word, "127");
-//   clean_command(&command);
-//   clean_environment(envmap);
-//   printf("PASS\n");
-// }
+  t_token *iter = command->arguments;
+  assert_same_string(iter->word, "127");
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
+void test_spaces_variable_expansion(void) {
+  printf("Test '$SPACES' ... ");
+  t_map *envmap = init_environment();
+  int status;
+  char *input = "$SPACES";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
+
+  t_token *iter = command->arguments;
+  if (!at_eof(iter)) {
+    printf("This argument should be removed, but was not removed\n");
+    exit(EXIT_FAILURE);
+  }
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+
+}
 
 // void test_pipe_expansion(void) {
 //   printf("Test 'echo $HOME | cat $PWD' ... ");
@@ -131,6 +156,8 @@ static void test_simple_expansion(void) {
 
 void test_split_words() {
   test_simple_expansion();
+  test_special_parameter_expansion();
+  test_spaces_variable_expansion();
   // test_special_parameter_expansion();
   // test_non_existing_variable();
   // test_redirect_expansion();

@@ -59,6 +59,9 @@ fclean	: clean
 re		: fclean all
 
 test: $(NAME)
-	export HELLO="hello world" && ./$(NAME)
+	export HELLO="hello world" \
+	&& export SPACES="      " \
+	&& export THREE_WORDS="kiss me baby" \
+	&& ./$(NAME)
 
 .PHONY	: all clean fclean re test
