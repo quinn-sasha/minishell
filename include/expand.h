@@ -26,9 +26,12 @@ void expand_shell_parameter(t_simple_command *command, t_map *envmap);
 // is_valid_syntax_after_expansion.c
 bool is_valid_filename(const char *filename);
 int is_valid_syntax_after_expansion(t_redirect *redirect);
-// word_splitting.c
+// split_token_words.c
 void split_token_word(t_token *token);
 void split_token_words(t_token *token);
+// word_splitting.c
+void trim_redirect_filename(t_redirect *redirect);
+void split_words(t_simple_command *command);
 // expand.c
 void append_character(char **string, int c);
 void append_string_to_string(char **dest, char *src);
