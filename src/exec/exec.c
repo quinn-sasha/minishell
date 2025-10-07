@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 14:37:13 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:33:55 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char	**get_envmap(t_map *envmap)
 	i = 0;
 	while (item != NULL)
 	{
+		if (item->value == NULL)
+			item->value = "";
 		env_array[i] = join_str_separator(item->name, item->value, '=');
 		item = item->next;
 		i++;
@@ -267,7 +269,6 @@ int	wait_pipe(pid_t last_pid)
 
 int	exec_builtin(t_simple_command *command, t_map *envmap)
 {
-	// TODO
 	int		status;
 	char	**argv;
 
@@ -281,7 +282,7 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 
 int	is_builtin(void)
 {
-	return (1); // TODO
+	return (0);
 }
 
 // return last pid
@@ -316,8 +317,9 @@ int	exec(t_simple_command *command, t_map *envmap)
 	pid_t	last_pid;
 	int		status;
 
-	command->redirect->file_fd = open(command->redirect->to.filename,
-			command->redirect->open_flags);
+	if (command->redirect != NULL)
+		command->redirect->file_fd = open(command->redirect->to.filename,
+				command->redirect->open_flags);
 	if (command->next == NULL && is_builtin())
 	{
 		status = exec_builtin(command, envmap);

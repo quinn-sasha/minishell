@@ -21,7 +21,7 @@ void interpret(char *input, t_map *envmap) {
     // free command
     return;
   }
-  // execute
+  exec(command, envmap);
   // clean command
 }
 

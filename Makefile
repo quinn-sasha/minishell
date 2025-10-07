@@ -28,12 +28,19 @@ LIBRARY_FILES := library/xcalloc.c \
 								library/xstrdup.c \
 								library/xdup.c \
 								library/xdup2.c
+EXPAND_FILES := expand/expand.c \
+						expand/expand_shell_parameter.c \
+						expand/is_valid_syntax_after_expansion.c \
+						expand/special_parameter.c \
+						expand/split_token_words.c \
+						expand/word_splitting.c
+
 BUILTIN_FILES := builtin/builtin_env.c
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c
 EXEC_FILES := exec/exec.c
 
-SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(BUILTIN_FILES) $(ERROR_FILES) $(EXECUTE_FILES) $(EXEC_FILES)
+SRCFILES := main.c destructor.c utils.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(EXPAND_FILES) $(BUILTIN_FILES) $(ERROR_FILES) $(EXECUTE_FILES) $(EXEC_FILES)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)
 
