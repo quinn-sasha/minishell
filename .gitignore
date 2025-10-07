@@ -6,3 +6,5 @@ test_main
 .DS_Store
 prototypes.h
 .vscode
+libft.a
+out

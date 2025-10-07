@@ -42,9 +42,9 @@ BUILTIN_FILES := builtin/builtin_env.c\
 					builtin/builtin.c
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c
-EXEC_FILES := exec/exec.c\
-					exec/pipe.c\
-					exec/path.c\
+EXEC_FILES := exec/exec.c \
+					exec/pipe.c \
+					exec/path.c \
 					exec/redirect.c
 
 SRCFILES := main.c destructor.c utils.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(EXPAND_FILES) $(BUILTIN_FILES) $(ERROR_FILES) $(EXECUTE_FILES) $(EXEC_FILES)

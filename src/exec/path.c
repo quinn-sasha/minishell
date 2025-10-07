@@ -6,12 +6,21 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:00:20 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 17:00:26 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:50:53 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief PATH環境変数を走査し、指定されたアクセスモードで実行ファイルへのパスを検索する。
+ *
+ * @param filename 検索対象のコマンド名
+ * @param mode     アクセスチェックモード (X_OK, F_OKなど)
+ * @param envmap   環境変数マップのポインタ
+ * @return 実行ファイルへのフルパス（ヒープ確保）、またはNULL (見つからなかった場合)。
+ * @details PATH環境変数を':'で分割し、各ディレクトリでファイルを探しaccess(2)で検証する。
+ */
 char	*search_path_mode(const char *filename, int mode, t_map *envmap)
 {
 	char	*envpath;
@@ -41,8 +50,14 @@ char	*search_path_mode(const char *filename, int mode, t_map *envmap)
 	return (NULL);
 }
 
-// X_OKやってからF_OKやるらしい(shellの挙動として)
-// その辺を修正しつつpipexからコードを持ってきたり
+/**
+ * @brief コマンドの実行可能パスを検索する。
+ *
+ * @param filename 検索対象のコマンド名
+ * @param envmap   環境変数マップのポインタ
+ * @return 実行ファイルのフルパス（ヒープ確保）。見つからない場合はNULL。
+ * @details 最初にX_OK（実行可能）で検索し、次にF_OK（存在のみ）で再検索する二段階検索を行う。
+ */
 char	*search_path(const char *filename, t_map *envmap)
 {
 	char	*path;

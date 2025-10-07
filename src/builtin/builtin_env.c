@@ -6,17 +6,18 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:22:58 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 14:39:19 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:49:34 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief t_item構造体のLinked Listをすべて表示する
+ * @brief 現在の環境変数とその値を標準出力に表示する（envコマンド）
  *
- * @author yurishik
- * @param argv, envmap
+ * @param argv  コマンド引数の配列 (使わない、何が来ても環境変数の一覧を返す)
+ * @param envmap  環境変数マップ (t_map) のポインタ
+ * @return 0を返す
  */
 int	builtin_env(char **argv, t_map *envmap)
 {
