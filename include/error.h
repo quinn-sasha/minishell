@@ -16,5 +16,6 @@ void ambiguous_redirect_error(void);
 void fatal_error(const char *message);
 void perror_wrapper(const char *s1, const char *s2, const char *message);
 void assert_error(const char *message);
+void	error_and_exit(const char *cmd, const char *message, int status);
 
 #endif

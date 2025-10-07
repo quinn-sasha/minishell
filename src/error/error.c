@@ -46,3 +46,13 @@ void assert_error(const char *message) {
   exit(ASSERT_ERROR_STATUS);
 }
 
+void	error_and_exit(const char *cmd, const char *message, int status)
+{
+	prefix_error();
+	ft_dprintf(STDERR_FILENO, "%s: ", cmd);
+	if (errno != 0)
+		ft_dprintf(STDERR_FILENO, "%s\n", strerror(errno));
+	else
+		ft_dprintf(STDERR_FILENO, "%s\n", message);
+	exit(status);
+}

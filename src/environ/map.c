@@ -38,3 +38,44 @@ char *xgetenv(t_map *envmap, const char *name) {
     return NULL;
   return item->value;
 }
+
+size_t	count_map_item(t_map *envmap)
+{
+	t_item	*item;
+	size_t	count;
+
+	if (envmap == NULL)
+		return (0);
+	count = 0;
+	item = envmap->head.next;
+	while (item != NULL)
+	{
+		count++;
+		item = item->next;
+	}
+	return (count);
+}
+
+char	**get_envmap(t_map *envmap)
+{
+	char	**env_array;
+	t_item	*item;
+	size_t	count;
+	size_t	i;
+
+	if (envmap == NULL)
+		return (xcalloc(1, sizeof(char *)));
+	count = count_map_item(envmap);
+	env_array = (char **)xcalloc(count + 1, sizeof(char *));
+	item = envmap->head.next;
+	i = 0;
+	while (item != NULL)
+	{
+		if (item->value == NULL)
+			item->value = "";
+		env_array[i] = join_str_separator(item->name, item->value, '=');
+		item = item->next;
+		i++;
+	}
+	return (env_array);
+}

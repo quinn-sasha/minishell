@@ -36,6 +36,8 @@
 // utils.c
 char	*unsigned_itoa(unsigned long long num, unsigned int base);
 int	count_words(char const *s, const char *set);
+void	free_array(char **array);
+
 // destructor.c
 void free_token(t_token *token);
 void clean_redirect(t_redirect *redirect);

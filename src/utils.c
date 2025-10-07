@@ -59,3 +59,18 @@ int	count_words(char const *s, const char *set)
 	}
 	return (result);
 }
+
+void	free_array(char	**array)
+{
+	int	i;
+
+	if (array == NULL)
+		return ;
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}

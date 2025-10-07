@@ -48,3 +48,18 @@ void insert_next_token(t_token *token, t_token *new_token) {
   new_token->next = token->next;
   token->next = new_token;
 }
+
+size_t	count_token(t_token *token)
+{
+	size_t	i;
+	t_token	*current;
+
+	i = 0;
+	current = token;
+	while (current->token_kind != TOKEN_EOF)
+	{
+		i++;
+		current = current->next;
+	}
+	return (i);
+}

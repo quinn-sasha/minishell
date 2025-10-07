@@ -29,6 +29,8 @@ void map_set(t_map *map, const char *string);
 t_item *map_get(t_map* map, const char *name);
 int map_delete(t_map *map, const char *name);
 char *xgetenv(t_map *envmap, const char *name);
+char	**get_envmap(t_map *envmap);
+size_t	count_map_item(t_map *envmap);
 // item.c
 t_item *new_item(char *name, char *value);
 // environ.c
