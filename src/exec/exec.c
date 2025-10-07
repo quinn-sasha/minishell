@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/06 21:15:33 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:37:13 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,14 +265,23 @@ int	wait_pipe(pid_t last_pid)
 	return (last_status);
 }
 
-int	exec_builtin(void)
+int	exec_builtin(t_simple_command *command, t_map *envmap)
 {
-	return (0);
+	// TODO
+	int		status;
+	char	**argv;
+
+	status = 0;
+	argv = tokens_to_argv(command->arguments);
+	if (ft_strcmp(argv[0], "env") == 0)
+		status = builtin_env(argv, envmap);
+	free_array(argv);
+	return (status);
 }
 
 int	is_builtin(void)
 {
-	return (0); // TODO
+	return (1); // TODO
 }
 
 // return last pid
@@ -292,7 +301,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 		reset_signal(SIGINT);
 		// prepare_pipe_child(command);
 		if (is_builtin())
-			exec_builtin();
+			exec_builtin(command, envmap);
 		else
 			exec_nonbuiltin(command, envmap);
 	}
@@ -311,7 +320,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 			command->redirect->open_flags);
 	if (command->next == NULL && is_builtin())
 	{
-		status = exec_builtin();
+		status = exec_builtin(command, envmap);
 	}
 	else
 	{

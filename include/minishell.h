@@ -26,6 +26,7 @@
 #include "parse.h"
 #include "expand.h"
 #include "exec.h"
+#include "builtin.h"
 
 #define TRUE 1
 #define SUCCESS 0
