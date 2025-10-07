@@ -29,7 +29,7 @@ static void remove_unnecessary_tail_token(t_token **token) {
   if (at_eof(*token))
     return;
   t_token *iter = *token;
-  while (!at_eof(iter)) {
+  while (!at_eof(iter) && !at_eof(iter->next)) {
     if (iter->next->word != NULL) {
       iter = iter->next;
       continue;
