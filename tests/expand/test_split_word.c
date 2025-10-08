@@ -69,96 +69,94 @@ void test_spaces_variable_expansion(void) {
   clean_command(&command);
   clean_environment(envmap);
   printf("PASS\n");
-
 }
 
-// void test_pipe_expansion(void) {
-//   printf("Test 'echo $HOME | cat $PWD' ... ");
-//   t_map *envmap = init_environment();
-//   int status;
-//   char *input = "echo $HOME | cat $PWD";
-//   t_token *token = tokenize(input, &status);
-//   t_simple_command *command = NULL;
-//   parse(&command, token);
-//   expand_shell_parameter(command, envmap);
+void test_quoted_spaces_variable_expansion(void) {
+  printf("Test '\"$SPACES\"' ... ");
+  t_map *envmap = init_environment();
+  int status;
+  char *input = "\"$SPACES\"";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
 
-//   t_simple_command *node = command;
-//   t_token *arg = node->arguments;
-//   assert_same_string(arg->word, "echo");
-//   arg = arg->next;
-//   assert_same_string(arg->word, getenv("HOME"));
-//   node = node->next;
-//   arg = node->arguments;
-//   assert_same_string(arg->word, "cat");
-//   arg = arg->next;
-//   assert_same_string(arg->word, getenv("PWD"));
+  t_token *iter = command->arguments;
+  assert_same_string(iter->word, "\"      \"");
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
 
-//   clean_command(&command);
-//   clean_environment(envmap);
-//   printf("PASS\n");
-// }
+void test_invalid_syntax_after_expansion1(void) {
+  printf("Test 'cat < $HELLO' ... ");
+  t_map *envmap = init_environment();
+  int status;
+  char *input = "cat < $HELLO";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  if (is_valid_syntax_after_expansion(command->redirect)) {
+    printf("This input should be ambiguous_redirect_error\n");
+    exit(EXIT_FAILURE);
+  }
 
-// void test_non_existing_variable(void) {
-//   printf("Test '$100abc ... ");
-//   t_map *envmap = init_environment();
-//   int status;
-//   char *input = "$100abc";
-//   t_token *token = tokenize(input, &status);
-//   t_simple_command *command = NULL;
-//   parse(&command, token);
-//   expand_shell_parameter(command, envmap);
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
 
-//   t_simple_command *node = command;
-//   t_token *arg = node->arguments;
-//   assert_same_string(arg->word, "$100abc");
+void test_invalid_syntax_after_expansion2(void) {
+  printf("Test 'cat < $abc' ... ");
+  t_map *envmap = init_environment();
+  int status;
+  char *input = "cat < $abc";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  if (is_valid_syntax_after_expansion(command->redirect)) {
+    printf("This input should be ambiguous_redirect_error\n");
+    exit(EXIT_FAILURE);
+  }
 
-//   clean_command(&command);
-//   clean_environment(envmap);
-//   printf("PASS\n");
-// }
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
 
-// void test_redirect_expansion(void) {
-//   printf("Test 'echo hello >> $HELLO' ... ");
-//   t_map *envmap = init_environment();
-//   int status;
-//   char *input = "echo hello >> $HELLO";
-//   t_token *token = tokenize(input, &status);
-//   t_simple_command *command = NULL;
-//   parse(&command, token);
-//   expand_shell_parameter(command, envmap);
+void test_three_words_expansion(void) {
+  printf("Test 'THREE_WORDS' ... ");
+  t_map *envmap = init_environment();
+  int status;
+  char *input = "$THREE_WORDS";
+  t_token *token = tokenize(input, &status);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
 
-//   t_simple_command *node = command;
-//   assert_same_string(node->redirect->to.filename, getenv("HELLO"));
+  t_simple_command *node = command;
+  t_token *arg = node->arguments;
+  assert_same_string(arg->word, "kiss");
+  arg = arg->next;
+  assert_same_string(arg->word, "me");
+  arg = arg->next;
+  assert_same_string(arg->word, "baby");
 
-//   clean_command(&command);
-//   clean_environment(envmap);
-//   printf("PASS\n");
-// }
-
-// // TODO: this test can be only done as squinn in 42 school pc
-// void test_nested_quote(void) {
-//   printf("Test nested quote variable ... ");
-//   t_map *envmap = init_environment();
-//   int status;
-//   char *input = "$NESTED_QUOTE";
-//   t_token *token = tokenize(input, &status);
-//   t_simple_command *command = NULL;
-//   parse(&command, token);
-//   expand_shell_parameter(command, envmap);
-
-//   t_simple_command *node = command;
-//   t_token *arg = node->arguments;
-//   assert_same_string(arg->word, "'/home/squinn'");
-//   clean_command(&command);
-//   clean_environment(envmap);
-//   printf("PASS\n");
-// }
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
 
 void test_split_words() {
   test_simple_expansion();
   test_special_parameter_expansion();
   test_spaces_variable_expansion();
-  // test_special_parameter_expansion();
-  // test_non_existing_variable();
-  // test_redirect_expansion();
+  test_quoted_spaces_variable_expansion();
+  test_invalid_syntax_after_expansion1();
+  test_invalid_syntax_after_expansion2();
+  test_three_words_expansion();
 }
