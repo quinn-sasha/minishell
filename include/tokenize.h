@@ -23,6 +23,7 @@ typedef enum e_token_kind {
 struct s_token {
   char *word;
   t_token_kind token_kind;
+  bool is_quoted;
   bool is_expanded;
   t_token *next;
 };
