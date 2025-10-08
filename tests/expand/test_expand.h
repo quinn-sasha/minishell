@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include <assert.h>
+#include <string.h>
 
 void test_append_character(void);
 void assert_same_string(const char *s1, const char *s2);

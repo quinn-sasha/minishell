@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+#include <string.h>
 
 typedef struct s_expected_token {
   t_token_kind token_kind;
