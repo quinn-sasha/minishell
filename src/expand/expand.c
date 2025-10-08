@@ -34,6 +34,6 @@ int expand(t_simple_command *command, t_map *envmap) {
       return EXPAND_SYNTAX_ERROR;
   }
   split_words(command);
-  // remove_quote()
+  remove_quote(command);
   return EXPAND_SUCCESS;
 }
