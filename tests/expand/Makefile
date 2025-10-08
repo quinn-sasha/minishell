@@ -18,6 +18,7 @@ SRCS = ../../src/library/xcalloc.c \
 			 ../../src/expand/is_valid_syntax_after_expansion.c \
 			 ../../src/expand/expand.c \
 			 ../../src/expand/word_splitting.c \
+			 ../../src/expand/remove_quote.c \
 			 ../../src/expand/split_token_words.c \
 			 ../../src/tokenize/tokenize.c \
 			 ../../src/tokenize/token.c \
@@ -29,6 +30,7 @@ SRCS = ../../src/library/xcalloc.c \
        test_append_character.c \
 			 test_split_word.c \
 			 test_expand_shell_parameter.c \
+			 test_remove_quote.c \
 			 test_expand.c
 
 SRCFILES = $(notdir $(SRCS))
@@ -62,6 +64,7 @@ test: $(NAME)
 	export HELLO="hello world" \
 	&& export SPACES="      " \
 	&& export THREE_WORDS="kiss me baby" \
+	&& export QUOTED_WORD='"quoted    word"' \
 	&& ./$(NAME)
 
 .PHONY	: all clean fclean re test
