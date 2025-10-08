@@ -9,6 +9,7 @@ void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token)
   if (r_kind == r_input_direction) {
     redirect->from.fd = STDIN_FILENO;
     filename = xstrdup(token->next->word);
+    redirect->is_filename_quoted = token->next->is_quoted;
     redirect->to.filename = filename;
     redirect->open_flags = O_RDONLY;
     return;
@@ -16,6 +17,7 @@ void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token)
   if (r_kind == r_output_direction) {
     redirect->from.fd = STDOUT_FILENO;
     filename = xstrdup(token->next->word);
+    redirect->is_filename_quoted = token->next->is_quoted;
     redirect->to.filename = filename;
     redirect->open_flags = O_CREAT | O_TRUNC | O_WRONLY;
     return;
@@ -23,6 +25,7 @@ void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token)
   if (r_kind == r_appending_to) {
     redirect->from.fd = STDOUT_FILENO;
     filename = xstrdup(token->next->word);
+    redirect->is_filename_quoted = token->next->is_quoted;
     redirect->to.filename = filename;
     redirect->open_flags = O_CREAT | O_APPEND | O_WRONLY;
     return;

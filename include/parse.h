@@ -32,6 +32,7 @@ struct s_redirect {
   t_redirectee from;
   t_redirectee to;
   bool is_filename_expanded;
+  bool is_filename_quoted;
   t_redirect_kind redirect_kind;
   char *here_doc_eof;
 };
