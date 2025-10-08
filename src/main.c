@@ -18,11 +18,10 @@ void interpret(char *input, t_map *envmap) {
     return;
   }
   if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
-    // free command
+    clean_command(&command);
     return;
   }
   // execute
-  // clean command
 }
 
 int main(void) {
@@ -37,5 +36,5 @@ int main(void) {
     interpret(input, environment);
     free(input);
   }
-  // free environment
+  clean_environment(environment);
 }
