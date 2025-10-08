@@ -32,6 +32,11 @@ void split_token_words(t_token *token);
 // word_splitting.c
 void trim_redirect_filename(t_redirect *redirect);
 void split_words(t_simple_command *command);
+// remove_quote.c
+void remove_quote_word(char **word);
+void remove_quote_token(t_token *token);
+void remove_quote_redirect(t_redirect *redirect);
+void remove_quote(t_simple_command *command);
 // expand.c
 void append_character(char **string, int c);
 void append_string_to_string(char **dest, char *src);
