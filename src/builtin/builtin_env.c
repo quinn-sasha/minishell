@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:22:58 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 17:49:34 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:17:46 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@
  * @param envmap  環境変数マップ (t_map) のポインタ
  * @return 0を返す
  */
-int	builtin_env(char **argv, t_map *envmap)
+int	builtin_env(t_map *envmap)
 {
 	t_item	*current;
 
-    (void)argv;
-    current =&(envmap->head);
+	current = envmap->head.next;
 	if (current == NULL)
 	{
 		printf("empty env list\n");
-        return (0);
+		return (0);
 	}
 	while (current != NULL)
 	{
-		printf("%s=%s\n", current->name, current->value);
+		if (current->value != NULL)
+			printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
-    return (0);
+	return (0);
 }

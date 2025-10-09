@@ -39,7 +39,8 @@ EXPAND_FILES := expand/expand.c \
 						expand/word_splitting.c \
 						expand/remove_quote.c
 
-BUILTIN_FILES := builtin/builtin_env.c\
+BUILTIN_FILES := builtin/builtin_unset.c \
+					builtin/builtin_env.c \
 					builtin/builtin.c
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c

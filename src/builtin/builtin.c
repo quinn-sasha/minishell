@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 15:23:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:17:51 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 
 	status = 0;
 	argv = tokens_to_argv(command->arguments);
+	if (ft_strcmp(argv[0], "unset") == 0)
+		status = builtin_unset(argv, envmap);
 	if (ft_strcmp(argv[0], "env") == 0)
-		status = builtin_env(argv, envmap);
+		status = builtin_env(envmap);
 	free_array(argv);
 	return (status);
 }
@@ -28,6 +30,7 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 int	is_builtin(t_simple_command *command)
 {
 	char	**argv;
+
 	argv = tokens_to_argv(command->arguments);
 	if (ft_strcmp(argv[0], "exit") == 0
 		|| ft_strcmp(argv[0], "export") == 0
