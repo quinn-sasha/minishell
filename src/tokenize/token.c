@@ -56,6 +56,8 @@ size_t	count_token(t_token *token)
 	size_t	i;
 	t_token	*current;
 
+  if (token == NULL)
+    return (0);
 	i = 0;
 	current = token;
 	while (current->token_kind != TOKEN_EOF)

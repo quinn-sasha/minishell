@@ -8,3 +8,4 @@ prototypes.h
 .vscode
 libft.a
 out
+debug.c

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 16:23:12 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:56:01 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	is_builtin(t_simple_command *command)
 	char	**argv;
 
 	argv = tokens_to_argv(command->arguments);
+	if (argv[0] == NULL)
+		return (FALSE);
 	if (ft_strcmp(argv[0], "exit") == 0
 		|| ft_strcmp(argv[0], "export") == 0
 		|| ft_strcmp(argv[0], "unset") == 0

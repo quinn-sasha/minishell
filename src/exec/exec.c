@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 15:24:23 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:56:33 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@ char	**tokens_to_argv(t_token *token)
 	char	**argv;
 	t_token	*current;
 	size_t	i;
+	size_t	j;
 
 	i = count_token(token);
 	argv = xcalloc(i + 1, sizeof(char *));
-	i = 0;
+	j = 0;
 	current = token;
-	while (current->token_kind != TOKEN_EOF)
+	while (j < i && current != NULL && current->token_kind != TOKEN_EOF)
 	{
-		argv[i] = xstrdup(current->word);
-		i++;
+		argv[j] = xstrdup(current->word);
+		j++;
 		current = current->next;
 	}
 	return (argv);
