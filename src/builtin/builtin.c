@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 18:56:01 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:38:27 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 
 	status = 0;
 	argv = tokens_to_argv(command->arguments);
+	if (ft_strcmp(argv[0], "export") == 0)
+		status = builtin_export(argv, envmap);
 	if (ft_strcmp(argv[0], "unset") == 0)
 		status = builtin_unset(argv, envmap);
 	if (ft_strcmp(argv[0], "env") == 0)

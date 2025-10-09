@@ -39,7 +39,8 @@ EXPAND_FILES := expand/expand.c \
 						expand/word_splitting.c \
 						expand/remove_quote.c
 
-BUILTIN_FILES := builtin/builtin_unset.c \
+BUILTIN_FILES := builtin/builtin_export.c \
+					builtin/builtin_unset.c \
 					builtin/builtin_env.c \
 					builtin/builtin_pwd.c \
 					builtin/builtin.c

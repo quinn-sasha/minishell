@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:23:29 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 15:23:56 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:04:58 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	prepare_pipe_child(t_simple_command *command)
 void	prepare_pipe_parent(t_simple_command *command)
 {
 	if (command->inpipe[0] != STDIN_FILENO)
-        xclose(command->inpipe[0]);
+		xclose(command->inpipe[0]);
 	if (command->next)
 		xclose(command->outpipe[1]);
 }
@@ -110,7 +110,8 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 	if (command->redirect != NULL)
 	{
 		flags = command->redirect->open_flags;
-		command->redirect->file_fd = open(command->redirect->to.filename, flags, 0644);
+		command->redirect->file_fd = open(command->redirect->to.filename,
+				flags, 0644);
 	}
 	if (command == NULL || command->arguments == NULL)
 		return (-1);

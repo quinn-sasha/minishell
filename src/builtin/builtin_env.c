@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:22:58 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 16:17:46 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:43:57 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  *
  * @param argv  コマンド引数の配列 (使わない、何が来ても環境変数の一覧を返す)
  * @param envmap  環境変数マップ (t_map) のポインタ
- * @return 0を返す
+ * @return SUCCESSを返す
  */
 int	builtin_env(t_map *envmap)
 {
@@ -27,13 +27,15 @@ int	builtin_env(t_map *envmap)
 	if (current == NULL)
 	{
 		printf("empty env list\n");
-		return (0);
+		return (SUCCESS);
 	}
 	while (current != NULL)
 	{
 		if (current->value != NULL)
 			printf("%s=%s\n", current->name, current->value);
+		else
+			printf("%s\n", current->name);
 		current = current->next;
 	}
-	return (0);
+	return (SUCCESS);
 }
