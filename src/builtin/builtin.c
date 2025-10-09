@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 17:37:46 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:23:11 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,17 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 	return (status);
 }
 
-int	is_builtin(void)
+int	is_builtin(t_simple_command *command)
 {
-	return (0);
+	char	**argv;
+	argv = tokens_to_argv(command->arguments);
+	if (ft_strcmp(argv[0], "exit") == 0
+		|| ft_strcmp(argv[0], "export") == 0
+		|| ft_strcmp(argv[0], "unset") == 0
+		|| ft_strcmp(argv[0], "env") == 0
+		|| ft_strcmp(argv[0], "cd") == 0
+		|| ft_strcmp(argv[0], "echo") == 0
+		|| ft_strcmp(argv[0], "pwd") == 0)
+		return (TRUE);
+	return (FALSE);
 }

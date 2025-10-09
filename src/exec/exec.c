@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 19:03:16 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:24:23 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 	pid_t	last_pid;
 	int		status;
 
-	if (command->next == NULL && is_builtin())
+	if (command->next == NULL && is_builtin(command))
 	{
 		status = exec_builtin(command, envmap);
 	}

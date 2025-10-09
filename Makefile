@@ -36,7 +36,8 @@ EXPAND_FILES := expand/expand.c \
 						expand/is_valid_syntax_after_expansion.c \
 						expand/special_parameter.c \
 						expand/split_token_words.c \
-						expand/word_splitting.c
+						expand/word_splitting.c \
+						expand/remove_quote.c
 
 BUILTIN_FILES := builtin/builtin_env.c\
 					builtin/builtin.c

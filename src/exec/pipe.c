@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:23:29 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 19:03:50 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:23:56 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 		reset_signal(SIGQUIT);
 		reset_signal(SIGINT);
 		prepare_pipe_child(command);
-		if (is_builtin())
+		if (is_builtin(command))
 			exec_builtin(command, envmap);
 		else
 			exec_nonbuiltin(command, envmap);
