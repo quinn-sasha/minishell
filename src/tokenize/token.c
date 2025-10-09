@@ -10,6 +10,7 @@ t_token *new_token(t_token_kind token_kind, char *word) {
   t_token *new_token = xcalloc(1, sizeof(t_token));
   new_token->token_kind = token_kind;
   new_token->word = word;
+  new_token->is_quoted = false;
   new_token->is_expanded = false;
   new_token->next = NULL;
   return new_token;
@@ -18,6 +19,7 @@ t_token *new_token(t_token_kind token_kind, char *word) {
 t_token *duplicate_token(t_token *token) {
   char *word = xstrdup(token->word);
   t_token *result = new_token(token->token_kind, word);
+  result->is_quoted = token->is_quoted;
   return result;
 }
 

@@ -33,7 +33,7 @@ int expand(t_simple_command *command, t_map *envmap) {
       ambiguous_redirect_error();
       return EXPAND_SYNTAX_ERROR;
   }
-  // split_words(command);
-  // remove_quote()
+  split_words(command);
+  remove_quote(command);
   return EXPAND_SUCCESS;
 }

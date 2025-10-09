@@ -16,7 +16,7 @@ void assert_same_string(const char *s1, const char *s2) {
   assert(strcmp(s1, s2) == 0);
 }
 
-void test_simple_expansion(void) {
+static void test_simple_expansion(void) {
   printf("Test '$HELLO' ... ");
   t_map *envmap = init_environment();
   int status;
@@ -24,7 +24,7 @@ void test_simple_expansion(void) {
   t_token *token = tokenize(input, &status);
   t_simple_command *command = NULL;
   parse(&command, token);
-  expand(command, envmap);
+  expand_shell_parameter(command, envmap);
 
   t_token *iter = command->arguments;
   assert_same_string(iter->word, getenv("HELLO"));
@@ -33,7 +33,7 @@ void test_simple_expansion(void) {
   printf("PASS\n");
 }
 
-void test_special_parameter_expansion(void) {
+static void test_special_parameter_expansion(void) {
   printf("Test '$?' ... ");
   t_map *envmap = init_environment();
   envmap->last_status = 127;
@@ -42,7 +42,7 @@ void test_special_parameter_expansion(void) {
   t_token *token = tokenize(input, &status);
   t_simple_command *command = NULL;
   parse(&command, token);
-  expand(command, envmap);
+  expand_shell_parameter(command, envmap);
 
   t_token *iter = command->arguments;
   assert_same_string(iter->word, "127");
@@ -51,7 +51,7 @@ void test_special_parameter_expansion(void) {
   printf("PASS\n");
 }
 
-void test_pipe_expansion(void) {
+static void test_pipe_expansion(void) {
   printf("Test 'echo $HOME | cat $PWD' ... ");
   t_map *envmap = init_environment();
   int status;
@@ -59,7 +59,7 @@ void test_pipe_expansion(void) {
   t_token *token = tokenize(input, &status);
   t_simple_command *command = NULL;
   parse(&command, token);
-  expand(command, envmap);
+  expand_shell_parameter(command, envmap);
 
   t_simple_command *node = command;
   t_token *arg = node->arguments;
@@ -77,7 +77,7 @@ void test_pipe_expansion(void) {
   printf("PASS\n");
 }
 
-void test_non_existing_variable(void) {
+static void test_non_existing_variable(void) {
   printf("Test '$100abc ... ");
   t_map *envmap = init_environment();
   int status;
@@ -85,7 +85,7 @@ void test_non_existing_variable(void) {
   t_token *token = tokenize(input, &status);
   t_simple_command *command = NULL;
   parse(&command, token);
-  expand(command, envmap);
+  expand_shell_parameter(command, envmap);
 
   t_simple_command *node = command;
   t_token *arg = node->arguments;
@@ -96,7 +96,7 @@ void test_non_existing_variable(void) {
   printf("PASS\n");
 }
 
-void test_redirect_expansion(void) {
+static void test_redirect_expansion(void) {
   printf("Test 'echo hello >> $HELLO' ... ");
   t_map *envmap = init_environment();
   int status;
@@ -104,7 +104,7 @@ void test_redirect_expansion(void) {
   t_token *token = tokenize(input, &status);
   t_simple_command *command = NULL;
   parse(&command, token);
-  expand(command, envmap);
+  expand_shell_parameter(command, envmap);
 
   t_simple_command *node = command;
   assert_same_string(node->redirect->to.filename, getenv("HELLO"));
@@ -115,28 +115,29 @@ void test_redirect_expansion(void) {
 }
 
 // TODO: this test can be only done as squinn in 42 school pc
-void test_nested_quote(void) {
-  printf("Test nested quote variable ... ");
-  t_map *envmap = init_environment();
-  int status;
-  char *input = "$NESTED_QUOTE";
-  t_token *token = tokenize(input, &status);
-  t_simple_command *command = NULL;
-  parse(&command, token);
-  expand(command, envmap);
+// static void test_nested_quote(void) {
+//   printf("Test nested quote variable ... ");
+//   t_map *envmap = init_environment();
+//   int status;
+//   char *input = "$NESTED_QUOTE";
+//   t_token *token = tokenize(input, &status);
+//   t_simple_command *command = NULL;
+//   parse(&command, token);
+//   expand_shell_parameter(command, envmap);
 
-  t_simple_command *node = command;
-  t_token *arg = node->arguments;
-  assert_same_string(arg->word, "'/home/squinn'");
-  clean_command(&command);
-  clean_environment(envmap);
-  printf("PASS\n");
-}
+//   t_simple_command *node = command;
+//   t_token *arg = node->arguments;
+//   assert_same_string(arg->word, "'/home/squinn'");
+//   clean_command(&command);
+//   clean_environment(envmap);
+//   printf("PASS\n");
+// }
 
-int main() {
+void test_expand_shell_parameter() {
   test_append_character();
   test_simple_expansion();
   test_special_parameter_expansion();
+  test_pipe_expansion();
   test_non_existing_variable();
   test_redirect_expansion();
   // test_nested_quote(); This test is problematic, so not execute this for now

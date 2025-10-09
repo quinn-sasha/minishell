@@ -16,9 +16,11 @@ bool is_valid_filename(const char *filename) {
 }
 
 int is_valid_syntax_after_expansion(t_redirect *redirect) {
+  if (redirect == NULL)
+    return true;
   t_redirect *iter = redirect;
   while (iter) {
-    if (iter->is_filename_expanded == false) {
+    if (!iter->is_filename_expanded) {
       iter = iter->next;
       continue;
     }

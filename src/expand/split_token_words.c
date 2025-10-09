@@ -51,9 +51,15 @@ void split_token_word(t_token *token) {
 void split_token_words(t_token *token) {
   t_token *iter = token;
   while (!at_eof(iter)) {
-    if (iter->is_expanded) {
-      split_token_word(iter);
+    if (!iter->is_expanded) {
+      iter = iter->next;
+      continue;
     }
+    if (iter->is_quoted) {
+      iter = iter->next;
+      continue;
+    }
+    split_token_word(iter);
     iter = iter->next;
   }
 }

@@ -12,6 +12,10 @@ void trim_redirect_filename(t_redirect *redirect) {
       iter = iter->next;
       continue;
     }
+    if (iter->is_filename_quoted) {
+      iter = iter->next;
+      continue;
+    }
     char *original = redirect->to.filename;
     char *trimmed = ft_strtrim(original, DEFAULT_IFS_CHARS);
     redirect->to.filename = trimmed;
@@ -24,19 +28,19 @@ static void remove_unnecessary_tail_token(t_token **token) {
   while (!at_eof(*token) && (*token)->word == NULL) {
     t_token *temp = *token;
     *token = (*token)->next;
-    free_token(temp);
+    free(temp);
   }
   if (at_eof(*token))
     return;
   t_token *iter = *token;
-  while (!at_eof(iter)) {
+  while (!at_eof(iter) && !at_eof(iter->next)) {
     if (iter->next->word != NULL) {
       iter = iter->next;
       continue;
     }
     t_token *to_remove = iter->next;
     iter->next = iter->next->next;
-    free_token(to_remove);
+    free(to_remove);
   }
 }
 

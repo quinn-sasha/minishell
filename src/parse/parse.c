@@ -67,10 +67,10 @@ bool is_valid_syntax(t_token *token) {
 */
 int parse(t_simple_command **command, t_token *token) {
   if (!is_valid_syntax(token)) {
-    free_token(token);
+    free_token_list(token);
     return PARSE_SYNTAX_ERROR;
   }
   *command = make_simple_command_list(token);
-  free_token(token);
+  free_token_list(token);
   return PARSE_SUCCESS;
 }

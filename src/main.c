@@ -6,11 +6,11 @@ void interpret(char *input, t_map *envmap) {
   int tokenize_status;
   t_token *token = tokenize(input, &tokenize_status);
   if (tokenize_status == UNCLOSED_QUOTE_STATUS) {
-    free_token(token);
+    free_token_list(token);
     return;
   }
   if (at_eof(token)) {
-    free_token(token);
+    free_token_list(token);
     return;
   }
   t_simple_command *command = NULL;
@@ -18,7 +18,7 @@ void interpret(char *input, t_map *envmap) {
     return;
   }
   if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
-    // free command
+    clean_command(&command);
     return;
   }
   exec(command, envmap);
@@ -37,5 +37,5 @@ int main(void) {
     interpret(input, environment);
     free(input);
   }
-  // free environment
+  clean_environment(environment);
 }

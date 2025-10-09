@@ -67,15 +67,15 @@ t_token *consume_operator(char **input_to_return, char *input) {
 * @return word token
 */
 t_token *consume_word(char **input_to_return, char *input) {
-  int i = 0;
-  while (input[i]) {
-    if (is_blank(input[i]))
+  int end = 0;
+  while (input[end]) {
+    if (is_blank(input[end]))
       break;
-    i++;
+    end++;
   }
-  char *word = ft_substr(input, 0, i - 1);
+  char *word = ft_substr(input, 0, end - 1);
   t_token *result = new_token(TOKEN_WORD, word);
-  *input_to_return += i;
+  *input_to_return += end;
   return result;
 }
 
@@ -104,6 +104,7 @@ t_token *consume_quoted_word(char **input_to_return, char *input, int *status) {
   }
   char *word = ft_substr(input, 0, word_end);
   t_token *result = new_token(TOKEN_WORD, word);
+  result->is_quoted = true;
   *input_to_return += word_end + 1;
   return result;
 }
