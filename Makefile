@@ -41,6 +41,7 @@ EXPAND_FILES := expand/expand.c \
 
 BUILTIN_FILES := builtin/builtin_unset.c \
 					builtin/builtin_env.c \
+					builtin/builtin_pwd.c \
 					builtin/builtin.c
 ERROR_FILES := error/error.c
 EXECUTE_FILES := execute/execute.c
