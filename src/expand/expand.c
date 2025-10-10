@@ -12,6 +12,7 @@ void append_character(char **string, int c) {
   new_string = xcalloc(new_length + 1, sizeof(char));
   ft_strlcpy(new_string, *string, new_length + 1);
   new_string[new_length - 1] = c;
+  free(*string);
   *string = new_string;
 }
 
