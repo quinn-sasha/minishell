@@ -25,6 +25,8 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 		status = builtin_unset(argv, envmap);
 	if (ft_strcmp(argv[0], "env") == 0)
 		status = builtin_env(envmap);
+	if (ft_strcmp(argv[0], "echo") == 0)
+		status = builtin_echo(argv);
 	if (ft_strcmp(argv[0], "pwd") == 0)
 		status = builtin_pwd();
 	free_array(argv);

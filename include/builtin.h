@@ -19,5 +19,6 @@ int	builtin_export(char **argv, t_map *envmap);
 int	builtin_unset(char **argv, t_map *envmap);
 int builtin_env(t_map *envmap);
 int	builtin_pwd(void);
+int	builtin_echo(char **argv);
 
 #endif
