@@ -62,6 +62,7 @@ int expand_word(char **word, t_map *envmap) {
     }
     expand_parameter(&new_word, &char_ptr, char_ptr, envmap);
   }
+  free(*word);
   *word = new_word;
   return EXPANDED;
 }
