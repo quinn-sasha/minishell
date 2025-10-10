@@ -12,6 +12,108 @@
 
 #include "minishell.h"
 
+t_item	**extract_items_to_array(t_map *envmap, size_t count)
+{
+	t_item	**item_array;
+	t_item	*current;
+	size_t	i;
+
+	if (count == 0)
+		return (NULL);
+	item_array = (t_item **)xcalloc(count, sizeof(t_item *));
+	current = envmap->head.next;
+	i = 0;
+	while (current != NULL)
+	{
+		item_array[i] = current;
+		current = current->next;
+		i++;
+	}
+	return (item_array);
+}
+
+void	bubble_sort_items(t_item **array, size_t count)
+{
+	size_t	i;
+	size_t	j;
+	t_item	*temp;
+
+	i = 0;
+	while (i < count)
+	{
+		j = 0;
+		while (j < count - 1 - i)
+		{
+			if (ft_strcmp(array[j]->name, array[j + 1]->name) > 0)
+			{
+				temp = array[j];
+				array[j] = array[j + 1];
+				array[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+t_item	**map_sort(t_map *envmap)
+{
+	size_t	count;
+	t_item	**item_array;
+
+	if (envmap == NULL)
+		return (NULL);
+	count = count_map_item(envmap);
+	if (count == 0)
+		return (NULL);
+	item_array = extract_items_to_array(envmap, count);
+	if (!item_array)
+		return (NULL);
+	bubble_sort_items(item_array, count);
+	return (item_array);
+}
+
+void	display_sorted_items(t_item **array, size_t count)
+{
+	size_t	i;
+	char	*value;
+
+	i = 0;
+	while (i < count)
+	{
+		value = array[i]->value;
+		if (value != NULL)
+		{
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n",
+				array[i]->name, value);
+		}
+		else
+		{
+			ft_dprintf(STDOUT_FILENO, "declare -x %s\n",
+				array[i]->name);
+		}
+		i++;
+	}
+}
+
+int	display_map_ordered(t_map *envmap)
+{
+	t_item	**sorted_array;
+	size_t	count;
+
+	if (envmap == NULL)
+		return (SUCCESS);
+	count = count_map_item(envmap);
+	if (count == 0)
+		return (SUCCESS);
+	sorted_array = map_sort(envmap);
+	if (!sorted_array)
+		return (SUCCESS);
+	display_sorted_items(sorted_array, count);
+	free(sorted_array);
+	return (SUCCESS);
+}
+
 int	builtin_export(char **argv, t_map *envmap)
 {
 	char	*name;
@@ -21,7 +123,7 @@ int	builtin_export(char **argv, t_map *envmap)
 	t_item	*current;
 
 	if (argv[1] == NULL)
-		return (builtin_env(envmap)); // TODO // ABC順に一覧表示させる
+		return (display_map_ordered(envmap));
 	str = argv[1];
 	status = SUCCESS;
 	set_name_and_value(str, &name, &value);
