@@ -25,12 +25,36 @@ PARSE_FILES := parse/make_simple_command.c \
 
 LIBRARY_FILES := library/xcalloc.c \
 								library/xmalloc.c \
+								library/xpipe.c \
 								library/xstrdup.c
 
 ERROR_FILES := error/error.c
+
+REDIRECT_FILES := redirect/heredoc.c
+
+EXPAND_FILES := expand/expand.c \
+                expand/expand_shell_parameter.c \
+                expand/is_valid_syntax_after_expansion.c \
+                expand/remove_quote.c \
+                expand/special_parameter.c \
+                expand/split_token_words.c \
+                expand/word_splitting.c
+
 EXECUTE_FILES := execute/execute.c
 
-SRCFILES := main.c destructor.c $(SIGNAL_FILES) $(ENVIRON_FILES) $(TOKEN_FILES) $(PARSE_FILES) $(LIBRARY_FILES) $(ERROR_FILES) $(EXECUTE_FILES)
+SRCFILES := main.c \
+	          destructor.c \
+						utils.c \
+						$(SIGNAL_FILES) \
+					  $(ENVIRON_FILES) \
+						$(TOKEN_FILES) \
+						$(PARSE_FILES) \
+						$(LIBRARY_FILES) \
+						$(ERROR_FILES) \
+						$(REDIRECT_FILES) \
+						$(EXPAND_FILES) \
+						$(EXECUTE_FILES)
+
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)
 
