@@ -19,6 +19,8 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 
 	status = 0;
 	argv = tokens_to_argv(command->arguments);
+	if (ft_strcmp(argv[0], "exit") == 0)
+		status = builtin_exit(argv, envmap);
 	if (ft_strcmp(argv[0], "export") == 0)
 		status = builtin_export(argv, envmap);
 	if (ft_strcmp(argv[0], "unset") == 0)
