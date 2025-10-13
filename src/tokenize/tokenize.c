@@ -109,6 +109,23 @@ t_token *consume_quoted_word(char **input_to_return, char *input, int *status) {
   return result;
 }
 
+bool is_quote_closed(char *input) {
+  while (*input) {
+    if (!is_quote(*input)) {
+      input++;
+      continue;
+    }
+    char quote_to_match = *input;
+    while (*input && *input != quote_to_match) {
+      input++;
+    }
+    if (*input == '\0')
+      return false;
+    input++;
+  }
+  return true;
+}
+
 /*
 * @param command line input.
 * @param トークン化の結果を保持する.TOKENIZE_SUCCESS or UNCLOSED_QUOTE_STATUS.
