@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "==== Running tests before push... ===="
+
+make test
+
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo "==== FAILED. Aborting push. ===="
+  exit 1
+fi
+
+echo "==== PASSED. Proceeding with push. ===="
+exit 0
