@@ -8,6 +8,8 @@
 
 #define SINGLE_QUOTE_CHARCTER '\''
 #define DOUBLE_QUOTE_CHARACTER '"'
+#define SINGLE_QUOTE_MARKER 0x01
+#define DOUBLE_QUOTE_MARKER 0x02
 
 #define UNCLOSED_QUOTE_ERROR "unclosed quote"
 
