@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 16:22:28 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:49:48 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	builtin_exit(char **argv, t_map *envmap)
 	long	res;
 	char	*ptr;
 
-	printf("exit\n");
 	if (argv[1] == NULL)
 		exit(envmap->last_status);
 	if (argv[2] != NULL)
