@@ -109,36 +109,6 @@ t_token *consume_word(char **input_to_return, char *input) {
   return result;
 }
 
-/*
-* @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
-* @param 元のinput文字列.
-* @param もしシングルクオートエラーであれば、エラーステータスが設定される.
-* @return word token
-*/
-t_token *consume_quoted_word(char **input_to_return, char *input, int *status) {
-  char quote_to_match = SINGLE_QUOTE_CHARCTER;
-  if (*input == DOUBLE_QUOTE_CHARACTER) {
-    quote_to_match = DOUBLE_QUOTE_CHARACTER;
-  }
-  int word_end = 1;
-  while (input[word_end]) {
-    if (input[word_end] == quote_to_match) {
-      break;
-    }
-    word_end++;
-  }
-  if (input[word_end] == '\0') {
-    unclosed_quote_error();
-    *status = UNCLOSED_QUOTE_STATUS;
-    word_end--;
-  }
-  char *word = ft_substr(input, 0, word_end);
-  t_token *result = new_token(TOKEN_WORD, word);
-  result->is_quoted = true;
-  *input_to_return += word_end + 1;
-  return result;
-}
-
 bool is_quote_closed(char *input) {
   while (*input) {
     if (!is_quote(*input)) {
