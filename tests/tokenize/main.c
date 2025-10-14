@@ -16,8 +16,7 @@ void test_simple_command() {
     {TOKEN_WORD, "-l"},
     {TOKEN_EOF, NULL}
   };
-  int status;
-  t_token *token = tokenize(input, &status);
+  t_token *token = tokenize(input);
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
@@ -30,8 +29,7 @@ void test_empty_string() {
   t_expected_token expected[] = {
     {TOKEN_EOF, NULL}
   };
-  int status;
-  t_token *token = tokenize(input, &status);
+  t_token *token = tokenize(input);
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
@@ -44,8 +42,7 @@ void test_blank() {
   t_expected_token expected[] = {
     {TOKEN_EOF, NULL}
   };
-  int status;
-  t_token *token = tokenize(input, &status);
+  t_token *token = tokenize(input);
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
@@ -54,7 +51,7 @@ void test_blank() {
 
 void test_pipe_and_redirect() {
   printf("Test pipe and redirect: '<< END echo 'abc' | cat > outfile.txt' ...  ");
-  char *input = "<< END echo 'abc' | cat > outfile.txt";
+  char *input = xstrdup("<< END echo 'abc' | cat > outfile.txt");
   t_expected_token expected[] = {
     {TOKEN_OPERATOR, "<<"},
     {TOKEN_WORD, "END"},
@@ -66,9 +63,12 @@ void test_pipe_and_redirect() {
     {TOKEN_WORD, "outfile.txt"},
     {TOKEN_EOF, NULL}
   };
-  int status;
-  t_token *token = tokenize(input, &status);
+  t_token *token = tokenize(input);
+
+  printf("After tokenize()\n");
+
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
+  free(input);
   if (result == false)
     exit(EXIT_FAILURE);
   free_token_list(token);
@@ -76,19 +76,18 @@ void test_pipe_and_redirect() {
 
 void test_unclosed_quote() {
   printf("Test: Unclosed Quote 'echo \"hello'... ");
-  char *input = "'echo \"hello";
-  int status;
-  t_token *token = tokenize(input, &status);
-  if (status == UNCLOSED_QUOTE_STATUS) {
+  char *input = xstrdup("'echo \"hello");
+  t_token *token = tokenize(input);
+  free(input);
+  if (token == NULL) {
     printf("PASS\n");
   }
   else {
     printf("FAIL: unclosed errro was not detected\n");
+    exit(EXIT_FAILURE);
   }
   free_token_list(token);
 }
-
-void test_pipe_and_redirect();
 
 bool assert_tokens_equal(t_token *token, t_expected_token *expected_tokens, int size) {
   t_token *iter = token;

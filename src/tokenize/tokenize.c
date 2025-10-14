@@ -116,6 +116,7 @@ bool is_quote_closed(char *input) {
       continue;
     }
     char quote_to_match = *input;
+    input++;
     while (*input && *input != quote_to_match) {
       input++;
     }

@@ -7,20 +7,34 @@
 - $記号の次の文字が、アルファベット、アンダースコア（'_'）、もしくは特別な記号('?')
 */
 bool need_to_expand(char *word) {
-  if (*word == SINGLE_QUOTE_CHARCTER)
-    return false;
-  int dollar_position = ft_strchr(word, '$');
-  if (dollar_position == NOT_FOUND) {
-    return false;
+  char *c_ptr = word;
+  while (*c_ptr) {
+    if (!is_quote(*c_ptr)) {
+      if (*c_ptr == '$')
+        return true;
+      c_ptr++;
+      continue;
+    }
+    if (*c_ptr == SINGLE_QUOTE_MARKER) {
+      consume_quoted_word();
+    }
   }
-  if (is_special_parameter(word + dollar_position)) {
-    return true;
-  }
-  if (is_alpha_underscore(word[dollar_position + 1])) {
-    return true;
-  }
-  return false;
 }
+// bool need_to_expand(char *word) {
+//   if (*word == SINGLE_QUOTE_CHARCTER)
+//     return false;
+//   int dollar_position = ft_strchr(word, '$');
+//   if (dollar_position == NOT_FOUND) {
+//     return false;
+//   }
+//   if (is_special_parameter(word + dollar_position)) {
+//     return true;
+//   }
+//   if (is_alpha_underscore(word[dollar_position + 1])) {
+//     return true;
+//   }
+//   return false;
+// }
 
 void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr, t_map *envmap) {
   char_ptr++;
