@@ -2,7 +2,7 @@ NAME	=	test_expand
 
 INCLUDE_DIR = ../../include
 CC			=	cc
-CFLAGS	=	-Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CFLAGS	= -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 RM      = rm -f
 
 SRCS = ../../src/library/xcalloc.c \
@@ -65,6 +65,6 @@ test: $(NAME)
 	&& export SPACES="      " \
 	&& export THREE_WORDS="kiss me baby" \
 	&& export QUOTED_WORD='"quoted    word"' \
-	&& ./$(NAME)
+	&& valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 .PHONY	: all clean fclean re test

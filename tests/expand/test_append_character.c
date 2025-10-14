@@ -25,6 +25,7 @@ void test_append_ten_times(void) {
     append_character(&s, c);
   }
   assert(strcmp(expected, s) == 0);
+  free(s);
 }
 
 void test_append_character(void) {

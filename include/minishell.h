@@ -27,11 +27,14 @@
 #include "expand.h"
 #include "exec.h"
 #include "builtin.h"
+#include "redirect.h"
 
 #define TRUE 1
 #define SUCCESS 0
 #define FAILED -1
 #define CHILD 0
+#define READ 0
+#define WRITE 1
 
 // utils.c
 char	*unsigned_itoa(unsigned long long num, unsigned int base);
