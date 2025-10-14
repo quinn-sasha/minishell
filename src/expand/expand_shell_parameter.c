@@ -7,18 +7,25 @@
 - $記号の次の文字が、アルファベット、アンダースコア（'_'）、もしくは特別な記号('?')
 */
 bool need_to_expand(char *word) {
+  if (ft_strchr(word, '$') == NOT_FOUND)
+    return false;
   char *c_ptr = word;
   while (*c_ptr) {
-    if (!is_quote(*c_ptr)) {
-      if (*c_ptr == '$')
-        return true;
+    if (*c_ptr == SINGLE_QUOTE_MARKER) {
+      consume_quoted_word(&c_ptr, c_ptr);
+      continue;
+    }
+    if (*c_ptr != '$') {
       c_ptr++;
       continue;
     }
-    if (*c_ptr == SINGLE_QUOTE_MARKER) {
-      consume_quoted_word();
-    }
+    if (is_special_parameter(c_ptr))
+      return true;
+    if (is_alpha_underscore(*(c_ptr + 1)))
+      return true;
+    c_ptr++;
   }
+  return false;
 }
 // bool need_to_expand(char *word) {
 //   if (*word == SINGLE_QUOTE_CHARCTER)
