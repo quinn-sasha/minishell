@@ -32,8 +32,10 @@ void fatal_error(const char *message) {
 
 void perror_wrapper(const char *s1, const char *s2, const char *message) {
   prefix_error();
-  ft_dprintf(STDERR_FILENO, "%s: ", s1);
-  ft_dprintf(STDERR_FILENO, "%s: ", s2);
+  if (s1)
+    ft_dprintf(STDERR_FILENO, "%s: ", s1);
+  if (s2)
+    ft_dprintf(STDERR_FILENO, "%s: ", s2);
   if (message)
     ft_dprintf(STDERR_FILENO, "%s\n", message);
   else

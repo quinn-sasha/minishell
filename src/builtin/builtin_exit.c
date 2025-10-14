@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 14:59:52 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:18:39 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	builtin_exit(char **argv, t_map *envmap)
 		exit(envmap->last_status);
 	if (argv[2] != NULL)
 	{
-		perror("exit");
-		return (FAILED);
+		perror_wrapper("exit", NULL, "too many arguments");
+		exit(1);
 	}
 	arg = argv[1];
 	if (is_numeric(arg))
@@ -91,6 +91,6 @@ int	builtin_exit(char **argv, t_map *envmap)
 		if (errno == 0 && *ptr == '\0')
 			exit((int)res);
 	}
-	perror("exit");
+	perror_wrapper("exit", argv[1], "numeric argument required");
 	exit(255);
 }
