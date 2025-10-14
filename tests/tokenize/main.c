@@ -56,7 +56,7 @@ void test_pipe_and_redirect() {
     {TOKEN_OPERATOR, "<<"},
     {TOKEN_WORD, "END"},
     {TOKEN_WORD, "echo"},
-    {TOKEN_WORD, "'abc'"},
+    {TOKEN_WORD, "\x01" "abc" "\x01"}, // \x01 is SINGLE_QUOTE_MARKER
     {TOKEN_OPERATOR, "|"},
     {TOKEN_WORD, "cat"},
     {TOKEN_OPERATOR, ">"},
@@ -86,7 +86,6 @@ void test_unclosed_quote() {
     printf("FAIL: unclosed errro was not detected\n");
     exit(EXIT_FAILURE);
   }
-  free_token_list(token);
 }
 
 bool assert_tokens_equal(t_token *token, t_expected_token *expected_tokens, int size) {

@@ -91,21 +91,21 @@ void consume_quoted_word(char **input_to_return, char *input) {
 */
 t_token *consume_word(char **input_to_return, char *input) {
   bool is_quoted_flag = false;
-  int word_end = 0;
-  while (input[word_end]) {
-    if (is_metacharacter(input[word_end]))
+  char *c_ptr = input;
+  while (*c_ptr) {
+    if (is_metacharacter(*c_ptr))
       break;
-    if (!is_quote(input[word_end])) {
-      word_end++;
+    if (!is_quote(*c_ptr)) {
+      c_ptr++;
       continue;
     }
-    consume_quoted_word(&input, input);
+    consume_quoted_word(&c_ptr, c_ptr);
     is_quoted_flag = true;
   }
-  char *word = ft_substr(input, 0, word_end - 1);
+  char *word = ft_substr(input, 0, c_ptr - input - 1);
   t_token *result = new_token(TOKEN_WORD, word);
   result->is_quoted = is_quoted_flag;
-  *input_to_return += word_end;
+  *input_to_return = c_ptr;
   return result;
 }
 
