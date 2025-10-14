@@ -43,6 +43,6 @@ int is_metacharacter(int c);
 t_token *consume_operator(char **input_to_advance, char *input);
 t_token *consume_quoted_word(char **input_to_advance, char *input, int *status);
 t_token *consume_word(char **input_to_advance, char *input);
-t_token *tokenize(char *input, int *status);
+t_token *tokenize(char *input);
 
 #endif

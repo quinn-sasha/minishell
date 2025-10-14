@@ -181,18 +181,16 @@ void replace_quote_char_with_marker(char **input_to_modify, char *input) {
 
 /*
 * @param command line input.
-* @param トークン化の結果を保持する.TOKENIZE_SUCCESS or UNCLOSED_QUOTE_STATUS.
 * @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
           もしエラーが起これば NULL を返す.
 */
-t_token *tokenize(char *input, int *status) {
+t_token *tokenize(char *input) {
   t_token dummy;
   dummy.next = NULL;
   t_token *token = &dummy;
 
-  *status = TOKENIZE_SUCCESS;
   if (!is_quote_closed(input)) {
-    *status = UNCLOSED_QUOTE_STATUS;
+    unclosed_quote_error();
     return NULL;
   }
   replace_quote_char_with_marker(&input, input);
