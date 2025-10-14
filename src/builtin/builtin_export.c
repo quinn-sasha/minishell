@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 19:42:56 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:26:23 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,11 @@ t_item	**map_sort(t_map *envmap)
 	return (item_array);
 }
 
-void	display_sorted_items(t_item **array, size_t count)
-{
-	size_t	i;
-	char	*value;
-
-	i = 0;
-	while (i < count)
-	{
-		value = array[i]->value;
-		if (value != NULL)
-		{
-			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n",
-				array[i]->name, value);
-		}
-		else
-		{
-			ft_dprintf(STDOUT_FILENO, "declare -x %s\n",
-				array[i]->name);
-		}
-		i++;
-	}
-}
-
 int	display_map_ordered(t_map *envmap)
 {
 	t_item	**sorted_array;
 	size_t	count;
+	size_t	i;
 
 	if (envmap == NULL)
 		return (SUCCESS);
@@ -109,7 +87,17 @@ int	display_map_ordered(t_map *envmap)
 	sorted_array = map_sort(envmap);
 	if (!sorted_array)
 		return (SUCCESS);
-	display_sorted_items(sorted_array, count);
+	i = 0;
+	while (i < count)
+	{
+		if (sorted_array[i]->value != NULL)
+			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n",
+				sorted_array[i]->name, sorted_array[i]->value);
+		else
+			ft_dprintf(STDOUT_FILENO, "declare -x %s\n",
+				sorted_array[i]->name);
+		i++;
+	}
 	free(sorted_array);
 	return (SUCCESS);
 }
