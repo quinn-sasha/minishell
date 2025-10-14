@@ -6,14 +6,14 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/10 16:42:56 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:59:52 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
-int is_numeric(const char *str)
+int	is_numeric(const char *str)
 {
 	const char	*current_ptr;
 	int			has_digit;
@@ -34,13 +34,12 @@ int is_numeric(const char *str)
 	return (FALSE);
 }
 
-
 long	string_to_long(char *str, char **ptr)
 {
 	unsigned long	long_num;
 	int				is_minus;
 	int				is_overflow;
-	
+
 	long_num = 0;
 	is_minus = FALSE;
 	is_overflow = FALSE;
@@ -52,7 +51,8 @@ long	string_to_long(char *str, char **ptr)
 	{
 		if (long_num > (unsigned long)LONG_MAX / 10)
 			is_overflow = TRUE;
-		if (long_num == (unsigned long)LONG_MAX / 10 && (*str - '0') > (int)((unsigned long)LONG_MAX % 10 + is_minus))
+		if (long_num == (unsigned long)LONG_MAX / 10
+			&& (*str - '0') > (int)((unsigned long)LONG_MAX % 10 + is_minus))
 			is_overflow = TRUE;
 		if (is_overflow == TRUE)
 		{
@@ -70,27 +70,26 @@ long	string_to_long(char *str, char **ptr)
 		return ((long)long_num);
 }
 
-
 int	builtin_exit(char **argv, t_map *envmap)
 {
 	long	res;
 	char	*arg;
 	char	*ptr;
 
+	if (argv[1] == NULL)
+		exit(envmap->last_status);
 	if (argv[2] != NULL)
 	{
 		perror("exit");
 		return (FAILED);
 	}
-	if (argv[1] == NULL)
-		exit(envmap->last_status);
 	arg = argv[1];
 	if (is_numeric(arg))
 	{
-    	errno = 0;
-    	res = string_to_long(arg, &ptr);
-    	if (errno == 0 && *ptr == '\0')
-        	exit((int)res);
+		errno = 0;
+		res = string_to_long(arg, &ptr);
+		if (errno == 0 && *ptr == '\0')
+			exit((int)res);
 	}
 	perror("exit");
 	exit(255);
