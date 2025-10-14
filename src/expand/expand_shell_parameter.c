@@ -27,21 +27,6 @@ bool need_to_expand(char *word) {
   }
   return false;
 }
-// bool need_to_expand(char *word) {
-//   if (*word == SINGLE_QUOTE_CHARCTER)
-//     return false;
-//   int dollar_position = ft_strchr(word, '$');
-//   if (dollar_position == NOT_FOUND) {
-//     return false;
-//   }
-//   if (is_special_parameter(word + dollar_position)) {
-//     return true;
-//   }
-//   if (is_alpha_underscore(word[dollar_position + 1])) {
-//     return true;
-//   }
-//   return false;
-// }
 
 void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr, t_map *envmap) {
   char_ptr++;
@@ -65,10 +50,7 @@ void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr
 /*
 * @return: もし展開されたら EXPANDED、それ以外は NOT_EXPANDED を返す
 */
-int expand_word(char **word, t_map *envmap) {
-  if (!need_to_expand(*word)) {
-    return NOT_EXPANDED;
-  }
+void expand_word(char **word, t_map *envmap) {
   char *new_word = xcalloc(1, sizeof(char));
   char *char_ptr = *word;
   while (*char_ptr) {
@@ -85,12 +67,12 @@ int expand_word(char **word, t_map *envmap) {
   }
   free(*word);
   *word = new_word;
-  return EXPANDED;
 }
 
 void expand_token_words(t_token *token, t_map *envmap) {
   while (!at_eof(token)) {
-    if (expand_word(&token->word, envmap) == EXPANDED) {
+    if (need_to_expand(token->word)) {
+      expand_word(&token->word, envmap);
       token->is_expanded = true;
     }
     token = token->next;
