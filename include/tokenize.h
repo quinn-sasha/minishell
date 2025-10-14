@@ -38,7 +38,7 @@ void append_token(t_token **token, t_token *element);
 void insert_next_token(t_token *token, t_token *new_token);
 // tokenize.c
 int is_blank(int c);
-int is_quote(int c);
+bool is_quote(int c);
 int is_metacharacter(int c);
 t_token *consume_operator(char **input_to_advance, char *input);
 t_token *consume_quoted_word(char **input_to_advance, char *input, int *status);

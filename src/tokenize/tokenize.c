@@ -26,17 +26,25 @@ word
 
 int is_blank(int c) {
   if (c == ' ' || c == '\t')
-    return TRUE;
-  return FALSE;
+    return true;
+  return false;
 }
 
-int is_quote(int c) {
-  if (c == SINGLE_QUOTE_CHARCTER || c == DOUBLE_QUOTE_CHARACTER)
-    return TRUE;
-  return FALSE;
+bool is_quote(int c) {
+  if (c == SINGLE_QUOTE_MARKER)
+    return true;
+  if (c == DOUBLE_QUOTE_MARKER)
+    return true;
+  if (c == SINGLE_QUOTE_CHARCTER)
+    return true;
+  if (c == DOUBLE_QUOTE_CHARACTER)
+    return true;
+  return false;
 }
 
 int is_metacharacter(int c) {
+  if (is_blank(c))
+    return true;
   return ft_strchr("|<>", c) != NOT_FOUND;
 }
 
@@ -62,23 +70,41 @@ t_token *consume_operator(char **input_to_return, char *input) {
 }
 
 /*
+* @brief: クオートマーカー記号が来たら、対応する文字の次の文字まで input_to_return を進める.
+*/
+void consume_quoted_word(char **input_to_return, char *input) {
+  int i = 0;
+  char quote = input[i];
+  i++;
+  while (input[i] && input[i] != quote)
+    i++;
+  if (input[i] == '\0')
+    assert_error("Word is not quoted");
+  i++;
+  *input_to_return += i;
+}
+
+/*
 * @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
 * @param 元のinput文字列.
 * @return word token
 */
 t_token *consume_word(char **input_to_return, char *input) {
+  bool is_quoted_flag = false;
   int word_end = 0;
   while (input[word_end]) {
     if (is_metacharacter(input[word_end]))
       break;
-    if (is_quote(input[word_end])) {
-      // replace quote with marker
-      // consume quoted word
+    if (!is_quote(input[word_end])) {
+      word_end++;
+      continue;
     }
-    word_end++;
+    consume_quoted_word(&input, input);
+    is_quoted_flag = true;
   }
   char *word = ft_substr(input, 0, word_end - 1);
   t_token *result = new_token(TOKEN_WORD, word);
+  result->is_quoted = is_quoted_flag;
   *input_to_return += word_end;
   return result;
 }
