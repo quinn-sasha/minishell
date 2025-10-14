@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 19:38:27 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:15:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 	int		status;
 	char	**argv;
 
+	do_redirect(command->redirect);
 	status = 0;
 	argv = tokens_to_argv(command->arguments);
 	if (ft_strcmp(argv[0], "exit") == 0)
@@ -32,6 +33,7 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 	if (ft_strcmp(argv[0], "pwd") == 0)
 		status = builtin_pwd();
 	free_array(argv);
+	reset_redirect(command->redirect);
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:23:29 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 19:04:58 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:31:14 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,11 @@ int	wait_pipe(pid_t last_pid)
 pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 {
 	pid_t	pid;
-	int		flags;
 
-	if (command->redirect != NULL)
-	{
-		flags = command->redirect->open_flags;
-		command->redirect->file_fd = open(command->redirect->to.filename,
-				flags, 0644);
-	}
+	if (open_redirect_file(command) == FAILED)
+		fatal_error ("cannot open file");
 	if (command == NULL || command->arguments == NULL)
-		return (-1);
+		fatal_error ("no command");
 	prepare_pipe(command);
 	pid = fork();
 	if (pid < 0)

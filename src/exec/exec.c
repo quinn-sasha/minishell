@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 16:03:00 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:30:01 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 
 	if (command->next == NULL && is_builtin(command))
 	{
+		open_redirect_file(command);
 		status = exec_builtin(command, envmap);
 	}
 	else

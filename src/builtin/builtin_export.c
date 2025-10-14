@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 15:26:23 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:53:31 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int	builtin_export(char **argv, t_map *envmap)
 	status = SUCCESS;
 	set_name_and_value(str, &name, &value);
 	current = map_get(envmap, name);
+	if (value != NULL && is_quote(*value))
+		remove_quote_word(&value);
 	if (current != NULL && value != NULL)
 		map_update_item(current, value);
 	else if (current == NULL)
