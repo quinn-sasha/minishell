@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 15:56:20 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:22:28 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ unsigned long	set_minus_overflow_flg(const char **str,
 {
 	unsigned long	long_num;
 	unsigned long	long_max_prefix;
-	unsigned long	long_max_digit;
+	int				long_max_digit;
 
 	long_num = 0;
 	*is_minus = FALSE;
@@ -49,15 +49,15 @@ unsigned long	set_minus_overflow_flg(const char **str,
 	if (**str == '-' || **str == '+')
 		(*str)++;
 	long_max_prefix = (unsigned long)LONG_MAX / 10;
-	long_max_digit = (unsigned long)LONG_MAX % 10;
+	long_max_digit = LONG_MAX % 10;
 	while (ft_isdigit(**str))
 	{
 		if (long_num > long_max_prefix
 			|| (long_num == long_max_prefix
-				&& **str - '0' > (int)long_max_digit + *is_minus))
+				&& **str - '0' > long_max_digit + *is_minus))
 			*is_overflow = TRUE;
 		if (*is_overflow == FALSE)
-			long_num = long_num * 10 + (unsigned long)(*str - '0');
+			long_num = long_num * 10 + (unsigned long)(**str - '0');
 		(*str)++;
 	}
 	return (long_num);
@@ -91,24 +91,28 @@ long	string_to_long(char *str, char **ptr)
 int	builtin_exit(char **argv, t_map *envmap)
 {
 	long	res;
-	char	*arg;
 	char	*ptr;
 
+	printf("exit\n");
 	if (argv[1] == NULL)
 		exit(envmap->last_status);
 	if (argv[2] != NULL)
 	{
 		perror_wrapper("exit", NULL, "too many arguments");
-		exit(1);
+		envmap->last_status = 1;
+		exit(envmap->last_status);
 	}
-	arg = argv[1];
-	if (is_numeric(arg))
+	if (is_numeric(argv[1]))
 	{
 		errno = 0;
-		res = string_to_long(arg, &ptr);
+		res = string_to_long(argv[1], &ptr);
 		if (errno == 0 && *ptr == '\0')
-			exit((int)res);
+		{
+			envmap->last_status = (int)res;
+			exit(envmap->last_status);
+		}
 	}
 	perror_wrapper("exit", argv[1], "numeric argument required");
-	exit(255);
+	envmap->last_status = 255;
+	exit(envmap->last_status);
 }

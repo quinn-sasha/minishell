@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 18:56:33 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:03:00 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int	exec(t_simple_command *command, t_map *envmap)
 		last_pid = exec_pipe(command, envmap);
 		status = wait_pipe(last_pid);
 	}
+	envmap->last_status = status;
 	return (status);
 }
