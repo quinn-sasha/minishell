@@ -9,3 +9,4 @@ prototypes.h
 libft.a
 out
 debug.c
+*.log

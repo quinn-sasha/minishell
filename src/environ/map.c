@@ -62,6 +62,7 @@ char	**get_envmap(t_map *envmap)
 	t_item	*item;
 	size_t	count;
 	size_t	i;
+	const char	*value;
 
 	if (envmap == NULL)
 		return (xcalloc(1, sizeof(char *)));
@@ -72,8 +73,10 @@ char	**get_envmap(t_map *envmap)
 	while (item != NULL)
 	{
 		if (item->value == NULL)
-			item->value = "";
-		env_array[i] = join_str_separator(item->name, item->value, '=');
+			value = "";
+		else
+			value = item->value;
+		env_array[i] = join_str_separator(item->name, value, '=');
 		item = item->next;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 16:49:48 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:25:54 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,28 @@ long	string_to_long(char *str, char **ptr)
 		return ((long)long_num);
 }
 
+void	builtin_argv_check(char **argv, t_map *envmap)
+{
+	if (argv[1] == NULL)
+	{
+		free_array(argv);
+		exit(envmap->last_status);
+	}
+	if (argv[2] != NULL)
+	{
+		perror_wrapper("exit", NULL, "too many arguments");
+		envmap->last_status = 1;
+		free_array(argv);
+		exit(envmap->last_status);
+	}
+}
+
 int	builtin_exit(char **argv, t_map *envmap)
 {
 	long	res;
 	char	*ptr;
 
-	if (argv[1] == NULL)
-		exit(envmap->last_status);
-	if (argv[2] != NULL)
-	{
-		perror_wrapper("exit", NULL, "too many arguments");
-		envmap->last_status = 1;
-		exit(envmap->last_status);
-	}
+	builtin_argv_check(argv, envmap);
 	if (is_numeric(argv[1]))
 	{
 		errno = 0;
@@ -108,10 +117,12 @@ int	builtin_exit(char **argv, t_map *envmap)
 		if (errno == 0 && *ptr == '\0')
 		{
 			envmap->last_status = (int)res;
+			free_array(argv);
 			exit(envmap->last_status);
 		}
 	}
 	perror_wrapper("exit", argv[1], "numeric argument required");
 	envmap->last_status = 255;
+	free_array(argv);
 	exit(envmap->last_status);
 }
