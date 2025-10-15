@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 17:25:54 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:45:57 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	builtin_exit(char **argv, t_map *envmap)
 		}
 	}
 	perror_wrapper("exit", argv[1], "numeric argument required");
-	envmap->last_status = 255;
+	envmap->last_status = 2;
 	free_array(argv);
 	exit(envmap->last_status);
 }
