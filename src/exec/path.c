@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:00:20 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/07 17:50:53 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:21:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,27 @@ char	*search_path(const char *filename, t_map *envmap)
 		return (path);
 	path = search_path_mode(filename, F_OK, envmap);
 	return (path);
+}
+
+int	set_path_cd(char *path, char *pwd, char **argv, t_map *envmap)
+{
+	char	*home;
+
+	if (pwd == NULL)
+		map_set(envmap, join_str_separator("OLDPWD", "", '='));
+	else
+		map_set(envmap, join_str_separator("OLDPWD", pwd, '='));
+	if (argv[1] == NULL)
+	{
+		home = xgetenv(envmap, "HOME");
+		if (home == NULL)
+		{
+			perror_wrapper("cd", NULL, "HOME not set");
+			return (FAILED);
+		}
+		ft_strlcpy(path, home, PATH_MAX);
+	}
+	else
+		ft_strlcpy(path, argv[1], PATH_MAX);
+	return (SUCCESS);
 }

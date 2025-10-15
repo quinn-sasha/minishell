@@ -6,21 +6,11 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 14:55:49 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/15 17:43:03 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:22:11 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-size_t	count_array(char **array)
-{
-	size_t	i;
-
-	i = 0;
-	while (array[i] != NULL)
-		i++;
-	return (i);
-}
 
 void	process_path(char **compressed_array, const char *part, size_t *j)
 {
@@ -107,30 +97,6 @@ char	*resolve_pwd(char *pwd, char *path)
 	return (new_pwd);
 }
 
-int	set_path(char *path, char *pwd, char **argv, t_map *envmap)
-{
-	char	*home;
-
-	if (pwd == NULL)
-		map_set(envmap, join_str_separator("OLDPWD", "", '='));
-	else
-		map_set(envmap, join_str_separator("OLDPWD", pwd, '='));
-
-	if (argv[1] == NULL)
-	{
-		home = xgetenv(envmap, "HOME");
-		if (home == NULL)
-		{
-			perror_wrapper("cd", NULL, "HOME not set");
-			return (FAILED);
-		}
-		ft_strlcpy(path, home, PATH_MAX);
-	}
-	else
-		ft_strlcpy(path, argv[1], PATH_MAX);
-	return (SUCCESS);
-}
-
 int	builtin_cd(char **argv, t_map *envmap)
 {
 	char	*pwd;
@@ -138,7 +104,7 @@ int	builtin_cd(char **argv, t_map *envmap)
 	char	*new_pwd;
 
 	pwd = xgetenv(envmap, "PWD");
-	if (set_path(path, pwd, argv, envmap) == FAILED)
+	if (set_path_cd(path, pwd, argv, envmap) == FAILED)
 		return (1);
 	if (chdir(path) < 0)
 	{

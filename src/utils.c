@@ -60,6 +60,16 @@ int	count_words(char const *s, const char *set)
 	return (result);
 }
 
+size_t	count_array(char **array)
+{
+	size_t	i;
+
+	i = 0;
+	while (array[i] != NULL)
+		i++;
+	return (i);
+}
+
 void	free_array(char	**array)
 {
 	int	i;

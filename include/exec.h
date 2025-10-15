@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:46:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 20:31:23 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:22:03 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		exec(t_simple_command *command, t_map *envmap);
 // path.c
 char	*search_path_mode(const char *filename, int mode, t_map *envmap);
 char	*search_path(const char *filename, t_map *envmap);
+int		set_path_cd(char *path, char *pwd, char **argv, t_map *envmap);
 
 // pipe.c
 void	prepare_pipe(t_simple_command *command);
