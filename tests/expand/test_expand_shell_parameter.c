@@ -19,9 +19,8 @@ void assert_same_string(const char *s1, const char *s2) {
 static void test_simple_expansion(void) {
   printf("Test '$HELLO' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "$HELLO";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$HELLO";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -37,9 +36,8 @@ static void test_special_parameter_expansion(void) {
   printf("Test '$?' ... ");
   t_map *envmap = init_environment();
   envmap->last_status = 127;
-  int status;
-  char *input = "$?";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$?";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -54,9 +52,8 @@ static void test_special_parameter_expansion(void) {
 static void test_pipe_expansion(void) {
   printf("Test 'echo $HOME | cat $PWD' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "echo $HOME | cat $PWD";
-  t_token *token = tokenize(input, &status);
+  char input[] = "echo $HOME | cat $PWD";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -80,9 +77,8 @@ static void test_pipe_expansion(void) {
 static void test_non_existing_variable(void) {
   printf("Test '$100abc ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "$100abc";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$100abc";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -99,9 +95,8 @@ static void test_non_existing_variable(void) {
 static void test_redirect_expansion(void) {
   printf("Test 'echo hello >> $HELLO' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "echo hello >> $HELLO";
-  t_token *token = tokenize(input, &status);
+  char input[] = "echo hello >> $HELLO";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -118,9 +113,8 @@ static void test_redirect_expansion(void) {
 // static void test_nested_quote(void) {
 //   printf("Test nested quote variable ... ");
 //   t_map *envmap = init_environment();
-//   int status;
-//   char *input = "$NESTED_QUOTE";
-//   t_token *token = tokenize(input, &status);
+//   char input[] = "$NESTED_QUOTE";
+//   t_token *token = tokenize(input);
 //   t_simple_command *command = NULL;
 //   parse(&command, token);
 //   expand_shell_parameter(command, envmap);
