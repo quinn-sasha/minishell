@@ -106,7 +106,8 @@ void expand_redirect_words(t_redirect *redirect, t_map *envmap) {
       redirect = redirect->next;
       continue;
     }
-    if (expand_word(&(redirect->to.filename), envmap) == EXPANDED) {
+    if (need_to_expand(redirect->to.filename)) {
+      expand_word(&(redirect->to.filename), envmap);
       redirect->is_filename_expanded = true;
     }
     redirect = redirect->next;
