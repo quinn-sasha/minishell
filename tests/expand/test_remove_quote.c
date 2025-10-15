@@ -50,6 +50,46 @@ static void test_remove_quote_token2(void) {
   printf("PASS\n");
 }
 
+static void test_remove_quote_token3(void) {
+  printf("Test '\'$HOME\'\"$HOME\"' ... ");
+  t_map *envmap = init_environment();
+  char input[] = "\'$HOME\'\"$HOME\"";
+  t_token *token = tokenize(input);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
+  remove_quote(command);
+
+  t_token *iter = command->arguments;
+  char *expected = ft_strjoin("$HOME", getenv("HOME"));
+  assert_same_string(iter->word, expected);
+  free(expected);
+
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
+static void test_remove_quote_token4(void) {
+  printf("Test '\'\'' ... ");
+  t_map *envmap = init_environment();
+  char input[] = "\'\'";
+  t_token *token = tokenize(input);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
+  remove_quote(command);
+
+  t_token *iter = command->arguments;
+  assert_same_string(iter->word, "");
+
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
 static void test_remove_quote_redirect(void) {
   printf("Test 'cat < \"infile\"' ... ");
   t_map *envmap = init_environment();
@@ -73,5 +113,7 @@ static void test_remove_quote_redirect(void) {
 void test_remove_quote(void) {
   test_remove_quote_token1();
   test_remove_quote_token2();
+  test_remove_quote_token3();
+  test_remove_quote_token4();
   test_remove_quote_redirect();
 }
