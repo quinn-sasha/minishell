@@ -10,3 +10,4 @@ libft.a
 out
 debug.c
 *.log
+settings.json

@@ -3,12 +3,9 @@
 volatile sig_atomic_t g_signal_number;
 
 void interpret(char *input, t_map *envmap) {
-  int tokenize_status;
-  t_token *token = tokenize(input, &tokenize_status);
-  if (tokenize_status == UNCLOSED_QUOTE_STATUS) {
-    free_token_list(token);
+  t_token *token = tokenize(input);
+  if (token == NULL)
     return;
-  }
   if (at_eof(token)) {
     free_token_list(token);
     return;

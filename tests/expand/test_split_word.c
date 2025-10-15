@@ -10,9 +10,8 @@ export THREE_WORDS="kiss me baby"
 static void test_simple_expansion(void) {
   printf("Test '$HELLO' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "$HELLO";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$HELLO";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -35,9 +34,8 @@ void test_special_parameter_expansion(void) {
   printf("Test '$?' ... ");
   t_map *envmap = init_environment();
   envmap->last_status = 127;
-  int status;
-  char *input = "$?";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$?";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -53,9 +51,8 @@ void test_special_parameter_expansion(void) {
 void test_spaces_variable_expansion(void) {
   printf("Test '$SPACES' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "$SPACES";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$SPACES";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -74,9 +71,8 @@ void test_spaces_variable_expansion(void) {
 void test_quoted_spaces_variable_expansion(void) {
   printf("Test '\"$SPACES\"' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "\"$SPACES\"";
-  t_token *token = tokenize(input, &status);
+  char input[] = "\"$SPACES\"";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -92,9 +88,8 @@ void test_quoted_spaces_variable_expansion(void) {
 void test_invalid_syntax_after_expansion1(void) {
   printf("Test 'cat < $HELLO' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "cat < $HELLO";
-  t_token *token = tokenize(input, &status);
+  char input[] = "cat < $HELLO";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -111,9 +106,8 @@ void test_invalid_syntax_after_expansion1(void) {
 void test_invalid_syntax_after_expansion2(void) {
   printf("Test 'cat < $abc' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "cat < $abc";
-  t_token *token = tokenize(input, &status);
+  char input[] = "cat < $abc";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -130,9 +124,8 @@ void test_invalid_syntax_after_expansion2(void) {
 void test_three_words_expansion(void) {
   printf("Test 'THREE_WORDS' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "$THREE_WORDS";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$THREE_WORDS";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);

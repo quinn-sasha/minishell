@@ -10,9 +10,8 @@ int main() {
 
 void test_really_simple_command() {
   printf("Test simple command 'ls -l' ... ");
-  int status;
   char *input = "ls -l";
-  t_token *token = tokenize(input, &status);
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
     printf("FAIL: expected parse() returns PARSE_SUCCESS, but got PARSE_SYNTAX_ERROR\n");
@@ -32,8 +31,7 @@ void test_really_simple_command() {
 void test_empty_string() {
   printf("Test empty string: '' ...  ");
   char *input = "";
-  int status;
-  t_token *token = tokenize(input, &status);
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
     printf("FAIL: expected parse() returns PARSE_SUCCESS, but got PARSE_SYNTAX_ERROR\n");
@@ -49,16 +47,15 @@ void test_empty_string() {
 
 void test_pipe_and_redirect() {
   printf("Test pipe and redirect: '<< END echo 'abc' | cat > outfile.txt' ...  ");
-  char *input = "<< END echo 'abc' | cat > outfile.txt";
-  int status;
-  t_token *token = tokenize(input, &status);
+  char input[] = "<< END echo 'abc' | cat > outfile.txt";
+  t_token *token = tokenize(input);
   t_simple_command *command;
   t_simple_command *expected;
   if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
     printf("FAIL: expected parse() returns PARSE_SUCCESS, but got PARSE_SYNTAX_ERROR\n");
     exit(EXIT_FAILURE);
   }
-  char *strings1[] = {"echo", "'abc'", NULL};
+  char *strings1[] = {"echo", "\x01""abc""\x01", NULL}; // \x01 is SINGLE_QUOTE_MARKER
   char *strings2[] = {"cat", NULL};
   expected = make_expected_command(strings1);
   expected->next = make_expected_command(strings2);

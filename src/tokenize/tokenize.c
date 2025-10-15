@@ -26,17 +26,25 @@ word
 
 int is_blank(int c) {
   if (c == ' ' || c == '\t')
-    return TRUE;
-  return FALSE;
+    return true;
+  return false;
 }
 
-int is_quote(int c) {
-  if (c == SINGLE_QUOTE_CHARCTER || c == DOUBLE_QUOTE_CHARACTER)
-    return TRUE;
-  return FALSE;
+bool is_quote(int c) {
+  if (c == SINGLE_QUOTE_MARKER)
+    return true;
+  if (c == DOUBLE_QUOTE_MARKER)
+    return true;
+  if (c == SINGLE_QUOTE_CHARCTER)
+    return true;
+  if (c == DOUBLE_QUOTE_CHARACTER)
+    return true;
+  return false;
 }
 
 int is_metacharacter(int c) {
+  if (is_blank(c))
+    return true;
   return ft_strchr("|<>", c) != NOT_FOUND;
 }
 
@@ -62,65 +70,101 @@ t_token *consume_operator(char **input_to_return, char *input) {
 }
 
 /*
+* @brief: クオートマーカー記号が来たら、対応する文字の次の文字まで input_to_return を進める.
+*/
+void consume_quoted_word(char **input_to_return, char *input) {
+  int i = 0;
+  char quote = input[i];
+  i++;
+  while (input[i] && input[i] != quote)
+    i++;
+  if (input[i] == '\0')
+    assert_error("Word is not quoted");
+  i++;
+  *input_to_return += i;
+}
+
+/*
 * @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
 * @param 元のinput文字列.
 * @return word token
 */
 t_token *consume_word(char **input_to_return, char *input) {
-  int end = 0;
-  while (input[end]) {
-    if (is_blank(input[end]))
+  bool is_quoted_flag = false;
+  char *c_ptr = input;
+  while (*c_ptr) {
+    if (is_metacharacter(*c_ptr))
       break;
-    end++;
+    if (!is_quote(*c_ptr)) {
+      c_ptr++;
+      continue;
+    }
+    consume_quoted_word(&c_ptr, c_ptr);
+    is_quoted_flag = true;
   }
-  char *word = ft_substr(input, 0, end - 1);
+  char *word = ft_substr(input, 0, c_ptr - input - 1);
   t_token *result = new_token(TOKEN_WORD, word);
-  *input_to_return += end;
+  result->is_quoted = is_quoted_flag;
+  *input_to_return = c_ptr;
   return result;
 }
 
-/*
-* @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
-* @param 元のinput文字列.
-* @param もしシングルクオートエラーであれば、エラーステータスが設定される.
-* @return word token
-*/
-t_token *consume_quoted_word(char **input_to_return, char *input, int *status) {
-  char quote_to_match = SINGLE_QUOTE_CHARCTER;
-  if (*input == DOUBLE_QUOTE_CHARACTER) {
-    quote_to_match = DOUBLE_QUOTE_CHARACTER;
-  }
-  int word_end = 1;
-  while (input[word_end]) {
-    if (input[word_end] == quote_to_match) {
-      break;
+bool is_quote_closed(char *input) {
+  while (*input) {
+    if (!is_quote(*input)) {
+      input++;
+      continue;
     }
-    word_end++;
+    char quote_to_match = *input;
+    input++;
+    while (*input && *input != quote_to_match) {
+      input++;
+    }
+    if (*input == '\0')
+      return false;
+    input++;
   }
-  if (input[word_end] == '\0') {
-    unclosed_quote_error();
-    *status = UNCLOSED_QUOTE_STATUS;
-    word_end--;
+  return true;
+}
+
+char get_quote_marker(int quote) {
+  if (quote == SINGLE_QUOTE_CHARCTER)
+    return SINGLE_QUOTE_MARKER;
+  return DOUBLE_QUOTE_MARKER;
+}
+
+void replace_quote_char_with_marker(char **input_to_modify, char *input) {
+  int i = 0;
+  while (input[i]) {
+    if (!is_quote(input[i])) {
+      i++;
+      continue;
+    }
+    char quote = input[i];
+    (*input_to_modify)[i] = get_quote_marker(quote);
+    i++;
+    while (input[i] != quote)
+      i++;
+    (*input_to_modify)[i] = get_quote_marker(quote);
+    i++;
   }
-  char *word = ft_substr(input, 0, word_end);
-  t_token *result = new_token(TOKEN_WORD, word);
-  result->is_quoted = true;
-  *input_to_return += word_end + 1;
-  return result;
 }
 
 /*
 * @param command line input.
-* @param トークン化の結果を保持する.TOKENIZE_SUCCESS or UNCLOSED_QUOTE_STATUS.
-*        もしエラーであれば呼び出し側は返り値を解放する.
 * @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
+          もしエラーが起これば NULL を返す.
 */
-t_token *tokenize(char *input, int *status) {
+t_token *tokenize(char *input) {
   t_token dummy;
   dummy.next = NULL;
   t_token *token = &dummy;
 
-  *status = TOKENIZE_SUCCESS;
+  if (!is_quote_closed(input)) {
+    unclosed_quote_error();
+    return NULL;
+  }
+  replace_quote_char_with_marker(&input, input);
   while (*input) {
     if (is_blank(*input)) {
       input++;
@@ -128,11 +172,6 @@ t_token *tokenize(char *input, int *status) {
     }
     if (is_metacharacter(*input)) {
       token->next = consume_operator(&input, input);
-      token = token->next;
-      continue;
-    }
-    if (is_quote(*input)) {
-      token->next = consume_quoted_word(&input, input, status);
       token = token->next;
       continue;
     }

@@ -8,6 +8,8 @@
 
 #define SINGLE_QUOTE_CHARCTER '\''
 #define DOUBLE_QUOTE_CHARACTER '"'
+#define SINGLE_QUOTE_MARKER 0x01
+#define DOUBLE_QUOTE_MARKER 0x02
 
 #define UNCLOSED_QUOTE_ERROR "unclosed quote"
 
@@ -37,11 +39,11 @@ void insert_next_token(t_token *token, t_token *new_token);
 size_t	count_token(t_token *token);
 // tokenize.c
 int is_blank(int c);
-int is_quote(int c);
+bool is_quote(int c);
 int is_metacharacter(int c);
 t_token *consume_operator(char **input_to_advance, char *input);
-t_token *consume_quoted_word(char **input_to_advance, char *input, int *status);
+void consume_quoted_word(char **input_to_return, char *input);
 t_token *consume_word(char **input_to_advance, char *input);
-t_token *tokenize(char *input, int *status);
+t_token *tokenize(char *input);
 
 #endif

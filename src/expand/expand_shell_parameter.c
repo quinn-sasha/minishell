@@ -7,17 +7,23 @@
 - $記号の次の文字が、アルファベット、アンダースコア（'_'）、もしくは特別な記号('?')
 */
 bool need_to_expand(char *word) {
-  if (*word == SINGLE_QUOTE_CHARCTER)
+  if (ft_strchr(word, '$') == NOT_FOUND)
     return false;
-  int dollar_position = ft_strchr(word, '$');
-  if (dollar_position == NOT_FOUND) {
-    return false;
-  }
-  if (is_special_parameter(word + dollar_position)) {
-    return true;
-  }
-  if (is_alpha_underscore(word[dollar_position + 1])) {
-    return true;
+  char *c_ptr = word;
+  while (*c_ptr) {
+    if (*c_ptr == SINGLE_QUOTE_MARKER) {
+      consume_quoted_word(&c_ptr, c_ptr);
+      continue;
+    }
+    if (*c_ptr != '$') {
+      c_ptr++;
+      continue;
+    }
+    if (is_special_parameter(c_ptr))
+      return true;
+    if (is_alpha_underscore(*(c_ptr + 1)))
+      return true;
+    c_ptr++;
   }
   return false;
 }
@@ -41,19 +47,36 @@ void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr
   append_string_to_string(new_word, expanded);
 }
 
+void append_single_quoted_word(char **dest, char *src) {
+  int i = 0;
+  if (src[i] != SINGLE_QUOTE_MARKER)
+    assert_error("Expected single quote");
+  append_character(dest, src[i]);
+  i++;
+  while (src[i] != SINGLE_QUOTE_MARKER) {
+    if (src[i] == '\0')
+      assert_error("Unclosed single quote");
+    append_character(dest, src[i]);
+    i++;
+  }
+  append_character(dest, src[i]);
+}
+
 /*
 * @return: もし展開されたら EXPANDED、それ以外は NOT_EXPANDED を返す
 */
-int expand_word(char **word, t_map *envmap) {
-  if (!need_to_expand(*word)) {
-    return NOT_EXPANDED;
-  }
+void expand_word(char **word, t_map *envmap) {
   char *new_word = xcalloc(1, sizeof(char));
   char *char_ptr = *word;
   while (*char_ptr) {
     if (*char_ptr != '$') {
       append_character(&new_word, *char_ptr);
       char_ptr++;
+      continue;
+    }
+    if (*char_ptr == SINGLE_QUOTE_MARKER) {
+      append_single_quoted_word(&new_word, char_ptr);
+      consume_quoted_word(&char_ptr, char_ptr);
       continue;
     }
     if (is_special_parameter(char_ptr)) {
@@ -64,12 +87,12 @@ int expand_word(char **word, t_map *envmap) {
   }
   free(*word);
   *word = new_word;
-  return EXPANDED;
 }
 
 void expand_token_words(t_token *token, t_map *envmap) {
   while (!at_eof(token)) {
-    if (expand_word(&token->word, envmap) == EXPANDED) {
+    if (need_to_expand(token->word)) {
+      expand_word(&token->word, envmap);
       token->is_expanded = true;
     }
     token = token->next;
@@ -83,7 +106,8 @@ void expand_redirect_words(t_redirect *redirect, t_map *envmap) {
       redirect = redirect->next;
       continue;
     }
-    if (expand_word(&(redirect->to.filename), envmap) == EXPANDED) {
+    if (need_to_expand(redirect->to.filename)) {
+      expand_word(&(redirect->to.filename), envmap);
       redirect->is_filename_expanded = true;
     }
     redirect = redirect->next;

@@ -11,9 +11,8 @@
 static void test_remove_quote_token(void) {
   printf("Test '$QUOTED_WORD \"another    word\"' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "$QUOTED_WORD \"another    word\"";
-  t_token *token = tokenize(input, &status);
+  char input[] = "$QUOTED_WORD \"another    word\"";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
@@ -35,9 +34,8 @@ static void test_remove_quote_token(void) {
 static void test_remove_quote_redirect(void) {
   printf("Test 'cat < \"infile\"' ... ");
   t_map *envmap = init_environment();
-  int status;
-  char *input = "cat < \"infile\"";
-  t_token *token = tokenize(input, &status);
+  char input[] = "cat < \"infile\"";
+  t_token *token = tokenize(input);
   t_simple_command *command = NULL;
   parse(&command, token);
   expand_shell_parameter(command, envmap);
