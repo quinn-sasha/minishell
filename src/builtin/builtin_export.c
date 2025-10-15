@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 19:53:31 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:51:11 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ int	builtin_export(char **argv, t_map *envmap)
 	str = argv[1];
 	status = SUCCESS;
 	set_name_and_value(str, &name, &value);
+	if (!is_identifier(name))
+	{
+		perror_wrapper("export", name, "not a valid identifier");
+		return (1);
+	}
 	current = map_get(envmap, name);
 	if (value != NULL && is_quote(*value))
 		remove_quote_word(&value);

@@ -44,6 +44,7 @@ BUILTIN_FILES := builtin/builtin_export.c \
 					builtin/builtin_unset.c \
 					builtin/builtin_env.c \
 					builtin/builtin_echo.c \
+					builtin/builtin_cd.c \
 					builtin/builtin_pwd.c \
 					builtin/builtin.c
 ERROR_FILES := error/error.c
@@ -67,6 +68,7 @@ EXEC_FILES := exec/exec.c \
 SRCFILES := main.c \
 	          destructor.c \
 						utils.c \
+						debug.c \
 						$(SIGNAL_FILES) \
 						$(ENVIRON_FILES) \
 						$(TOKEN_FILES) \
