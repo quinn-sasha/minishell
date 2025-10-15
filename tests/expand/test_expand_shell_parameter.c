@@ -32,6 +32,23 @@ static void test_simple_expansion(void) {
   printf("PASS\n");
 }
 
+static void test_single_quoted_variable(void) {
+  printf("Test '\'$HELLO\'' ... ");
+  t_map *envmap = init_environment();
+  char input[] = "\'$HELLO\'";
+  t_token *token = tokenize(input);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+
+  t_token *iter = command->arguments;
+  assert_same_string(iter->word, "\x01""$HELLO""\x01");
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
+
 static void test_special_parameter_expansion(void) {
   printf("Test '$?' ... ");
   t_map *envmap = init_environment();
@@ -130,6 +147,7 @@ static void test_redirect_expansion(void) {
 void test_expand_shell_parameter() {
   test_append_character();
   test_simple_expansion();
+  test_single_quoted_variable();
   test_special_parameter_expansion();
   test_pipe_expansion();
   test_non_existing_variable();
