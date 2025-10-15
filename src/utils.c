@@ -38,7 +38,7 @@ static int	is_in_set(char letter, char const *set)
 	return (0);
 }
 
-int count_words(const char *s, const char *excluded_chars) {
+int count_words(char *s, const char *excluded_chars) {
   if (*s == '\0')
     return 0;
   int result = 0;
