@@ -10,7 +10,7 @@ void test_append_to_null(void) {
 
 void test_append_to_normal_string(void) {
   char *expected = "Your success is inevitable";
-  char *s = "Your success is inevitabl";
+  char *s = xstrdup("Your success is inevitabl");
   int c = 'e';
   append_character(&s, c);
   assert(strcmp(expected, s) == 0);
