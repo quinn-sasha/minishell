@@ -6,6 +6,7 @@ int main(void) {
   test_blank();
   test_pipe_and_redirect();
   test_unclosed_quote();
+  test_quote_concatenation();
 }
 
 void test_simple_command() {
@@ -65,10 +66,23 @@ void test_pipe_and_redirect() {
   };
   t_token *token = tokenize(input);
 
-  printf("After tokenize()\n");
-
   int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   free(input);
+  if (result == false)
+    exit(EXIT_FAILURE);
+  free_token_list(token);
+}
+
+void test_quote_concatenation() {
+  printf("Test '\'$HOME\'\"$HOME\"' ...  ");
+  char input[] = "\'$HOME\'\"$HOME\"";
+  t_expected_token expected[] = {
+    {TOKEN_WORD, "\x01" "$HOME" "\x01" "\x02" "$HOME" "\x02"}, // \x01 is SINGLE_QUOTE_MARKER
+    {TOKEN_EOF, NULL}
+  };
+  t_token *token = tokenize(input);
+
+  int result = assert_tokens_equal(token, expected, sizeof(expected) / sizeof(t_expected_token));
   if (result == false)
     exit(EXIT_FAILURE);
   free_token_list(token);

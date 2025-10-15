@@ -12,3 +12,4 @@ void test_empty_string();
 void test_blank();
 void test_pipe_and_redirect();
 void test_unclosed_quote();
+void test_quote_concatenation();
