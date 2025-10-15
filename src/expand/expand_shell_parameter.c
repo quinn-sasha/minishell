@@ -47,6 +47,21 @@ void expand_parameter(char **new_word, char **char_ptr_to_return, char *char_ptr
   append_string_to_string(new_word, expanded);
 }
 
+void append_single_quoted_word(char **dest, char *src) {
+  int i = 0;
+  if (src[i] != SINGLE_QUOTE_MARKER)
+    assert_error("Expected single quote");
+  append_character(dest, src[i]);
+  i++;
+  while (src[i] != SINGLE_QUOTE_MARKER) {
+    if (src[i] == '\0')
+      assert_error("Unclosed single quote");
+    append_character(dest, src[i]);
+    i++;
+  }
+  append_character(dest, src[i]);
+}
+
 /*
 * @return: もし展開されたら EXPANDED、それ以外は NOT_EXPANDED を返す
 */
@@ -57,6 +72,11 @@ void expand_word(char **word, t_map *envmap) {
     if (*char_ptr != '$') {
       append_character(&new_word, *char_ptr);
       char_ptr++;
+      continue;
+    }
+    if (*char_ptr == SINGLE_QUOTE_MARKER) {
+      append_single_quoted_word(&new_word, char_ptr);
+      consume_quoted_word(&char_ptr, char_ptr);
       continue;
     }
     if (is_special_parameter(char_ptr)) {
