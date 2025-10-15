@@ -69,14 +69,14 @@ void expand_word(char **word, t_map *envmap) {
   char *new_word = xcalloc(1, sizeof(char));
   char *char_ptr = *word;
   while (*char_ptr) {
-    if (*char_ptr != '$') {
-      append_character(&new_word, *char_ptr);
-      char_ptr++;
-      continue;
-    }
     if (*char_ptr == SINGLE_QUOTE_MARKER) {
       append_single_quoted_word(&new_word, char_ptr);
       consume_quoted_word(&char_ptr, char_ptr);
+      continue;
+    }
+    if (*char_ptr != '$') {
+      append_character(&new_word, *char_ptr);
+      char_ptr++;
       continue;
     }
     if (is_special_parameter(char_ptr)) {

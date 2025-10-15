@@ -79,7 +79,7 @@ void test_quoted_spaces_variable_expansion(void) {
   split_words(command);
 
   t_token *iter = command->arguments;
-  assert_same_string(iter->word, "\"      \"");
+  assert_same_string(iter->word, "\x02""      ""\x02");  // (char)0x02 is DOUBLE_QUOTE_MARKER
   clean_command(&command);
   clean_environment(envmap);
   printf("PASS\n");

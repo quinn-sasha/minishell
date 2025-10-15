@@ -34,7 +34,7 @@ void split_token_words(t_token *token);
 void trim_redirect_filename(t_redirect *redirect);
 void split_words(t_simple_command *command);
 // remove_quote.c
-void remove_quote_word(char **word);
+void remove_quote_word(char **word_to_modify);
 void remove_quote_token(t_token *token);
 void remove_quote_redirect(t_redirect *redirect);
 void remove_quote(t_simple_command *command);

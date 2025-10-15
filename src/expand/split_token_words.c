@@ -11,8 +11,20 @@ static bool is_default_ifs(int c) {
 }
 
 static int get_word_end(const char *s, int start) {
+  if (is_default_ifs(s[start]))
+    assert_error("get_word_end(): first character of word is IFS character");
   int i = start;
-  while (s[i] && !is_default_ifs(s[i])) {
+  while (s[i]) {
+    if (is_default_ifs(s[i]))
+      return i;
+    if (!is_quote(s[i])) {
+      i++;
+      continue;
+    }
+    char quote = s[i];
+    i++;
+    while (s[i] != quote)
+      i++;
     i++;
   }
   return i;
@@ -52,10 +64,6 @@ void split_token_words(t_token *token) {
   t_token *iter = token;
   while (!at_eof(iter)) {
     if (!iter->is_expanded) {
-      iter = iter->next;
-      continue;
-    }
-    if (iter->is_quoted) {
       iter = iter->next;
       continue;
     }

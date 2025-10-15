@@ -38,26 +38,24 @@ static int	is_in_set(char letter, char const *set)
 	return (0);
 }
 
-int	count_words(char const *s, const char *set)
-{
-	int	result;
-	int	i;
-
-	if (s[0] == '\0')
-		return (0);
-	result = 0;
-	i = 0;
-	while (s[i])
-	{
-		if (is_in_set(s[i], set)) {
-			i++;
-			continue ;
-		}
-		while (s[i] && !is_in_set(s[i], set))
-			i++;
-		result++;
-	}
-	return (result);
+int count_words(char *s, const char *excluded_chars) {
+  if (*s == '\0')
+    return 0;
+  int result = 0;
+  while (*s) {
+    if (is_in_set(*s, excluded_chars)) {
+      s++;
+      continue;
+    }
+    if (is_quote(*s)) {
+      consume_quoted_word(&s, s);
+      continue;
+    }
+    while (*s && !is_in_set(*s, excluded_chars))
+      s++;
+    result++;
+  }
+  return result;
 }
 
 size_t	count_array(char **array)

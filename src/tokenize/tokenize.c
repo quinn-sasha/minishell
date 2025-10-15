@@ -30,10 +30,16 @@ int is_blank(int c) {
   return false;
 }
 
-bool is_quote(int c) {
+bool is_quote_marker(int c) {
   if (c == SINGLE_QUOTE_MARKER)
     return true;
   if (c == DOUBLE_QUOTE_MARKER)
+    return true;
+  return false;
+}
+
+bool is_quote(int c) {
+  if (is_quote_marker(c))
     return true;
   if (c == SINGLE_QUOTE_CHARCTER)
     return true;

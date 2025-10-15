@@ -12,14 +12,10 @@ void trim_redirect_filename(t_redirect *redirect) {
       iter = iter->next;
       continue;
     }
-    if (iter->is_filename_quoted) {
-      iter = iter->next;
-      continue;
-    }
-    char *original = redirect->to.filename;
-    char *trimmed = ft_strtrim(original, DEFAULT_IFS_CHARS);
+    char *old_filename = redirect->to.filename;
+    char *trimmed = ft_strtrim(old_filename, DEFAULT_IFS_CHARS);
     redirect->to.filename = trimmed;
-    free(original);
+    free(old_filename);
   }
 }
 
