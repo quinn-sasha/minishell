@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 14:55:49 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/15 17:28:10 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:43:03 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ char	*resolve_pwd(char *pwd, char *path)
 		return (new_pwd);
 	}
 	new_pwd = create_final_path(path_array);
-	free(path_array);
 	return (new_pwd);
 }
 
