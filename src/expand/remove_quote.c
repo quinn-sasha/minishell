@@ -1,13 +1,19 @@
 #include "minishell.h"
 
-void remove_quote_word(char **word) {
-  if (!is_quote(**word))
-    assert_error("remove_quote_word(): a word was not quoted");
-  char *to_free = *word;
-  int end = ft_strlen(*word);
-  char *new_word = ft_substr(*word, 1, end - 2);
-  *word = new_word;
-  free(to_free);
+void remove_quote_word(char **word_to_modify) {
+  char *new_word = xcalloc(1, sizeof(char));
+  char *old_word = *word_to_modify;
+  int i = 0;
+  while (old_word[i]) {
+    if (is_quote_marker(old_word[i])) {
+      i++;
+      continue;
+    }
+    append_character(&new_word, old_word[i]);
+    i++;
+  }
+  free(old_word);
+  *word_to_modify = new_word;
 }
 
 void remove_quote_token(t_token *token) {
