@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:46:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/15 19:22:03 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:28:27 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int		wait_pipe(pid_t last_pid);
 pid_t	exec_pipe(t_simple_command *command, t_map *envmap);
 
 // redirect.c
-int		open_redirect_file(t_simple_command *command);
+int open_fd(t_redirect *redirect, t_map *envmap);
+int	open_redirect_file(t_simple_command *command, t_map *envmap);
 void	do_redirect(t_redirect *redirect);
 void	reset_redirect(t_redirect *redirect);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 20:30:01 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:37:11 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int	exec(t_simple_command *command, t_map *envmap)
 
 	if (command->next == NULL && is_builtin(command))
 	{
-		open_redirect_file(command);
+		open_redirect_file(command, envmap);
+		// error handling if open_redirect_file() return -1
 		status = exec_builtin(command, envmap);
 	}
 	else

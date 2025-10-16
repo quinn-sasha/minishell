@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:59:11 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 20:31:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:16:48by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_redirect_file(t_simple_command *command)
+int open_fd(t_redirect *redirect, t_map *envmap) {
+	char *pathname = redirect->to.filename;
+	if (redirect->redirect_kind == r_reading_until) {
+		return read_heredoc(pathname, envmap);
+	}
+	return open(pathname, redirect->open_flags, 0644);
+}
+
+int	open_redirect_file(t_simple_command *command, t_map *envmap)
 {
 	int			flags;
 	t_redirect	*current;
@@ -20,9 +28,7 @@ int	open_redirect_file(t_simple_command *command)
 	current = command->redirect;
 	while (current != NULL)
 	{
-		flags = current->open_flags;
-		current->file_fd = open(current->to.filename,
-				flags, 0644);
+		current->file_fd = open_fd(current, envmap);
 		if (current->file_fd < 0)
 			return (FAILED);
 		current = current->next;
