@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:23:29 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/14 20:31:14 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:41:40 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 {
 	pid_t	pid;
 
-	if (open_redirect_file(command) == FAILED)
+	if (open_redirect_file(command, envmap) == FAILED)
 		fatal_error ("cannot open file");
 	if (command == NULL || command->arguments == NULL)
 		fatal_error ("no command");
