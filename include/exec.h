@@ -35,8 +35,9 @@ int		wait_pipe(pid_t last_pid);
 pid_t	exec_pipe(t_simple_command *command, t_map *envmap);
 
 // redirect.c
-int open_fd(t_redirect *redirect, t_map *envmap);
-int	open_redirect_file(t_simple_command *command, t_map *envmap);
+int	gather_heredoc(t_simple_command *command, t_map *envmap);
+int open_fd(t_redirect *redirect);
+int	open_redirect_file(t_simple_command *command);
 void	do_redirect(t_redirect *redirect);
 void	reset_redirect(t_redirect *redirect);
 

@@ -81,7 +81,7 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 	char	*path;
 	char	**environ;
 
-	if (open_redirect_file(command, envmap) == FAILED)
+	if (open_redirect_file(command) == FAILED)
 		exit(1);
 	do_redirect(command->redirect);
 	argv = tokens_to_argv(command->arguments);
@@ -110,6 +110,11 @@ int	exec(t_simple_command *command, t_map *envmap)
 	pid_t	last_pid;
 	int		status;
 
+	if (gather_heredoc(command, envmap) == FAILED)
+	{
+		envmap->last_status = 1;
+		return (1);
+	}
 	if (command->next == NULL && is_builtin(command))
 		status = exec_builtin(command, envmap);
 	else
