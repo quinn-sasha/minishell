@@ -17,6 +17,8 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 	int		status;
 	char	**argv;
 
+	if (open_redirect_file(command, envmap) == FAILED)
+		return (1);
 	do_redirect(command->redirect);
 	status = 0;
 	argv = tokens_to_argv(command->arguments);

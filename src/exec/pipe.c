@@ -118,7 +118,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 		reset_signal(SIGINT);
 		prepare_pipe_child(command);
 		if (is_builtin(command))
-			exec_builtin(command, envmap);
+			exit(exec_builtin(command, envmap));
 		else
 			exec_nonbuiltin(command, envmap);
 	}

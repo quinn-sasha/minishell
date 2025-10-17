@@ -23,15 +23,22 @@ int open_fd(t_redirect *redirect, t_map *envmap) {
 int	open_redirect_file(t_simple_command *command, t_map *envmap)
 {
 	t_redirect	*current;
+	char		**argv;
 
 	current = command->redirect;
+	argv = tokens_to_argv(command->arguments);
 	while (current != NULL)
 	{
 		current->file_fd = open_fd(current, envmap);
 		if (current->file_fd < 0)
+		{
+			perror_wrapper(argv[0], current->to.filename, "cannot opeeeeen file");
+			free_array(argv);
 			return (FAILED);
+		}
 		current = current->next;
 	}
+	free_array(argv);
 	return (SUCCESS);
 }
 

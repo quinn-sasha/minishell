@@ -81,14 +81,10 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 	char	*path;
 	char	**environ;
 
-	argv = tokens_to_argv(command->arguments);
 	if (open_redirect_file(command, envmap) == FAILED)
-	{
-		perror_wrapper(argv[0], command->redirect->to.filename, "cannot open file");
-		free_array(argv);
 		exit(1);
-	}
 	do_redirect(command->redirect);
+	argv = tokens_to_argv(command->arguments);
 	path = argv[0];
 	if (ft_strchr(path, '/') == -1)
 		path = search_path(path, envmap);
@@ -115,11 +111,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 	int		status;
 
 	if (command->next == NULL && is_builtin(command))
-	{
-		open_redirect_file(command, envmap);
-		// error handling if open_redirect_file() return -1
 		status = exec_builtin(command, envmap);
-	}
 	else
 	{
 		last_pid = exec_pipe(command, envmap);
