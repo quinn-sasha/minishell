@@ -14,7 +14,7 @@ How to interpret input.
 bool is_same_operator(t_token *token, char *operator) {
   if (token->token_kind != TOKEN_OPERATOR)
     return false;
-  if (ft_strncmp(token->word, operator, ft_strlen(operator)) == 0)
+  if (ft_strcmp(token->word, operator) == 0)
     return true;
   return false;
 }
