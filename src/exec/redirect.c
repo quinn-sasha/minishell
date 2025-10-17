@@ -15,14 +15,13 @@
 int open_fd(t_redirect *redirect, t_map *envmap) {
 	char *pathname = redirect->to.filename;
 	if (redirect->redirect_kind == r_reading_until) {
-		return read_heredoc(pathname, envmap);
+		return read_heredoc(pathname, redirect->is_filename_quoted, envmap);
 	}
 	return open(pathname, redirect->open_flags, 0644);
 }
 
 int	open_redirect_file(t_simple_command *command, t_map *envmap)
 {
-	int			flags;
 	t_redirect	*current;
 
 	current = command->redirect;
