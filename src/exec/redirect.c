@@ -22,7 +22,6 @@ int open_fd(t_redirect *redirect, t_map *envmap) {
 
 int	open_redirect_file(t_simple_command *command, t_map *envmap)
 {
-	int			flags;
 	t_redirect	*current;
 
 	current = command->redirect;

@@ -81,8 +81,14 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 	char	*path;
 	char	**environ;
 
-	do_redirect(command->redirect);
 	argv = tokens_to_argv(command->arguments);
+	if (open_redirect_file(command, envmap) == FAILED)
+	{
+		perror_wrapper(argv[0], command->redirect->to.filename, "cannot open file");
+		free_array(argv);
+		exit(1);
+	}
+	do_redirect(command->redirect);
 	path = argv[0];
 	if (ft_strchr(path, '/') == -1)
 		path = search_path(path, envmap);
