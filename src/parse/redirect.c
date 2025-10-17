@@ -31,6 +31,7 @@ void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token)
     return;
   }
   redirect->here_doc_eof = xstrdup(token->next->word);
+  redirect->is_filename_quoted = token->next->is_quoted;
 }
 
 /*

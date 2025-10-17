@@ -39,7 +39,10 @@ void remove_quote_redirect(t_redirect *redirect) {
       iter = iter->next;
       continue;
     }
-    remove_quote_word(&iter->to.filename);
+    if (iter->redirect_kind == r_reading_until)
+      remove_quote_word(&iter->here_doc_eof);
+    else
+      remove_quote_word(&iter->to.filename);
     iter = iter->next;
   }
 }

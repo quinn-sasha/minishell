@@ -32,7 +32,7 @@ char *expand_heredoc_line(char *line, t_map *envmap) {
 * @return: もし読み込み途中に SIGINT シグナルを受けっとたら、HEREDOC_INTERRUPTED を返す.
 *          それ以外は HEREDOC_FINISHED を返す.
 */
-int read_until_delimiter(int *pipefd, const char *delimiter, t_map *envmap) {
+int read_until_delimiter(int *pipefd, const char *delimiter, bool is_quoted, t_map *envmap) {
   while (true) {
     char *line = readline("(heredoc)> ");
     if (g_signal_number == SIGINT) {
@@ -43,7 +43,8 @@ int read_until_delimiter(int *pipefd, const char *delimiter, t_map *envmap) {
       free(line);
       return HEREDOC_FINISHED;
     }
-    line = expand_heredoc_line(line, envmap);
+    if (!is_quoted)
+      line = expand_heredoc_line(line, envmap);
     ft_dprintf(pipefd[WRITE], "%s\n", line);
     free(line);
   }
@@ -55,11 +56,11 @@ int read_until_delimiter(int *pipefd, const char *delimiter, t_map *envmap) {
 * @return 読みこんだ入力が入っているパイプの読み込み口（fd）を返す.
 *         読み込み途中で SIGINT を補足したら、-1を返す.
 */
-int read_heredoc(const char *delimiter, t_map *envmap) {
+int read_heredoc(const char *delimiter, bool is_quoted, t_map *envmap) {
   rl_event_hook = stop_readline_if_sigint;
   int pipefd[2];
   xpipe(pipefd);
-  int result = read_until_delimiter(pipefd, delimiter, envmap);
+  int result = read_until_delimiter(pipefd, delimiter, is_quoted, envmap);
   close(pipefd[WRITE]);
   set_up_signal();
   if (result == HEREDOC_INTERRUPTED) {
