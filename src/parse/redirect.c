@@ -38,19 +38,19 @@ void fill_redirect(t_redirect *redirect, t_redirect_kind r_kind ,t_token *token)
 */
 t_redirect *new_redirect(t_token *token) {
   t_redirect *result = xcalloc(1, sizeof(t_redirect));
-  if (is_same_operator(token, "<")) {
-    fill_redirect(result, r_input_direction, token);
-    return result;
-  }
-  if (is_same_operator(token, ">")) {
-    fill_redirect(result, r_output_direction, token);
+  if (is_same_operator(token, "<<")) {
+    fill_redirect(result, r_reading_until, token);
     return result;
   }
   if (is_same_operator(token, ">>")) {
     fill_redirect(result, r_appending_to, token);
     return result;
   }
-  fill_redirect(result, r_reading_until, token);
+  if (is_same_operator(token, "<")) {
+    fill_redirect(result, r_input_direction, token);
+    return result;
+  }
+  fill_redirect(result, r_output_direction, token);
   return result;
 }
 
