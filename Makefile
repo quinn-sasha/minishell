@@ -49,8 +49,6 @@ BUILTIN_FILES := builtin/builtin_export.c \
 					builtin/builtin.c
 ERROR_FILES := error/error.c
 
-REDIRECT_FILES := redirect/heredoc.c
-
 EXPAND_FILES := expand/expand.c \
                 expand/expand_shell_parameter.c \
                 expand/is_valid_syntax_after_expansion.c \
@@ -63,7 +61,8 @@ EXECUTE_FILES := execute/execute.c
 EXEC_FILES := exec/exec.c \
 					exec/pipe.c \
 					exec/path.c \
-					exec/redirect.c
+					exec/redirect.c \
+					exec/heredoc.c
 
 SRCFILES := main.c \
 	          destructor.c \
@@ -75,12 +74,11 @@ SRCFILES := main.c \
 						$(PARSE_FILES) \
 						$(LIBRARY_FILES) \
 						$(ERROR_FILES) \
-						$(REDIRECT_FILES) \
 						$(EXPAND_FILES) \
 						$(EXECUTE_FILES) \
 						$(EXEC_FILES) \
 						$(BUILTIN_FILES)
-						
+
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)
