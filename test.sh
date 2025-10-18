@@ -6,7 +6,8 @@ RESET="\033[0m"
 OK=$GREEN"OK"$RESET
 NG=$RED"NG"$RESET
 
-# 参考にしたコード: https://github.com/usatie/minishell/blob/submit/test.sh
+# 参考にしたコード1: https://github.com/usatie/minishell/blob/submit/test.sh
+# 参考にしたコード2: https://github.com/t0mm4rx/minishell_tests
 
 # Manual Test
 # $ ./minishell
@@ -35,6 +36,8 @@ NG=$RED"NG"$RESET
 # 1. Ctrl-\
 # 2. Ctrl-C
 # 3. Ctrl-D
+#
+# echo hello ; ls
 
 
 cat <<EOF | gcc -xc -o a.out -
@@ -128,6 +131,7 @@ assert "nosuchfileexists"
 assert '""'
 assert "''"
 assert '..'
+assert '$'
 
 # Is a directory
 assert './'
@@ -135,6 +139,15 @@ assert '/'
 assert '/etc'
 assert '/etc/'
 assert '////'
+
+# Syntax error
+assert 'export HELLO="hello world"\ncat < $HELLO'
+assert 'export EMPTY=""\ncat < $EMPTY'
+assert '|'
+assert '| |'
+assert 'echo hello | |'
+assert 'echo >'
+assert 'echo bonjour >>> test'
 
 # $PATH にコロン区切りで複数のディレクトリが指定された場合、シェルは左から右へ、正しい順番でコマンドを探しているか
 mkdir /tmp/dir1 /tmp/dir2
@@ -200,6 +213,8 @@ assert "echo \"'hello   world'\" \"42Tokyo\""
 assert 'echo "hello world" > hello.txt'
 assert 'echo hello >hello.txt' 'hello.txt'
 assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
+assert '$ echo test0 > file test1'
+assert 'not_cmd hello > empty_file'
 
 ## Redirecting input
 assert 'cat <Makefile'
@@ -265,6 +280,7 @@ assert 'export FOO="a       b"\necho hello$FOO'
 assert 'export FOO="a       b"\necho $FOO"world"'
 assert 'export FOO="a       b"\necho hello$FOO"world"'
 assert 'export FOO="echo a      b"\n$FOO'
+assert 'export FOO="          "\necho "$FOO"'
 
 # Signal handling
 echo "int main() { while (1) ; }" | gcc -xc -o infinite_loop -
@@ -373,7 +389,9 @@ assert 'cd /tmp///'
 assert 'cd /../../../././.././'
 assert 'cd src'
 assert 'unset HOME\ncd'
+assert '$ cd / | pwd'
 
+assert 'cd $HOME/Documents'
 assert 'cd \n echo $PWD'
 assert 'cd \n echo $PWD'
 assert 'cd .\n echo $PWD'
@@ -397,6 +415,7 @@ assert 'echo -n hello world'
 assert 'echo hello -n'
 assert 'echo -nn'
 assert 'echo -n-n-n'
+assert '$ echo -n -n -nnnn -nnnnm'
 assert 'echo ";|()"'
 
 ## pwd
@@ -421,3 +440,4 @@ cleanup
 if [ -f error.log ]; then
 	echo -e $RED"Some tests have failed. Please review the error.log for more information."$RESET
 fi
+
