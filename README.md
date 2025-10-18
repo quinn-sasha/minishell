@@ -307,6 +307,15 @@ bash: <: No such file or directory
 
 展開した文字列がクオートで囲まれている場合、その文字列に対して word splitting は行わない.
 
+例：
+```bash
+squinn@c1r2s6:~/project/minishell$ export TEST="'a        a'"
+squinn@c1r2s6:~/project/minishell$ echo $TEST
+'a a'
+squinn@c1r2s6:~/project/minishell$ echo "$TEST"
+'a        a'
+```
+
 そもそも展開されていなければ、word splitting は行わない（トークンのメンバに is_expanded とかいう変数いれておくと良さそう）.
 
 Word splitting は 「IFSホワイトスペース」を区切り文字として文字列を分割する.
@@ -496,10 +505,16 @@ git push --no-verify ...
 このルールは、コンパイルしたプログラムを実行する。
 プログラムはテストの結果を終了ステータスで示す。終了ステータスが0でなければ、そこで全体のテストが終了する。
 
+## 全体テストの方法
+
+test.sh を実行するときは、一時的にプロンプトを表示しないようにする.
+方法は、 `input = readline(NULL);` みたいにすること.
+
 ## Reference
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
 
 
 
