@@ -22,7 +22,7 @@ void interpret(char *input, t_map *envmap) {
     clean_command(&command);
     return;
   }
-  envmap->last_status =  exec(command, envmap);
+  envmap->last_status = exec(command, envmap);
   clean_command(&command);
 }
 

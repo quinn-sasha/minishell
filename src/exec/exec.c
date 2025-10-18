@@ -6,7 +6,7 @@
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/16 15:37:11 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/18 17:31:31 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 	int		status;
 
 	if (gather_heredoc(command, envmap) == FAILED)
-	{
-		envmap->last_status = 1;
-		return (1);
-	}
+		return (EXIT_FAILURE);
 	if (command->next == NULL && is_builtin(command))
 		status = exec_builtin(command, envmap);
 	else
