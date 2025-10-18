@@ -106,10 +106,8 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 {
 	pid_t	pid;
 
-	if (open_redirect_file(command, envmap) == FAILED)
-		fatal_error ("cannot open file");
 	if (command == NULL || command->arguments == NULL)
-		fatal_error ("no command");
+		assert_error ("no command");
 	prepare_pipe(command);
 	pid = fork();
 	if (pid < 0)
@@ -120,7 +118,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 		reset_signal(SIGINT);
 		prepare_pipe_child(command);
 		if (is_builtin(command))
-			exec_builtin(command, envmap);
+			exit(exec_builtin(command, envmap));
 		else
 			exec_nonbuiltin(command, envmap);
 	}

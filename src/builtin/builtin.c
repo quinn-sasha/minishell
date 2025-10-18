@@ -12,29 +12,36 @@
 
 #include "minishell.h"
 
+static int exec_builtin_command(char **argv, t_map *envmap)
+{
+    if (ft_strcmp(argv[0], "exit") == 0)
+        return (builtin_exit(argv, envmap));
+    if (ft_strcmp(argv[0], "export") == 0)
+        return (builtin_export(argv, envmap));
+    if (ft_strcmp(argv[0], "unset") == 0)
+        return (builtin_unset(argv, envmap));
+    if (ft_strcmp(argv[0], "env") == 0)
+        return (builtin_env(envmap));
+    if (ft_strcmp(argv[0], "cd") == 0)
+        return (builtin_cd(argv, envmap));
+    if (ft_strcmp(argv[0], "echo") == 0)
+        return (builtin_echo(argv));
+    if (ft_strcmp(argv[0], "pwd") == 0)
+        return (builtin_pwd());
+    return (1); 
+}
 int	exec_builtin(t_simple_command *command, t_map *envmap)
 {
 	int		status;
 	char	**argv;
 
+	if (open_redirect_file(command) == FAILED)
+		return (1);
 	do_redirect(command->redirect);
 	status = 0;
 	argv = tokens_to_argv(command->arguments);
 	free_token_list(command->arguments);
-	if (ft_strcmp(argv[0], "exit") == 0)
-		status = builtin_exit(argv, envmap);
-	if (ft_strcmp(argv[0], "export") == 0)
-		status = builtin_export(argv, envmap);
-	if (ft_strcmp(argv[0], "unset") == 0)
-		status = builtin_unset(argv, envmap);
-	if (ft_strcmp(argv[0], "env") == 0)
-		status = builtin_env(envmap);
-	if (ft_strcmp(argv[0], "cd") == 0)
-		status = builtin_cd(argv, envmap);
-	if (ft_strcmp(argv[0], "echo") == 0)
-		status = builtin_echo(argv);
-	if (ft_strcmp(argv[0], "pwd") == 0)
-		status = builtin_pwd();
+	status = exec_builtin_command(argv, envmap);
 	free_array(argv);
 	reset_redirect(command->redirect);
 	return (status);

@@ -6,32 +6,64 @@
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:59:11 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/16 14:16:48by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/16 14:16:48 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int open_fd(t_redirect *redirect, t_map *envmap) {
-	char *pathname = redirect->to.filename;
-	if (redirect->redirect_kind == r_reading_until) {
-		return read_heredoc(pathname, redirect->is_filename_quoted, envmap);
+int	gather_heredoc(t_simple_command *command, t_map *envmap)
+{
+	t_redirect	*redirect;
+
+	while (command != NULL)
+	{
+		redirect = command->redirect;
+		while (redirect != NULL)
+		{
+			if (redirect->redirect_kind != r_reading_until)
+			{
+				redirect = redirect->next;
+				continue ;
+			}
+			redirect->file_fd = read_heredoc(redirect->here_doc_eof, redirect->is_filename_quoted, envmap);
+			if (redirect->file_fd == -1)
+				return (FAILED);
+			redirect = redirect->next;
+		}
+		command = command->next;
 	}
-	return open(pathname, redirect->open_flags, 0644);
+	return (SUCCESS);
 }
 
-int	open_redirect_file(t_simple_command *command, t_map *envmap)
+int	open_fd(t_redirect *redirect)
+{
+	char	*pathname;
+
+	pathname = redirect->to.filename;
+	return (open(pathname, redirect->open_flags, 0644));
+}
+
+int	open_redirect_file(t_simple_command *command)
 {
 	t_redirect	*current;
+	char		**argv;
 
 	current = command->redirect;
+	argv = tokens_to_argv(command->arguments);
 	while (current != NULL)
 	{
-		current->file_fd = open_fd(current, envmap);
+		if (current->redirect_kind != r_reading_until)
+			current->file_fd = open_fd(current);
 		if (current->file_fd < 0)
+		{
+			perror_wrapper(argv[0], current->to.filename, "cannot open file");
+			free_array(argv);
 			return (FAILED);
+		}
 		current = current->next;
 	}
+	free_array(argv);
 	return (SUCCESS);
 }
 
