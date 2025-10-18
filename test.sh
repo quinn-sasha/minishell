@@ -8,6 +8,35 @@ NG=$RED"NG"$RESET
 
 # 参考にしたコード: https://github.com/usatie/minishell/blob/submit/test.sh
 
+# Manual Test
+# $ ./minishell
+# $
+# 1. Ctrl-\
+# 2. Ctrl-C
+# 3. Ctrl-D
+#
+# $ ./minishell
+# $ hogehoge
+# 1. Ctrl-\
+# 2. Ctrl-C
+# 3. Ctrl-D
+#
+# $ ./minishell
+# $ cat <<EOF
+# >
+# 1. Ctrl-\
+# 2. Ctrl-C
+# 3. Ctrl-D
+#
+# $ ./minishell
+# $ cat <<EOF
+# > hoge
+# > fuga
+# 1. Ctrl-\
+# 2. Ctrl-C
+# 3. Ctrl-D
+
+
 cat <<EOF | gcc -xc -o a.out -
 #include <stdio.h>
 int main() { printf("hello from a.out\n"); }
@@ -76,34 +105,6 @@ assert() {
 }
 
 rm -f error.log
-
-# Manual Test
-# $ ./minishell
-# $
-# 1. Ctrl-\
-# 2. Ctrl-C
-# 3. Ctrl-D
-#
-# $ ./minishell
-# $ hogehoge
-# 1. Ctrl-\
-# 2. Ctrl-C
-# 3. Ctrl-D
-#
-# $ ./minishell
-# $ cat <<EOF
-# >
-# 1. Ctrl-\
-# 2. Ctrl-C
-# 3. Ctrl-D
-#
-# $ ./minishell
-# $ cat <<EOF
-# > hoge
-# > fuga
-# 1. Ctrl-\
-# 2. Ctrl-C
-# 3. Ctrl-D
 
 # Empty, spaces anc tabs
 assert ''
@@ -232,5 +233,191 @@ assert 'cat <<EO"F" \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
 assert 'cat Makefile | grep minishell'
 assert 'cat | cat | ls\n\n'
 assert 'echo bin/magic | tr a-z A-Z'
-assert ''
+## 約100個のコマンドをパイプで繋ぐテスト---
+NUM_PIPES=100
+print_desc "Test with a lot of commands connected by pipeline"
+CMD="ls -l"
+for i in $(seq 1 $NUM_PIPES)
+do
+    CMD="$CMD | cat"
+done
+CMD="$CMD | wc -l"
+assert "$CMD"
 
+# Expand Variable
+assert 'echo $USER'
+assert 'echo $USER$PATH$TERM'
+assert 'echo "$USER  $PATH   $TERM"'
+
+# Special Parameter $?
+assert 'echo $?'
+assert 'invalid\nexpr $? + $?'
+assert 'invalid\necho $?\necho $?'
+## 改行で終了ステータスが0に更新されないことを確認
+assert 'exit42\necho $?\necho $?'
+assert 'exit42\n\necho $?\necho $?'
+
+# Word Splitting
+assert 'export FOO="echo hello"\n$FOO'
+assert 'export TEST="cho -n"\ne$TEST'
+assert 'export FOO="a       b"\necho $FOO'
+assert 'export FOO="a       b"\necho hello$FOO'
+assert 'export FOO="a       b"\necho $FOO"world"'
+assert 'export FOO="a       b"\necho hello$FOO"world"'
+assert 'export FOO="echo a      b"\n$FOO'
+
+# Signal handling
+echo "int main() { while (1) ; }" | gcc -xc -o infinite_loop -
+
+## Signal to shell processes
+print_desc "SIGTERM to SHELL"
+(sleep 0.01; pkill -SIGTERM bash;
+ sleep 0.01; pkill -SIGTERM minishell) &
+assert './infinite_loop' 2>/dev/null # Redirect stderr to suppress signal terminated message
+
+print_desc "SIGQUIT to SHELL"
+(sleep 0.01; pkill -SIGQUIT bash; # SIGQUIT should not kill the shell
+ sleep 0.01; pkill -SIGTERM bash;
+ sleep 0.01; pkill -SIGQUIT minishell; # SIGQUIT should not kill the shell
+ sleep 0.01; pkill -SIGTERM minishell) &
+assert './infinite_loop' 2>/dev/null # Redirect stderr to suppress signal terminated message
+
+print_desc "SIGINT to SHELL"
+(sleep 0.01; pkill -SIGINT bash; # SIGINT should not kill the shell
+ sleep 0.01; pkill -SIGTERM bash;
+ sleep 0.01; pkill -SIGINT minishell; # SIGINT should not kill the shell
+ sleep 0.01; pkill -SIGTERM minishell) &
+assert './infinite_loop' 2>/dev/null # Redirect stderr to suppress signal terminated message
+
+## Signal to child processes
+print_desc "SIGTERM to child process"
+(sleep 0.01; pkill -SIGTERM infinite_loop;
+ sleep 0.01; pkill -SIGTERM infinite_loop) &
+assert './infinite_loop'
+
+print_desc "SIGINT to child process"
+(sleep 0.01; pkill -SIGINT infinite_loop;
+ sleep 0.01; pkill -SIGINT infinite_loop) &
+assert './infinite_loop'
+
+print_desc "SIGQUIT to child process"
+(sleep 0.01; pkill -SIGQUIT infinite_loop;
+ sleep 0.01; pkill -SIGQUIT infinite_loop) &
+assert './infinite_loop'
+
+print_desc "SIGUSR1 to child process"
+(sleep 0.01; pkill -SIGUSR1 infinite_loop;
+ sleep 0.01; pkill -SIGUSR1 infinite_loop) &
+assert './infinite_loop'
+
+# Builtin
+## exit
+assert 'exit'
+assert 'exit 42'
+assert 'exit -42'
+assert 'exit +42'
+assert 'exit ""'
+assert 'exit hello'
+assert 'exit 42Tokyo'
+assert 'exit 1 2'
+assert 'exit 9223372036854775806'
+assert 'exit 9223372036854775807'
+assert 'exit 9223372036854775808'
+assert 'exit -9223372036854775807'
+assert 'exit -9223372036854775808'
+assert 'exit -9223372036854775809'
+
+## export
+print_desc "Output of 'export' differs, but it's ok."
+assert 'export' # order of variables, default variables differs...
+assert 'export | grep nosuch | sort'
+assert 'export nosuch\n export | grep nosuch | sort'
+assert 'export nosuch=fuga\n export | grep nosuch | sort'
+assert 'export nosuch=fuga hoge=nosuch\n export | grep nosuch | sort'
+assert 'export [invalid]'
+assert 'export [invalid_nosuch]\n export | grep nosuch | sort'
+assert 'export [invalid]=nosuch\n export | grep nosuch | sort'
+assert 'export [invalid] nosuch hoge=nosuch\n export | grep nosuch | sort'
+assert 'export nosuch [invalid] hoge=nosuch\n export | grep nosuch | sort'
+assert 'export nosuch hoge=nosuch [invalid]\n export | grep nosuch | sort'
+assert 'export nosuch="nosuch2=hoge"\nexport $nosuch\n export | grep nosuch | sort'
+
+## unset
+(
+	print_desc 'export hoge fuga=fuga'
+	export hoge fuga=fuga
+	assert 'unset'
+	assert 'unset hoge'
+	assert 'unset fuga'
+	assert 'unset nosuch'
+	assert 'unset [invalid]'
+	assert 'unset hoge fuga'
+	assert 'unset hoge nosuch fuga'
+	assert 'unset fuga \n export | echo $fuga'
+	assert 'unset [invalid] fuga \n echo $fuga'
+)
+
+## env
+print_desc "Output of 'env' differs, but it's ok."
+assert 'env' # order of variables, default variables differs...
+assert 'env | grep hoge | sort'
+
+## cd
+assert 'cd'
+assert 'cd .'
+assert 'cd ..'
+assert 'cd ///'
+assert 'cd /tmp'
+assert 'cd /tmp/'
+assert 'cd /tmp///'
+assert 'cd /../../../././.././'
+assert 'cd src'
+assert 'unset HOME\ncd'
+
+assert 'cd \n echo $PWD'
+assert 'cd \n echo $PWD'
+assert 'cd .\n echo $PWD'
+assert 'cd ..\n echo $PWD'
+assert 'cd ///\n echo $PWD'
+assert 'cd /tmp\n echo $PWD'
+assert 'cd /tmp/\n echo $PWD'
+assert 'cd /tmp///\n echo $PWD'
+assert 'cd /../../../././.././\n echo $PWD'
+assert 'cd src\n echo $PWD'
+assert 'unset HOME\ncd \n echo $PWD'
+assert 'unset OLDPWD\ncd -'  # This test may not have to pass
+
+## echo
+assert 'echo'
+assert 'echo hello'
+assert 'echo hello "    " world'
+assert 'echo -n'
+assert 'echo -n hello'
+assert 'echo -n hello world'
+assert 'echo hello -n'
+assert 'echo -nn'
+assert 'echo -n-n-n'
+assert 'echo ";|()"'
+
+## pwd
+assert 'pwd'
+assert 'cd\npwd'
+assert 'cd src\npwd'
+assert 'cd /etc\npwd'
+assert 'cd . \n pwd \n echo $PWD $OLDPWD'
+assert 'cd .. \n pwd \n echo $PWD $OLDPWD'
+assert 'cd /// \n pwd \n echo $PWD $OLDPWD'
+assert 'cd /tmp/// \n pwd \n echo $PWD $OLDPWD'
+assert 'unset PWD\npwd\ncd /etc\npwd'
+
+## export attribute
+assert 'unset PWD \n cd \n echo $PWD \ncd /tmp\necho $PWD'
+assert 'unset PWD\ncd\necho $OLDPWD\ncd /tmp\necho $OLDPWD'
+assert 'unset PWD\ncd\nexport|grep PWD\ncd /tmp\nexport|grep PWD'
+assert 'unset PWD\ncd\nenv|grep PWD\ncd /tmp\nenv|grep PWD'
+
+cleanup
+
+if [ -f error.log ]; then
+	echo -e $RED"Some tests have failed. Please review the error.log for more information."$RESET
+fi
