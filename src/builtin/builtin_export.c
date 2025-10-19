@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 13:09:20 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:57:39 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,22 @@ int	display_map_ordered(t_map *envmap)
 	size_t	count;
 	size_t	i;
 
-	if (envmap == NULL)
-		return (SUCCESS);
 	count = count_map_item(envmap);
 	if (count == 0)
 		return (SUCCESS);
 	sorted_array = map_sort(envmap);
-	if (!sorted_array)
-		return (SUCCESS);
 	i = 0;
-	while (i < count)
+	while (sorted_array && i < count && sorted_array[i])
 	{
-		if (sorted_array[i]->value != NULL)
-			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n",
-				sorted_array[i]->name, sorted_array[i]->value);
-		else
-			ft_dprintf(STDOUT_FILENO, "declare -x %s\n",
-				sorted_array[i]->name);
+		if (ft_strcmp(sorted_array[i]->name, "_") != 0)
+		{
+			if (sorted_array[i]->value != NULL && sorted_array[i]->is_exported)
+				ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n",
+					sorted_array[i]->name, sorted_array[i]->value);
+			else if (sorted_array[i]->is_exported)
+				ft_dprintf(STDOUT_FILENO, "declare -x %s\n",
+					sorted_array[i]->name);
+		}
 		i++;
 	}
 	free(sorted_array);
@@ -123,9 +122,9 @@ int	builtin_export(char **argv, t_map *envmap)
 			perror_wrapper("export", name, "not a valid identifier");
 			status = 1;
 			i++;
-			continue;
+			continue ;
 		}
-		map_set(envmap, str);
+		map_set(envmap, str, TRUE);
 		i++;
 	}
 	return (status);

@@ -11,12 +11,13 @@ void set_name_and_value(const char *string, char **name, char **value) {
   *value = xstrdup(string + name_end + 1);
 }
 
-void map_insert(t_map *map, const char *name, const char *value) {
+void map_insert(t_map *map, const char *name, const char *value, int is_exported) {
   t_item *item;
   if (value == NULL)
     item = new_item(xstrdup(name), NULL);
   else
     item = new_item(xstrdup(name), xstrdup(value));
+  item->is_exported = is_exported;
   item->next = map->head.next;
   map->head.next = item;
 }
@@ -30,15 +31,15 @@ void map_update_item(t_item *item, const char *value) {
   item->value = xstrdup(value);
 }
 
-void map_set_internal(t_map *map, char *name, char *value) {
+void map_set_internal(t_map *map, char *name, char *value, int is_exported) {
   t_item *item = map_get(map, name);
   if (item)
     map_update_item(item, value);
   else
-    map_insert(map, name, value);
+    map_insert(map, name, value, is_exported);
 }
 
-void map_set(t_map *map, const char *string) {
+void map_set(t_map *map, const char *string, int is_exported) {
   char *name;
   char *value;
   set_name_and_value(string, &name, &value);
@@ -47,7 +48,7 @@ void map_set(t_map *map, const char *string) {
     free(value);
     return;
   }
-  map_set_internal(map, name, value);
+  map_set_internal(map, name, value, is_exported);
   free(name);
   free(value);
 }

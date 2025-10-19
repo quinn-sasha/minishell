@@ -6,30 +6,31 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 15:37:58 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:57:28 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int exec_builtin_command(char **argv, t_map *envmap)
+static int	exec_builtin_command(char **argv, t_map *envmap)
 {
-    if (ft_strcmp(argv[0], "exit") == 0)
-        return (builtin_exit(argv, envmap));
-    if (ft_strcmp(argv[0], "export") == 0)
-        return (builtin_export(argv, envmap));
-    if (ft_strcmp(argv[0], "unset") == 0)
-        return (builtin_unset(argv, envmap));
-    if (ft_strcmp(argv[0], "env") == 0)
-        return (builtin_env(envmap));
-    if (ft_strcmp(argv[0], "cd") == 0)
-        return (builtin_cd(argv, envmap));
-    if (ft_strcmp(argv[0], "echo") == 0)
-        return (builtin_echo(argv));
-    if (ft_strcmp(argv[0], "pwd") == 0)
-        return (builtin_pwd());
-    return (1); 
+	if (ft_strcmp(argv[0], "exit") == 0)
+		return (builtin_exit(argv, envmap));
+	if (ft_strcmp(argv[0], "export") == 0)
+		return (builtin_export(argv, envmap));
+	if (ft_strcmp(argv[0], "unset") == 0)
+		return (builtin_unset(argv, envmap));
+	if (ft_strcmp(argv[0], "env") == 0)
+		return (builtin_env(envmap));
+	if (ft_strcmp(argv[0], "cd") == 0)
+		return (builtin_cd(argv, envmap));
+	if (ft_strcmp(argv[0], "echo") == 0)
+		return (builtin_echo(argv));
+	if (ft_strcmp(argv[0], "pwd") == 0)
+		return (builtin_pwd());
+	return (1);
 }
+
 int	exec_builtin(t_simple_command *command, t_map *envmap)
 {
 	int		status;

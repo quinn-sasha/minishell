@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:22:58 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 13:06:18 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:40:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	builtin_env(t_map *envmap)
 	}
 	while (current != NULL)
 	{
-		if (current->value != NULL)
+		if (current->value != NULL && current->is_exported)
 			printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}

@@ -32,7 +32,7 @@ int main(void) {
   while (TRUE) {
     char *input = readline("micro-shell> ");
     if (input == NULL)
-      return EXIT_SUCCESS;
+      return (environment->last_status);
     if (*input)
       add_history(input);
     interpret(input, environment);
