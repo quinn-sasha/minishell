@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 14:55:49 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 19:34:43 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 21:27:39 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*create_final_path(char **path_array)
 		result = tmp;
 		i++;
 	}
+	free_array(compressed_array);
 	return (result);
 }
 
@@ -102,6 +103,7 @@ int	builtin_cd(char **argv, t_map *envmap)
 	char	*pwd;
 	char	path[PATH_MAX];
 	char	*new_pwd;
+	char	*new_pwd_str;
 
 	pwd = xgetenv(envmap, "PWD");
 	if (set_path_cd(path, pwd, argv, envmap) == FAILED)
@@ -112,7 +114,9 @@ int	builtin_cd(char **argv, t_map *envmap)
 		return (1);
 	}
 	new_pwd = resolve_pwd(pwd, path);
-	map_set(envmap, join_str_separator("PWD", new_pwd, '='), FALSE);
+	new_pwd_str = join_str_separator("PWD", new_pwd, '=');
+	map_set(envmap, new_pwd_str, FALSE);
 	free(new_pwd);
+	free(new_pwd_str);
 	return (SUCCESS);
 }

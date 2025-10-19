@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:00:20 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 19:34:33 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 21:28:32 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,14 @@ char	*search_path(const char *filename, t_map *envmap)
 int	set_path_cd(char *path, char *pwd, char **argv, t_map *envmap)
 {
 	char	*home;
+	char	*oldpwd_str;
 
 	if (pwd == NULL)
-		map_set(envmap, "OLDPWD", FALSE);
+		oldpwd_str = xstrdup("OLDPWD");
 	else
-		map_set(envmap, join_str_separator("OLDPWD", pwd, '='), FALSE);
+		oldpwd_str = join_str_separator("OLDPWD", pwd, '=');
+	map_set(envmap, oldpwd_str, FALSE);
+	free(oldpwd_str);
 	if (argv[1] == NULL)
 	{
 		home = xgetenv(envmap, "HOME");
