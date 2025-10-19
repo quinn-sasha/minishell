@@ -18,7 +18,7 @@ void interpret(char *input, t_map *envmap) {
     return;
   }
   if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
-    envmap->last_status = SYNTAX_ERROR_LAST_STATUS;
+    envmap->last_status = EXIT_FAILURE;
     clean_command(&command);
     return;
   }
