@@ -52,6 +52,7 @@ void split_token_word(t_token *token) {
     int end = get_word_end(trimmed, start);
     token->word = ft_substr(trimmed, start, end - 1);
     insert_next_token(token, new_token(TOKEN_WORD, NULL));
+    token->next->is_quoted = token->is_quoted;
     token = token->next;
     start = end;
   }
