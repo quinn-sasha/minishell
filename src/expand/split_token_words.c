@@ -17,7 +17,7 @@ static int get_word_end(const char *s, int start) {
   while (s[i]) {
     if (is_default_ifs(s[i]))
       return i;
-    if (!is_quote(s[i])) {
+    if (!is_quote_marker(s[i])) {
       i++;
       continue;
     }

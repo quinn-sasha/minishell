@@ -4,22 +4,26 @@ volatile sig_atomic_t g_signal_number;
 
 void interpret(char *input, t_map *envmap) {
   t_token *token = tokenize(input);
-  if (token == NULL)
+  if (token == NULL) {
+    envmap->last_status = SYNTAX_ERROR_LAST_STATUS;
     return;
+  }
   if (at_eof(token)) {
     free_token_list(token);
     return;
   }
   t_simple_command *command = NULL;
   if (parse(&command, token) == PARSE_SYNTAX_ERROR) {
+    envmap->last_status = SYNTAX_ERROR_LAST_STATUS;
     return;
   }
   if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
+    envmap->last_status = SYNTAX_ERROR_LAST_STATUS;
     clean_command(&command);
     return;
   }
-  exec(command, envmap);
-  // clean command
+  envmap->last_status = exec(command, envmap);
+  clean_command(&command);
 }
 
 int main(void) {

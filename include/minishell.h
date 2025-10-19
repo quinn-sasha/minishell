@@ -35,6 +35,7 @@
 #define CHILD 0
 #define READ 0
 #define WRITE 1
+#define SYNTAX_ERROR_LAST_STATUS 2
 
 // utils.c
 char	*unsigned_itoa(unsigned long long num, unsigned int base);

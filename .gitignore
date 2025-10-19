@@ -2,7 +2,6 @@ minishell
 test_main
 *.o
 *.out
-*.sh
 .DS_Store
 prototypes.h
 .vscode

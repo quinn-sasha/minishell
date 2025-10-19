@@ -85,7 +85,6 @@ A command that is implemented internally by the shell itself, rather than by an 
 ## サポートしない機能
 
 - here documentの、環境変数展開を以外の追加機能（例えば、コマンド置換など）
-- here documentで、delimiterがクオートに囲まれているかどうかで、変数展開などをするか否か変更できる機能
 - redirections: 1>, >&など
 - pipes: |&
 - job control: Micro-shellでは、全てのコマンドはフォアグラウンドで実行される
@@ -93,7 +92,6 @@ A command that is implemented internally by the shell itself, rather than by an 
 - シェル変数など、環境変数以外のbashで使われている変数
 - 環境変数以外の展開（brace expansion, tilde expansion, command substitution, arithmetic expansion and filename expansion)
 - Word splitting での、IFSをユーザーがカスタマイズできる機能（常にIFSホワイトスペースで単語を区切る）
-- クオートの連結機能
 
 > 単一引用符、二重引用符、引用符なし
 > これらが連結している場合は1つの引数として扱ってますね
@@ -104,15 +102,6 @@ $ echo 'hello'"world"
 # => helloworld
 $ echo abc'def'
 # => abcdef
-```
-
-Micro-shell では、上記の出力は以下のようにする.
-
-```bash
-$ echo 'hello'"world"
-# => hello world
-$ echo abc'def'
-# => abc def
 ```
 
 ## 受けつける入力の文法
@@ -183,10 +172,8 @@ delimiter に対してはいかなる展開もしない.
 例えば、
 delimiter がクオートで囲まれている場合、delimiter はクオートを除外したものになる.
 また読みこんだ行は展開されなくなる.
-**しかしこの機能は実装しない.** delmiterはそのままの文字列として解釈する.
 
 delimiter がクオートに囲まれていない場合は、読み込んだ入力は展開される.
-**この実装では常に展開をする.**
 コマンド置換はサポートしない.
 
 
@@ -320,6 +307,15 @@ bash: <: No such file or directory
 
 展開した文字列がクオートで囲まれている場合、その文字列に対して word splitting は行わない.
 
+例：
+```bash
+squinn@c1r2s6:~/project/minishell$ export TEST="'a        a'"
+squinn@c1r2s6:~/project/minishell$ echo $TEST
+'a a'
+squinn@c1r2s6:~/project/minishell$ echo "$TEST"
+'a        a'
+```
+
 そもそも展開されていなければ、word splitting は行わない（トークンのメンバに is_expanded とかいう変数いれておくと良さそう）.
 
 Word splitting は 「IFSホワイトスペース」を区切り文字として文字列を分割する.
@@ -348,7 +344,7 @@ squinn@c6r2s4:~/project/minishell$ echo "$SPACES" | cat -e
        $
 ```
 
-下も似たような入力だが、変数がダブルクオートで囲まれていないため、word splitting は適用される.
+下も似たような入力だが、クオートがクオートで囲まれてクオートの記号としての特別な意味が失われているため、クオート内の空白が削除されている.
 
 ```bash
 export SPACES='"     "'
@@ -509,10 +505,19 @@ git push --no-verify ...
 このルールは、コンパイルしたプログラムを実行する。
 プログラムはテストの結果を終了ステータスで示す。終了ステータスが0でなければ、そこで全体のテストが終了する。
 
+## 全体テストの方法
+
+test.sh を実行するときは、一時的にプロンプトを表示しないようにする.
+方法は、 `input = readline(NULL);` みたいにすること.
+
 ## Reference
 - https://www.gnu.org/software/bash/manual/bash.html
 - https://github.com/usatie/minishell
 - https://zenn.dev/labbase/articles/60cca07076a7f6#%E3%83%95%E3%83%83%E3%82%AF%E3%81%AE%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E5%85%B1%E6%9C%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
+
+
+
 
 
 
