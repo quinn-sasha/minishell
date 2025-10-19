@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/18 17:31:31 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/19 15:00:07 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 	do_redirect(command->redirect);
 	argv = tokens_to_argv(command->arguments);
 	path = argv[0];
+	if (ft_strcmp(path, "") == 0 || ft_strcmp(path, "..") == 0)
+		error_and_exit("''", COMMAND_NOT_FOUND_ERROR, COMMAND_NOT_FOUND_STATUS);
 	if (ft_strchr(path, '/') == -1)
 		path = search_path(path, envmap);
 	validate_access(path, argv[0]);
@@ -109,7 +111,6 @@ int	exec(t_simple_command *command, t_map *envmap)
 {
 	pid_t	last_pid;
 	int		status;
-
 	if (gather_heredoc(command, envmap) == FAILED)
 		return (EXIT_FAILURE);
 	if (command->next == NULL && is_builtin(command))

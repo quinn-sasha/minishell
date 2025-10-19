@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 14:55:49 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/15 19:22:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 14:31:03 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,15 @@ int	builtin_cd(char **argv, t_map *envmap)
 	char	*new_pwd;
 
 	pwd = xgetenv(envmap, "PWD");
+	if (pwd != NULL)
+		map_set(envmap, join_str_separator("OLDPWD", pwd, '='));
+	else
+		map_set(envmap, "OLDPWD");
 	if (set_path_cd(path, pwd, argv, envmap) == FAILED)
 		return (1);
 	if (chdir(path) < 0)
 	{
-		perror_wrapper("cd", NULL, path);
+		perror_wrapper("cd", "no such file or directory", path);
 		return (1);
 	}
 	new_pwd = resolve_pwd(pwd, path);

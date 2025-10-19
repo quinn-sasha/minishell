@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:24:13 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/09 16:17:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 12:30:37 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,24 @@
  */
 int	builtin_unset(char **argv, t_map *envmap)
 {
-	t_item	*current;
-	t_item	*prev;
 	char	*name;
+	int		i;
+	int		status;
 
-	name = argv[1];
-	if (envmap == NULL || name == NULL)
+	if (envmap == NULL)
 		return (FAILED);
-	prev = &(envmap->head);
-	current = prev->next;
-	while (current != NULL)
+	status = SUCCESS;
+	i = 1;
+	while (argv[i] != NULL)
 	{
-		if (ft_strcmp(current->name, name) == 0)
+		name = argv[i];
+		if (!is_identifier(name))
 		{
-			prev->next = current->next;
-			if (current->name)
-				free(current->name);
-			if (current->value)
-				free(current->value);
-			free(current);
-			return (SUCCESS);
+			i++;
+			continue ;
 		}
-		prev = current;
-		current = current->next;
+		map_delete(envmap, name);
+		i++;
 	}
 	return (SUCCESS);
 }
