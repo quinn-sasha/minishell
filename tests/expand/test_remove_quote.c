@@ -20,7 +20,9 @@ static void test_remove_quote_token1(void) {
   remove_quote(command);
 
   t_token *iter = command->arguments;
-  assert_same_string(iter->word, "\"quoted    word\"");
+  assert_same_string(iter->word, "\"quoted");
+  iter = iter->next;
+  assert_same_string(iter->word, "word\"");
   iter = iter->next;
   assert_same_string(iter->word, "another    word");
 
