@@ -67,7 +67,6 @@ EXEC_FILES := exec/exec.c \
 SRCFILES := main.c \
 	          destructor.c \
 						utils.c \
-						debug.c \
 						$(SIGNAL_FILES) \
 						$(ENVIRON_FILES) \
 						$(TOKEN_FILES) \

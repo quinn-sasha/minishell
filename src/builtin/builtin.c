@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/15 19:37:16 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 15:37:58 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 	do_redirect(command->redirect);
 	status = 0;
 	argv = tokens_to_argv(command->arguments);
-	free_token_list(command->arguments);
 	status = exec_builtin_command(argv, envmap);
 	free_array(argv);
 	reset_redirect(command->redirect);
