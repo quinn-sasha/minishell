@@ -74,6 +74,29 @@ static void test_remove_quote_token3(void) {
 }
 
 static void test_remove_quote_token4(void) {
+  printf("Test echo $FOO\"world\" ... ");
+  t_map *envmap = init_environment();
+  char input[] = "echo $FOO\"world\"";
+  t_token *token = tokenize(input);
+  t_simple_command *command = NULL;
+  parse(&command, token);
+  expand_shell_parameter(command, envmap);
+  split_words(command);
+  remove_quote(command);
+
+  t_token *iter = command->arguments;
+  assert_same_string(iter->word, "echo");
+  iter = iter->next;
+  assert_same_string(iter->word, "a");
+  iter = iter->next;
+  assert_same_string(iter->word, "bworld");
+
+  clean_command(&command);
+  clean_environment(envmap);
+  printf("PASS\n");
+}
+
+static void test_remove_quote_token5(void) {
   printf("Test '\'\'' ... ");
   t_map *envmap = init_environment();
   char input[] = "\'\'";
@@ -117,5 +140,6 @@ void test_remove_quote(void) {
   test_remove_quote_token2();
   test_remove_quote_token3();
   test_remove_quote_token4();
+  test_remove_quote_token5();
   test_remove_quote_redirect();
 }

@@ -65,6 +65,7 @@ test: $(NAME)
 	&& export SPACES="      " \
 	&& export THREE_WORDS="kiss me baby" \
 	&& export QUOTED_WORD='"quoted    word"' \
+	&& export FOO="a       b" \
 	&& valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 .PHONY	: all clean fclean re test
