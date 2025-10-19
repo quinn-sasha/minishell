@@ -27,16 +27,18 @@ void interpret(char *input, t_map *envmap) {
 }
 
 int main(void) {
-  t_map *environment = init_environment();
   set_up_signal();
+  t_map *environment = init_environment();
   while (TRUE) {
     char *input = readline("micro-shell> ");
     if (input == NULL)
-      return (environment->last_status);
+      break;
     if (*input)
       add_history(input);
     interpret(input, environment);
     free(input);
   }
+  int last_status = environment->last_status;
   clean_environment(environment);
+  return last_status;
 }
