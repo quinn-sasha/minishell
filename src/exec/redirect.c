@@ -6,7 +6,7 @@
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:59:11 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/16 14:16:48 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/19 17:27:49 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,22 @@ int	open_fd(t_redirect *redirect)
 int	open_redirect_file(t_simple_command *command)
 {
 	t_redirect	*current;
-	char		**argv;
 
 	current = command->redirect;
-	argv = tokens_to_argv(command->arguments);
 	while (current != NULL)
 	{
-		if (current->redirect_kind != r_reading_until)
-			current->file_fd = open_fd(current);
+		if (current->redirect_kind == r_reading_until) {
+			current = current->next;
+			continue;
+		}
+		current->file_fd = open_fd(current);
 		if (current->file_fd < 0)
 		{
-			perror_wrapper(argv[0], current->to.filename, "cannot open file");
-			free_array(argv);
+			perror_wrapper(current->to.filename, NULL, NULL);
 			return (FAILED);
 		}
 		current = current->next;
 	}
-	free_array(argv);
 	return (SUCCESS);
 }
 
