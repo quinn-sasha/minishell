@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 19:57:28 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/19 20:44:58 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ int	is_builtin(t_simple_command *command)
 		|| ft_strcmp(argv[0], "cd") == 0
 		|| ft_strcmp(argv[0], "echo") == 0
 		|| ft_strcmp(argv[0], "pwd") == 0)
+	{
+		free_array(argv);
 		return (TRUE);
+	}
+	free_array(argv);
 	return (FALSE);
 }
