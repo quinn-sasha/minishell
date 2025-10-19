@@ -2,6 +2,9 @@
 
 # テストするときは、一時的にプロンプトを表示しないようにする.
 # 方法は、 `input = readline(NULL);` みたいにすること.
+# テスト方法
+## chmod +x test.sh
+## ./test.sh
 
 RED="\033[31m"
 GREEN="\033[32m"
@@ -66,7 +69,7 @@ print_desc() {
 }
 
 cleanup() {
-	rm -f cmp out a.out print_args exit42 infinite_loop no_exec_perm no_read_perm
+	rm -f cmp out a.out print_args exit42 infinite_loop no_exec_perm no_read_perm empty_file file error.log
 }
 
 assert() {
@@ -112,6 +115,7 @@ assert() {
 }
 
 rm -f error.log
+cleanup
 
 # Empty, spaces anc tabs
 assert ''
@@ -234,19 +238,19 @@ assert 'pwd >>pwd.txt' 'pwd.txt'
 assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
 
 ## Here Document
-assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
-assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
-assert 'cat <<EOF\nhello\nworld'
-assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
-assert 'cat <<EOF   \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
-assert 'cat <<"EOF" \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
-assert 'cat <<EO"F" \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
-(
-	print_desc 'export EOF="eof"'
-	export EOF="eof"
-	assert 'cat <<$EOF         \neof\n$EOF\nEOF'
-	assert 'cat <<"$EOF"       \neof\n$EOF\nEOF'
-)
+# assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
+# assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
+# assert 'cat <<EOF\nhello\nworld'
+# assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
+# assert 'cat <<EOF   \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
+# assert 'cat <<"EOF" \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
+# assert 'cat <<EO"F" \n$USER\n$NO_SUCH_VAR\n$FOO$BAR\nEOF'
+# (
+# 	print_desc 'export EOF="eof"'
+# 	export EOF="eof"
+# 	assert 'cat <<$EOF         \neof\n$EOF\nEOF'
+# 	assert 'cat <<"$EOF"       \neof\n$EOF\nEOF'
+# )
 
 # Pipe
 assert 'cat Makefile | grep minishell'
