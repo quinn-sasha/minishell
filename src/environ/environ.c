@@ -5,7 +5,7 @@ t_map *init_environment(void) {
   t_map *envmap = xcalloc(1, sizeof(t_map));
   int i = 0;
   while (environ[i]) {
-    map_set(envmap, environ[i]);
+    map_set(envmap, environ[i], TRUE);
     i++;
   }
   char cwd[PATH_MAX];
@@ -13,9 +13,9 @@ t_map *init_environment(void) {
     if (getcwd(cwd, PATH_MAX) == NULL)
       perror_wrapper("init_envmap()", "get_cwd()", NULL);
     else
-      map_set_internal(envmap, "PWD", cwd);
+      map_set_internal(envmap, "PWD", cwd, FALSE);
   }
-  map_set_internal(envmap, "OLDPWD", NULL);
+  map_set_internal(envmap, "OLDPWD", NULL, TRUE);
   return envmap;
 }
 
