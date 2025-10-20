@@ -49,16 +49,18 @@ static int	get_word_end(const char *s, int start)
 	return (i);
 }
 
-static void split_token_word_helper(t_token *token, char *trimmed) {
-	int start;
-	int end;
+static void	split_token_word_helper(t_token *token, char *trimmed)
+{
+	int	start;
+	int	end;
 
 	start = 0;
-	while (trimmed[start]) {
+	while (trimmed[start])
+	{
 		if (is_default_ifs(trimmed[start]))
 		{
 			start++;
-			continue;
+			continue ;
 		}
 		end = get_word_end(trimmed, start);
 		token->word = ft_substr(trimmed, start, end - 1);
