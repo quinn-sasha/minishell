@@ -36,6 +36,7 @@ LIBRARY_FILES := library/xcalloc.c \
 
 EXPAND_FILES := expand/expand.c \
 					expand/expand_shell_parameter.c \
+					expand/expand_utils.c \
 					expand/is_valid_syntax_after_expansion.c \
 					expand/special_parameter.c \
 					expand/split_token_words.c \
