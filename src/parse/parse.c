@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:19:59 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:37:49 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:54:16 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ How to interpret input.
 <simple_command> = <command_element>+
 <command_element> = <word> | <redirection>
 <redirection> = '>' <word>
-              | '<' <word>
-              | '>>' <word>
-              | '<<' <word>
+				| '<' <word>
+				| '>>' <word>
+				| '<<' <word>
 */
 bool	is_same_operator(t_token *token, char *operator)
 {
@@ -32,6 +32,34 @@ bool	is_same_operator(t_token *token, char *operator)
 	return (false);
 }
 
+bool	is_valid_syntax_helper(t_token *token)
+{
+	while (!at_eof(token))
+	{
+		if (token->token_kind != TOKEN_WORD)
+		{
+			if (token->next->token_kind == TOKEN_EOF)
+			{
+				syntax_error("newline");
+				return (false);
+			}
+			if (is_same_operator(token->next, PIPE_SYMBOL))
+			{
+				syntax_error(token->next->word);
+				return (false);
+			}
+			if (!is_same_operator(token, PIPE_SYMBOL)
+				&& token->next->token_kind == TOKEN_OPERATOR)
+			{
+				syntax_error(token->next->word);
+				return (false);
+			}
+		}
+		token = token->next;
+	}
+	return (true);
+}
+
 bool	is_valid_syntax(t_token *token)
 {
 	if (is_same_operator(token, PIPE_SYMBOL))
@@ -39,33 +67,9 @@ bool	is_valid_syntax(t_token *token)
 		syntax_error(token->word);
 		return (false);
 	}
-	while (!at_eof(token))
-	{
-		if (token->token_kind == TOKEN_WORD)
-		{
-			token = token->next;
-			continue ;
-		}
-		if (token->next->token_kind == TOKEN_EOF)
-		{
-			syntax_error("newline");
-			return (false);
-		}
-		if (is_same_operator(token, PIPE_SYMBOL)
-			&& is_same_operator(token->next, PIPE_SYMBOL))
-		{
-			syntax_error(token->word);
-			return (false);
-		}
-		if (!is_same_operator(token, PIPE_SYMBOL)
-			&& token->next->token_kind == TOKEN_OPERATOR)
-		{
-			syntax_error(token->next->word);
-			return (false);
-		}
-		token = token->next;
-	}
-	return (true);
+	if (is_valid_syntax_helper(token))
+		return (true);
+	return (false);
 }
 
 int	parse(t_simple_command **command, t_token *token)
