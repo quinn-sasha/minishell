@@ -82,16 +82,20 @@ size_t	count_token(t_token *token)
 	return (i);
 }
 
-static void build_token_list(t_token *token, char *input) {
-	while (*input) {
-		if (is_blank(*input)) {
+static void	build_token_list(t_token *token, char *input)
+{
+	while (*input)
+	{
+		if (is_blank(*input))
+		{
 			input++;
-			continue;
+			continue ;
 		}
-		if (is_metacharacter(*input)) {
+		if (is_metacharacter(*input))
+		{
 			token->next = consume_operator(&input, input);
 			token = token->next;
-			continue;
+			continue ;
 		}
 		token->next = consume_word(&input, input);
 		token = token->next;
