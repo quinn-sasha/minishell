@@ -61,6 +61,7 @@ EXPAND_FILES := expand/expand.c \
                 expand/remove_quote.c \
                 expand/special_parameter.c \
                 expand/split_token_words.c \
+								expand/expand_utils.c \
                 expand/word_splitting.c
 
 EXEC_FILES := exec/exec.c \
