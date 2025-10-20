@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 15:00:07 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 09:21:52 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	exec(t_simple_command *command, t_map *envmap)
 {
 	pid_t	last_pid;
 	int		status;
+
 	if (gather_heredoc(command, envmap) == FAILED)
 		return (EXIT_FAILURE);
 	if (command->next == NULL && is_builtin(command))

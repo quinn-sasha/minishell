@@ -12,10 +12,14 @@
 
 #include "minishell.h"
 
-void *xmalloc(size_t size) {
-  void *result = malloc(size);
-  if (result == NULL) {
-    fatal_error("xmalloc()");
-  }
-  return result;
+void	*xmalloc(size_t size)
+{
+	void	*result;
+
+	result = malloc(size);
+	if (result == NULL)
+	{
+		fatal_error("xmalloc()");
+	}
+	return (result);
 }

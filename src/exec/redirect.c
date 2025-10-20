@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:59:11 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 17:27:49 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/20 09:24:27 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	gather_heredoc(t_simple_command *command, t_map *envmap)
 				redirect = redirect->next;
 				continue ;
 			}
-			redirect->file_fd = read_heredoc(redirect->here_doc_eof, redirect->is_filename_quoted, envmap);
+			redirect->file_fd = read_heredoc(redirect->here_doc_eof,
+					redirect->is_filename_quoted, envmap);
 			if (redirect->file_fd == -1)
 				return (FAILED);
 			redirect = redirect->next;
@@ -51,9 +52,10 @@ int	open_redirect_file(t_simple_command *command)
 	current = command->redirect;
 	while (current != NULL)
 	{
-		if (current->redirect_kind == r_reading_until) {
+		if (current->redirect_kind == r_reading_until)
+		{
 			current = current->next;
-			continue;
+			continue ;
 		}
 		current->file_fd = open_fd(current);
 		if (current->file_fd < 0)

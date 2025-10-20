@@ -107,7 +107,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 	pid_t	pid;
 
 	if (command == NULL || command->arguments == NULL)
-		assert_error ("no command");
+		assert_error("no command");
 	prepare_pipe(command);
 	pid = fork();
 	if (pid < 0)

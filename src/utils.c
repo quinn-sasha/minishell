@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/20 09:19:37 by yurishik          #+#    #+#             */
+/*   Updated: 2025/10/20 09:19:38 by yurishik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // 文字列を動的に割り当てていないことに注意
 char	*unsigned_itoa(unsigned long long num, unsigned int base)
 {
 	static char	buffer[MAX_ADDRESS_LENGTH + 1];
-	static char	*symbols = "0123456789abcdef";
+	static char	*symbols;
 	char		*ptr;
 
+	symbols = "0123456789abcdef";
 	ptr = &buffer[MAX_ADDRESS_LENGTH];
 	*ptr = '\0';
 	if (num == 0)
@@ -38,24 +51,30 @@ static int	is_in_set(char letter, char const *set)
 	return (0);
 }
 
-int count_words(char *s, const char *excluded_chars) {
-  if (*s == '\0')
-    return 0;
-  int result = 0;
-  while (*s) {
-    if (is_in_set(*s, excluded_chars)) {
-      s++;
-      continue;
-    }
-    if (is_quote(*s)) {
-      consume_quoted_word(&s, s);
-      continue;
-    }
-    while (*s && !is_in_set(*s, excluded_chars))
-      s++;
-    result++;
-  }
-  return result;
+int	count_words(char *s, const char *excluded_chars)
+{
+	int	result;
+
+	if (*s == '\0')
+		return (0);
+	result = 0;
+	while (*s)
+	{
+		if (is_in_set(*s, excluded_chars))
+		{
+			s++;
+			continue ;
+		}
+		if (is_quote(*s))
+		{
+			consume_quoted_word(&s, s);
+			continue ;
+		}
+		while (*s && !is_in_set(*s, excluded_chars))
+			s++;
+		result++;
+	}
+	return (result);
 }
 
 size_t	count_array(char **array)
@@ -68,7 +87,7 @@ size_t	count_array(char **array)
 	return (i);
 }
 
-void	free_array(char	**array)
+void	free_array(char **array)
 {
 	int	i;
 
