@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:05:30 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:21:18 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:05:11 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@
 # define WRITE 1
 # define SYNTAX_ERROR_LAST_STATUS 2
 
-// utils.c
+// utils_string.c
 char	*unsigned_itoa(unsigned long long num, unsigned int base);
-int		count_words(char *s, const char *excluded_chars);
 size_t	count_array(char **array);
 void	free_array(char **array);
 char	*join_str_separator(const char *s1, const char *s2, char sep);
+
+// utils_word.c
+int		count_words(char *s, const char *excluded_chars);
 
 // destructor.c
 void	free_token_list(t_token *token);
 void	clean_redirect(t_redirect *redirect);
 void	clean_environment(t_map *envmap);
 void	clean_command(t_simple_command **command);
-// exec.c
-char	*find_path(char *command_name);
 
 #endif

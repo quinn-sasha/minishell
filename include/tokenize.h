@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:05:41 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:06:02 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:25:30 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,29 @@ struct						s_token
 };
 
 // token.c
-bool						at_eof(t_token *token);
-t_token						*new_token(t_token_kind token_kind, char *word);
-t_token						*duplicate_token(t_token *token);
-void						append_token(t_token **token, t_token *element);
-void						insert_next_token(t_token *token,
-								t_token *new_token);
-size_t						count_token(t_token *token);
+bool		at_eof(t_token *token);
+t_token		*new_token(t_token_kind token_kind, char *word);
+t_token		*duplicate_token(t_token *token);
+void		append_token(t_token **token, t_token *element);
+void		insert_next_token(t_token *token,
+				t_token *new_token);
+
+// tokenize_consume.c
+t_token		*consume_operator(char **input_to_advance, char *input);
+void		consume_quoted_word(char **input_to_return, char *input);
+t_token		*consume_word(char **input_to_advance, char *input);
+
+// tokenize_utils.c
+int			is_blank(int c);
+bool		is_quote_marker(int c);
+bool		is_quote(int c);
+int			is_metacharacter(int c);
+bool		is_quote_closed(char *input);
+
 // tokenize.c
-int							is_blank(int c);
-bool						is_quote_marker(int c);
-bool						is_quote(int c);
-int							is_metacharacter(int c);
-t_token						*consume_operator(char **input_to_advance,
-								char *input);
-void						consume_quoted_word(char **input_to_return,
-								char *input);
-t_token						*consume_word(char **input_to_advance, char *input);
-t_token						*tokenize(char *input);
+char	get_quote_marker(int quote);
+void	replace_quote_char_with_marker(char **input_to_modify, char *input);
+size_t		count_token(t_token *token);
+t_token		*tokenize(char *input);
 
 #endif

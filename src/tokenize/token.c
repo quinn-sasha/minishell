@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:20:10 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:34:37 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:21:44 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,4 @@ void	insert_next_token(t_token *token, t_token *new_token)
 {
 	new_token->next = token->next;
 	token->next = new_token;
-}
-
-size_t	count_token(t_token *token)
-{
-	size_t	i;
-	t_token	*current;
-
-	if (token == NULL)
-		return (0);
-	i = 0;
-	current = token;
-	while (current->token_kind != TOKEN_EOF)
-	{
-		i++;
-		current = current->next;
-	}
-	return (i);
 }
