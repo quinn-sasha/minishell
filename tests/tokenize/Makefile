@@ -8,9 +8,12 @@ RM      = rm -f
 SRCS    = ../../src/tokenize/tokenize.c \
 					../../src/destructor.c \
 					../../src/tokenize/token.c \
+					../../src/tokenize/tokenize_consume.c \
+					../../src/tokenize/tokenize_utils.c \
 					../../src/library/xcalloc.c \
 					../../src/library/xstrdup.c \
-					../../src/error/error.c \
+					../../src/error/parse_error.c \
+					../../src/error/system_error.c \
 					main.c
 
 SRCFILES = $(notdir $(SRCS))
