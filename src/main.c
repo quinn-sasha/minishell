@@ -14,14 +14,18 @@
 
 volatile sig_atomic_t	g_signal_number;
 
-static int run_command(t_simple_command *command, t_map *envmap) {
-	if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
+static int	run_command(t_simple_command *command, t_map *envmap)
+{
+	int	last_status;
+
+	if (expand(command, envmap) == EXPAND_SYNTAX_ERROR)
+	{
 		clean_command(&command);
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
-	int last_status = exec(command, envmap);
+	last_status = exec(command, envmap);
 	clean_command(&command);
-	return last_status;
+	return (last_status);
 }
 
 void	interpret(char *input, t_map *envmap)
