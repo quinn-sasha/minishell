@@ -57,7 +57,6 @@ EXPAND_FILES := expand/expand.c \
                 expand/split_token_words.c \
                 expand/word_splitting.c
 
-EXECUTE_FILES := execute/execute.c
 EXEC_FILES := exec/exec.c \
 					exec/pipe.c \
 					exec/path.c \
@@ -74,7 +73,6 @@ SRCFILES := main.c \
 						$(LIBRARY_FILES) \
 						$(ERROR_FILES) \
 						$(EXPAND_FILES) \
-						$(EXECUTE_FILES) \
 						$(EXEC_FILES) \
 						$(BUILTIN_FILES)
 
