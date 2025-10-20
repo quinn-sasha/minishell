@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token_words.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:16:47 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:39:47 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:53:43 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,30 @@ static int	get_word_end(const char *s, int start)
 	return (i);
 }
 
+static void split_token_word_helper(t_token *token, char *trimmed) {
+	int start;
+	int end;
+
+	start = 0;
+	while (trimmed[start]) {
+		if (is_default_ifs(trimmed[start]))
+		{
+			start++;
+			continue;
+		}
+		end = get_word_end(trimmed, start);
+		token->word = ft_substr(trimmed, start, end - 1);
+		insert_next_token(token, new_token(TOKEN_WORD, NULL));
+		token->next->is_quoted = token->is_quoted;
+		token = token->next;
+		start = end;
+	}
+}
+
 void	split_token_word(t_token *token)
 {
 	char	*trimmed;
 	char	*to_free;
-	int		start;
-	int		end;
 
 	trimmed = ft_strtrim(token->word, DEFAULT_IFS_CHARS);
 	if (*trimmed == '\0')
@@ -66,21 +84,7 @@ void	split_token_word(t_token *token)
 		return ;
 	}
 	to_free = token->word;
-	start = 0;
-	while (trimmed[start])
-	{
-		if (is_default_ifs(trimmed[start]))
-		{
-			start++;
-			continue ;
-		}
-		end = get_word_end(trimmed, start);
-		token->word = ft_substr(trimmed, start, end - 1);
-		insert_next_token(token, new_token(TOKEN_WORD, NULL));
-		token->next->is_quoted = token->is_quoted;
-		token = token->next;
-		start = end;
-	}
+	split_token_word_helper(token, trimmed);
 	free(trimmed);
 	free(to_free);
 }
