@@ -24,6 +24,7 @@ int	builtin_unset(char **argv, t_map *envmap)
 {
 	char	*name;
 	int		i;
+  int status;
 
 	if (envmap == NULL)
 		return (FAILED);
