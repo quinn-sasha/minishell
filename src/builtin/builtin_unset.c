@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:24:13 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 12:30:37 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 08:26:02 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@ int	builtin_unset(char **argv, t_map *envmap)
 		name = argv[i];
 		if (!is_identifier(name))
 		{
+			perror_wrapper("unset", name, "not a valid identifier");
+			status = 1;
 			i++;
 			continue ;
 		}
 		map_delete(envmap, name);
 		i++;
 	}
-	return (SUCCESS);
+	return (status);
 }
