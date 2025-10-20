@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_shell_parameter.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:15:51 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 20:15:35 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:34:11 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,6 @@ void	expand_parameter(char **new_word, char **char_ptr_to_return,
 		return ;
 	}
 	append_string_to_string(new_word, expanded);
-}
-
-void	expand_word(char **word, t_map *envmap)
-{
-	char	*new_word;
-	char	*char_ptr;
-
-	new_word = xcalloc(1, sizeof(char));
-	char_ptr = *word;
-	while (*char_ptr)
-	{
-		if (*char_ptr == SINGLE_QUOTE_MARKER)
-		{
-			append_single_quoted_word(&new_word, char_ptr);
-			consume_quoted_word(&char_ptr, char_ptr);
-			continue ;
-		}
-		if (*char_ptr != '$')
-		{
-			append_character(&new_word, *char_ptr);
-			char_ptr++;
-			continue ;
-		}
-		if (is_special_parameter(char_ptr))
-		{
-			expand_special_parameter(&new_word, &char_ptr, char_ptr,
-				envmap->last_status);
-			continue ;
-		}
-		expand_parameter(&new_word, &char_ptr, char_ptr, envmap);
-	}
-	free(*word);
-	*word = new_word;
 }
 
 void	expand_token_words(t_token *token, t_map *envmap)

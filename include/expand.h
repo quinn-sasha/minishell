@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:05:18 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 20:16:03 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:35:27 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ bool	is_special_parameter(const char *s);
 void	append_num_to_string(char **dest, unsigned int num);
 void	expand_special_parameter(char **new_word, char **iter_to_return,
 			char *iter, int last_status);
+// expand_word.c
+void	expand_word(char **word, t_map *envmap);
 // expand_shell_parameter.c
 void	expand_parameter(char **new_word, char **iter_to_return, char *iter,
 			t_map *envmap);
-void	expand_word(char **word, t_map *envmap);
 void	expand_token_words(t_token *token, t_map *envmap);
 void	expand_redirect_words(t_redirect *redirect, t_map *envmap);
 void	expand_shell_parameter(t_simple_command *command, t_map *envmap);
