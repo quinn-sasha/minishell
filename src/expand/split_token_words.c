@@ -6,7 +6,7 @@
 /*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:16:47 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 20:53:43 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/20 21:15:19 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static int	get_word_end(const char *s, int start)
 	char	quote;
 
 	if (is_default_ifs(s[start]))
-		assert_error(
-			"get_word_end(): first character of word is IFS character");
+		assert_error("get_word_end(): first character of word is IFS character");
 	i = start;
 	while (s[i])
 	{
