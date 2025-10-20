@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:20:13 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 15:21:29 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:34:42 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,35 +82,34 @@ size_t	count_token(t_token *token)
 	return (i);
 }
 
+static void build_token_list(t_token *token, char *input) {
+	while (*input) {
+		if (is_blank(*input)) {
+			input++;
+			continue;
+		}
+		if (is_metacharacter(*input)) {
+			token->next = consume_operator(&input, input);
+			token = token->next;
+			continue;
+		}
+		token->next = consume_word(&input, input);
+		token = token->next;
+	}
+	token->next = new_token(TOKEN_EOF, NULL);
+}
+
 t_token	*tokenize(char *input)
 {
 	t_token	dummy;
-	t_token	*token;
 
-	dummy.next = NULL;
-	token = &dummy;
 	if (!is_quote_closed(input))
 	{
 		unclosed_quote_error();
 		return (NULL);
 	}
 	replace_quote_char_with_marker(&input, input);
-	while (*input)
-	{
-		if (is_blank(*input))
-		{
-			input++;
-			continue ;
-		}
-		if (is_metacharacter(*input))
-		{
-			token->next = consume_operator(&input, input);
-			token = token->next;
-			continue ;
-		}
-		token->next = consume_word(&input, input);
-		token = token->next;
-	}
-	token->next = new_token(TOKEN_EOF, NULL);
+	dummy.next = NULL;
+	build_token_list(&dummy, input);
 	return (dummy.next);
 }
