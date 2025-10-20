@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:23:29 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/16 15:41:40 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/20 14:37:02 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief パイプラインの次のコマンドとのパイプを確立する。
- *
- * @param command 現在処理中のコマンドノード
- * @details 次のノードが存在する場合、outpipeを生成し、そのFDを次のノードのinpipeにコピーする。
- */
 void	prepare_pipe(t_simple_command *command)
 {
 	if (command->next == NULL)
@@ -27,12 +21,6 @@ void	prepare_pipe(t_simple_command *command)
 	command->next->inpipe[1] = command->outpipe[1];
 }
 
-/**
- * @brief 子プロセス内で入出力をパイプに接続し、不要なFDをクローズする。
- *
- * @param command 現在処理中のコマンドノード
- * @details inpipeをSTDIN(0)に、outpipeをSTDOUT(1)にdup2(2)で付け替え、元のFDを解放する。
- */
 void	prepare_pipe_child(t_simple_command *command)
 {
 	xclose(command->outpipe[0]);
@@ -44,12 +32,6 @@ void	prepare_pipe_child(t_simple_command *command)
 		xclose(command->outpipe[1]);
 }
 
-/**
- * @brief 親プロセス内で不要になったパイプのFDをクローズする。
- *
- * @param command 現在処理中のコマンドノード
- * @details 親が使用しないinpipeの読み込み側FDと、次のコマンドへ渡すためのoutpipeの書き込み側FDを閉じる。
- */
 void	prepare_pipe_parent(t_simple_command *command)
 {
 	if (command->inpipe[0] != STDIN_FILENO)
@@ -58,13 +40,6 @@ void	prepare_pipe_parent(t_simple_command *command)
 		xclose(command->outpipe[1]);
 }
 
-/**
- * @brief パイプラインの最後のプロセスが終了するのを待ち、終了ステータスを回収する。
- *
- * @param last_pid パイプラインの最後のコマンドの子プロセスID
- * @return 回収された終了ステータス (0-255)。
- * @details wait(2)を繰り返し呼び出し、SIGINTなどによる強制終了も128+SIGNUMとして処理する。
- */
 int	wait_pipe(pid_t last_pid)
 {
 	int		last_status;
@@ -94,14 +69,6 @@ int	wait_pipe(pid_t last_pid)
 	return (last_status);
 }
 
-/**
- * @brief パイプラインを構成するコマンドを再帰的にforkし、実行する。
- *
- * @param command 現在処理中のコマンドノード
- * @param envmap  環境変数マップ
- * @return パイプラインで最後に実行されたプロセスID (PID)。
- * @details prepare_pipeで接続を確立後、子プロセスでコマンドを実行し、親プロセスで次のコマンドへ再帰する。
- */
 pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 {
 	pid_t	pid;

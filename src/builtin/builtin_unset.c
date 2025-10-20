@@ -3,23 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:24:13 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:26:02 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:35:00 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief 環境変数を名前で指定してunsetする
- *
- * @author yurishik
- * @param envmap
- * @param name unsetしたい環境変数名
- * @return 環境変数名としてOKならFLG_TRUE, NGならFLG_FALSE
- */
 int	builtin_unset(char **argv, t_map *envmap)
 {
 	char	*name;

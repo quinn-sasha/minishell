@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:20:13 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:31:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:34:22 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ control operator
 
 metacharacter
   A character that, when unquoted, separates words. A metacharacter is
-  a space, tab, newline, or one of the following characters: ‘|’, ‘<’, or ‘>’.
+  a space, tab, newline, or one of the following characters: '|', '<', or '>'.
 
 token
   A sequence of characters considered a single unit by the shell.
@@ -35,7 +35,6 @@ word
   A sequence of characters treated as a unit by the shell.
   Words may not include unquoted metacharacters.
 */
-
 int	is_blank(int c)
 {
 	if (c == ' ' || c == '\t')
@@ -70,11 +69,6 @@ int	is_metacharacter(int c)
 	return (ft_strchr("|<>", c) != NOT_FOUND);
 }
 
-/*
-* @param オペレータの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
-* @param 元のinput文字列.
-* @return operator token
-*/
 t_token	*consume_operator(char **input_to_return, char *input)
 {
 	static const char	*operators[] = {"<<", ">>", "<", ">", "|", NULL};
@@ -98,9 +92,6 @@ t_token	*consume_operator(char **input_to_return, char *input)
 	return (NULL);
 }
 
-/*
-* @brief: クオートマーカー記号が来たら、対応する文字の次の文字まで input_to_return を進める.
-*/
 void	consume_quoted_word(char **input_to_return, char *input)
 {
 	int		i;
@@ -117,11 +108,6 @@ void	consume_quoted_word(char **input_to_return, char *input)
 	*input_to_return += i;
 }
 
-/*
-* @param wordの文字数ぶん前に進めるinput. 呼び出し元にも反映される.
-* @param 元のinput文字列.
-* @return word token
-*/
 t_token	*consume_word(char **input_to_return, char *input)
 {
 	bool	is_quoted_flag;
@@ -204,11 +190,6 @@ void	replace_quote_char_with_marker(char **input_to_modify, char *input)
 	}
 }
 
-/*
-* @param command line input.
-* @return inputをトークン化したリスト. リストの最後の要素はTOKEN_EOFタイプ.
-          もしエラーが起これば NULL を返す.
-*/
 t_token	*tokenize(char *input)
 {
 	t_token	dummy;

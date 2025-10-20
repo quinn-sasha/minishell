@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:29:58 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:29:58 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:37:11 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ t_item	*map_get(t_map *map, const char *name)
 	return (NULL);
 }
 
-/*
-* @return: もし削除が最高したらSUCESS、失敗したらFAILEDを返す
-*/
 int	map_delete(t_map *map, const char *name)
 {
 	t_item	*prev;

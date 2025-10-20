@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:19:59 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:21:40 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:37:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,6 @@ bool	is_same_operator(t_token *token, char *operator)
 	return (false);
 }
 
-/*
-Syntax error:
-- パイプ `|` の左にコマンドがない
-- パイプ `|` の右にコマンドがない
-- パイプ `|` の次に control operator ( | ) がくる
-- リダイレクト (`>` `<` `<<` `>>` ) の次に word が来ない
-- クオートが閉じられていない (tokenize()で対応済み)
-*/
 bool	is_valid_syntax(t_token *token)
 {
 	if (is_same_operator(token, PIPE_SYMBOL))
@@ -76,15 +68,6 @@ bool	is_valid_syntax(t_token *token)
 	return (true);
 }
 
-/*
-* @param: 実行部に渡すコマンド構造体. parse()を呼び出した時点では動的に割り当てられていない.
-* @param: トークンのリスト.
-* @return: PARSE_SUCCESS or PARSE_SYNTAX_ERROR
-* トークンからコマンド構造体をつくる.
-* parse()が成功した場合、以下の状態が達成されている.
-*   simple command 構造体が初期化されている.
-*   tokenize()の返り値であるトークンが解放されている.
-*/
 int	parse(t_simple_command **command, t_token *token)
 {
 	if (!is_valid_syntax(token))

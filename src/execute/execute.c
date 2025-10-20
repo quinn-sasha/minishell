@@ -6,16 +6,12 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:36:46 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:36:47 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:35:33 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-command_nameに対応する実行可能ファイルへの、絶対パスを取得する。
-もしファイルが存在しなければ、NULLを返す。
-*/
 char	*find_path(char *command_name)
 {
 	char	**paths;

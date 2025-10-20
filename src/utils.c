@@ -6,13 +6,12 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:19:37 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:19:38 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:32:26 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 文字列を動的に割り当てていないことに注意
 char	*unsigned_itoa(unsigned long long num, unsigned int base)
 {
 	static char	buffer[MAX_ADDRESS_LENGTH + 1];

@@ -6,18 +6,12 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:15:51 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:44:38 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:39:36 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// $not_exist みたいな存在しない変数は空文字列に展開されるので、trueを返す
-/*
-展開する条件は:
-- $記号が含まれている
-- $記号の次の文字が、アルファベット、アンダースコア（'_'）、もしくは特別な記号('?')
-*/
 bool	need_to_expand(char *word)
 {
 	char	*c_ptr;
@@ -95,9 +89,6 @@ void	append_single_quoted_word(char **dest, char *src)
 	append_character(dest, src[i]);
 }
 
-/*
-* @return: もし展開されたら EXPANDED、それ以外は NOT_EXPANDED を返す
-*/
 void	expand_word(char **word, t_map *envmap)
 {
 	char	*new_word;
@@ -144,7 +135,6 @@ void	expand_token_words(t_token *token, t_map *envmap)
 	}
 }
 
-// リダイレクト先のファイル名のみを展開する. here_doc_eofは展開しない.
 void	expand_redirect_words(t_redirect *redirect, t_map *envmap)
 {
 	while (redirect)

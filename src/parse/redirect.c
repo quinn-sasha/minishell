@@ -6,15 +6,12 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:20:01 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:22:54 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:38:51 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-redirectの種類から、redirect構造体のメンバに値を書き込む.
-*/
 void	fill_redirect(t_redirect *redirect, t_redirect_kind r_kind,
 			t_token *token)
 {
@@ -52,9 +49,6 @@ void	fill_redirect(t_redirect *redirect, t_redirect_kind r_kind,
 	redirect->is_filename_quoted = token->next->is_quoted;
 }
 
-/*
-トークンの種類からリダイレクト構造体を作る.
-*/
 t_redirect	*new_redirect(t_token *token)
 {
 	t_redirect	*result;
@@ -79,9 +73,6 @@ t_redirect	*new_redirect(t_token *token)
 	return (result);
 }
 
-/*
-append_token()と全く同じ処理だが、引数の型だけ異なる.
-*/
 void	append_redirect(t_redirect **head, t_redirect *element)
 {
 	t_redirect	*iter;

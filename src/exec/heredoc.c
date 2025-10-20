@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:31:03 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:24:01 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:36:22 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,6 @@ char	*expand_heredoc_line(char *line, t_map *envmap)
 	return (new_word);
 }
 
-/*
-* @return: もし読み込み途中に SIGINT シグナルを受けっとたら、HEREDOC_INTERRUPTED を返す.
-*          それ以外は HEREDOC_FINISHED を返す.
-*/
 int	read_until_delimiter(int *pipefd, const char *delimiter, bool is_quoted,
 		t_map *envmap)
 {
@@ -79,11 +75,6 @@ int	read_until_delimiter(int *pipefd, const char *delimiter, bool is_quoted,
 	return (HEREDOC_FINISHED);
 }
 
-/*
-* @brief delimiterが打ち込まれるまで、複数行を読んでコマンドに渡す
-* @return 読みこんだ入力が入っているパイプの読み込み口（fd）を返す.
-*         読み込み途中で SIGINT を補足したら、-1を返す.
-*/
 int	read_heredoc(const char *delimiter, bool is_quoted, t_map *envmap)
 {
 	int	pipefd[2];

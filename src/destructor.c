@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:19:34 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:19:34 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:37:30 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ void	free_token_list(t_token *token)
 	free(token);
 }
 
-/*
-* @brief redirect構造体リストを解放する. 解放後にNULLは代入しない.
-*        理由は、redirectにアクセスするための command 構造体が解放後に NULL 代入されるから.
-*/
 void	clean_redirect(t_redirect *redirect)
 {
 	t_redirect	*next;
@@ -66,9 +62,6 @@ void	clean_environment(t_map *envmap)
 	free(envmap);
 }
 
-/*
-* @brief 動的に割り当てたコマンド構造体のリストを解放する. 解放後は NULL を代入する.
-*/
 void	clean_command(t_simple_command **command)
 {
 	t_simple_command	*next;

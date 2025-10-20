@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:20:10 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:20:10 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:34:37 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ t_token	*duplicate_token(t_token *token)
 	return (result);
 }
 
-/*
-* @param 追加される対象のトークン.
-* @param 追加するトークン.
-* token の末尾に、element が追加される.
-* CAUTION: token の末尾が TOKEN_EOF ではなく、NULL で示されているが、
-*          最終的に、呼び出し側の make_simple_command() で TOKEN_EOF が挿入される.
-*/
 void	append_token(t_token **head, t_token *element)
 {
 	t_token	*iter;
@@ -67,10 +60,6 @@ void	append_token(t_token **head, t_token *element)
 	iter->next = element;
 }
 
-/*
-* @param token
-* @brief 引数 token の次に新たなトークンが挿入される
-*/
 void	insert_next_token(t_token *token, t_token *new_token)
 {
 	new_token->next = token->next;

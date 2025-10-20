@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:16:38 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:16:38 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:39:16 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ void	append_string_to_string(char **dest, char *src)
 	}
 }
 
-/*
-* @return: 展開して文法エラーが発生したら EXPAND_SYNTAX_ERROR を返す.
-           それ以外は EXPAND_SUCESS
-*/
 int	expand(t_simple_command *command, t_map *envmap)
 {
 	expand_shell_parameter(command, envmap);

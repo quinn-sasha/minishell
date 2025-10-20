@@ -6,15 +6,13 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:19:56 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:32:13 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:39:08 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-コマンド構造体に、command element (定義は以下を参照) が追加される.
-進められたトークンが token_to_return に保存される.
 <command_element> = <word> | <redirection>
 <redirection> = '>' <word>
               | '<' <word>
@@ -71,7 +69,6 @@ t_simple_command	*make_simple_command(t_token **token_to_return,
 * Make simple command from valid token.
 * However, child pid is not assigned in this function,
 * but later in prepare_pipeline().
-* token eof かのチェックは実は不要だが、関数の独立性が高まるので追加した.
 */
 t_simple_command	*make_simple_command_list(t_token *token)
 {

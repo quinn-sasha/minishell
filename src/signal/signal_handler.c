@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:20:04 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:26:06 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:32:44 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ void	signal_handler(int signum)
 	g_signal_number = signum;
 }
 
-/*
-* @brief: Ctrl-cもしくはCrtl-\が押された時のシグナルハンドラを設定する
-*/
 void	set_signal_handler(int signum)
 {
 	struct sigaction	sa;

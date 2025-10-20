@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:16:47 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:17:30 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:39:47 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ static int	get_word_end(const char *s, int start)
 	return (i);
 }
 
-/*
-* 不要なトークンがリストの末尾（実際の末尾は TOKE_EOF）に作成されるので、これは後の処理で取り除く必要がある.
-* その末尾トークンの token->word は NULL になっている.
-*/
 void	split_token_word(t_token *token)
 {
 	char	*trimmed;
@@ -89,7 +85,6 @@ void	split_token_word(t_token *token)
 	free(to_free);
 }
 
-// 分割して増えたトークンは、is_expanded == false になっている
 void	split_token_words(t_token *token)
 {
 	t_token	*iter;
