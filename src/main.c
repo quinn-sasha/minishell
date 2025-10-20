@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 09:19:44 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 09:19:44 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:19:02 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_signal_number;
+
+static int run_command(t_simple_command *command, t_map *envmap) {
+	if (expand(command, envmap) == EXPAND_SYNTAX_ERROR) {
+		clean_command(&command);
+		return EXIT_FAILURE;
+	}
+	int last_status = exec(command, envmap);
+	clean_command(&command);
+	return last_status;
+}
 
 void	interpret(char *input, t_map *envmap)
 {
@@ -30,20 +40,12 @@ void	interpret(char *input, t_map *envmap)
 		free_token_list(token);
 		return ;
 	}
-	command = NULL;
 	if (parse(&command, token) == PARSE_SYNTAX_ERROR)
 	{
 		envmap->last_status = SYNTAX_ERROR_LAST_STATUS;
 		return ;
 	}
-	if (expand(command, envmap) == EXPAND_SYNTAX_ERROR)
-	{
-		envmap->last_status = EXIT_FAILURE;
-		clean_command(&command);
-		return ;
-	}
-	envmap->last_status = exec(command, envmap);
-	clean_command(&command);
+	envmap->last_status = run_command(command, envmap);
 }
 
 int	main(void)
