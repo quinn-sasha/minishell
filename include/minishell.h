@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:05:30 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 15:05:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:39:15 by squinn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <fcntl.h>
 # include <stdio.h>
+# include <string.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
