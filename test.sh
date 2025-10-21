@@ -453,7 +453,7 @@ assert 'echo -n hello world'
 assert 'echo hello -n'
 assert 'echo -nn'
 assert 'echo -n-n-n'
-assert '$ echo -n -n -nnnn -nnnnm'
+assert 'echo -n -n -nnnn -nnnnm'
 assert 'echo ";|()"'
 
 ## pwd

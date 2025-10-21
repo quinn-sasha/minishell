@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 13:51:24 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 19:01:03 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 14:27:49 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	builtin_echo(char **argv)
 
 	i = 1;
 	flg_newline = TRUE;
-	if (argv[1] && is_n_option(argv[1]) == TRUE)
+	while (argv[i] && is_n_option(argv[i]) == TRUE)
 	{
-		i++;
 		flg_newline = FALSE;
+		i++;
 	}
 	is_first_arg = TRUE;
 	while (argv[i])
