@@ -8,36 +8,40 @@ CFLAGS := -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 RM := rm -f
 RMDIR := rm -rf
 
-SIGNAL_FILES := signal/signal_handler.c
+SIGNAL_FILES := signal/signal_handler.c \
+				signal/signal_setup.c
 
 ENVIRON_FILES := environ/environ.c \
-								 environ/is_identifier.c \
-								 environ/item.c \
-								 environ/map_set.c \
-								 environ/map.c
+					environ/is_identifier.c \
+					environ/item.c \
+					environ/map_set.c \
+					environ/map.c
 
 TOKEN_FILES := tokenize/token.c \
-              tokenize/tokenize.c
+				tokenize/tokenize_consume.c \
+				tokenize/tokenize_utils.c \
+				tokenize/tokenize.c
 
 PARSE_FILES := parse/make_simple_command.c \
-							parse/parse.c \
-							parse/redirect.c
+				parse/parse.c \
+				parse/redirect.c
 
 LIBRARY_FILES := library/xcalloc.c \
-								library/xmalloc.c \
-								library/xstrdup.c \
-								library/xdup.c \
-								library/xdup2.c \
-								library/xpipe.c \
-								library/xclose.c
+					library/xmalloc.c \
+					library/xstrdup.c \
+					library/xdup.c \
+					library/xdup2.c \
+					library/xpipe.c \
+					library/xclose.c
 
 EXPAND_FILES := expand/expand.c \
-						expand/expand_shell_parameter.c \
-						expand/is_valid_syntax_after_expansion.c \
-						expand/special_parameter.c \
-						expand/split_token_words.c \
-						expand/word_splitting.c \
-						expand/remove_quote.c
+					expand/expand_shell_parameter.c \
+					expand/expand_utils.c \
+					expand/is_valid_syntax_after_expansion.c \
+					expand/special_parameter.c \
+					expand/split_token_words.c \
+					expand/word_splitting.c \
+					expand/remove_quote.c
 
 BUILTIN_FILES := builtin/builtin_export.c \
 					builtin/builtin_exit.c \
@@ -47,7 +51,9 @@ BUILTIN_FILES := builtin/builtin_export.c \
 					builtin/builtin_cd.c \
 					builtin/builtin_pwd.c \
 					builtin/builtin.c
-ERROR_FILES := error/error.c
+
+ERROR_FILES := error/parse_error.c\
+				error/system_error.c
 
 EXPAND_FILES := expand/expand.c \
                 expand/expand_shell_parameter.c \
@@ -55,29 +61,31 @@ EXPAND_FILES := expand/expand.c \
                 expand/remove_quote.c \
                 expand/special_parameter.c \
                 expand/split_token_words.c \
+								expand/expand_utils.c \
+								expand/expand_word.c \
                 expand/word_splitting.c
 
-EXECUTE_FILES := execute/execute.c
 EXEC_FILES := exec/exec.c \
-					exec/pipe.c \
-					exec/path.c \
-					exec/redirect.c \
-					exec/heredoc.c
+				exec/pipe.c \
+				exec/path.c \
+				exec/redirect.c \
+				exec/heredoc.c
+
+UTILS_FILES := utils/utils_string.c\
+				utils/utils_word.c
 
 SRCFILES := main.c \
-	          destructor.c \
-						utils.c \
-						$(SIGNAL_FILES) \
-						$(ENVIRON_FILES) \
-						$(TOKEN_FILES) \
-						$(PARSE_FILES) \
-						$(LIBRARY_FILES) \
-						$(ERROR_FILES) \
-						$(EXPAND_FILES) \
-						$(EXECUTE_FILES) \
-						$(EXEC_FILES) \
-						$(BUILTIN_FILES)
-
+			destructor.c \
+			$(UTILS_FILES) \
+			$(SIGNAL_FILES) \
+			$(ENVIRON_FILES) \
+			$(TOKEN_FILES) \
+			$(PARSE_FILES) \
+			$(LIBRARY_FILES) \
+			$(ERROR_FILES) \
+			$(EXPAND_FILES) \
+			$(EXEC_FILES) \
+			$(BUILTIN_FILES)
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCFILES))
 OBJS := $(SRCS:%.c=%.o)

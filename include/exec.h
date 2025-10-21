@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:46:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/18 17:28:06 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/20 08:21:12 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,20 @@ int		wait_pipe(pid_t last_pid);
 pid_t	exec_pipe(t_simple_command *command, t_map *envmap);
 
 // redirect.c
-int	gather_heredoc(t_simple_command *command, t_map *envmap);
-int open_fd(t_redirect *redirect);
-int	open_redirect_file(t_simple_command *command);
+int		gather_heredoc(t_simple_command *command, t_map *envmap);
+int		open_fd(t_redirect *redirect);
+int		open_redirect_file(t_simple_command *command);
 void	do_redirect(t_redirect *redirect);
 void	reset_redirect(t_redirect *redirect);
 
 // heredoc.c
-int stop_readline_if_sigint(void);
-char *expand_heredoc_line(char *line, t_map *envmap);
-int read_until_delimiter(int *pipefd, const char *delimiter, bool is_quoted, t_map *envmap);
-int read_heredoc(const char *delimiter, bool is_quoted, t_map *envmap);
+int		stop_readline_if_sigint(void);
+char	*expand_heredoc_line(char *line, t_map *envmap);
+int		read_until_delimiter(int *pipefd, const char *delimiter, bool is_quoted,
+			t_map *envmap);
+int		read_heredoc(const char *delimiter, bool is_quoted, t_map *envmap);
 // read_until_delimiter
-#define HEREDOC_INTERRUPTED 1
-#define HEREDOC_FINISHED 0
-
+# define HEREDOC_INTERRUPTED 1
+# define HEREDOC_FINISHED 0
 
 #endif

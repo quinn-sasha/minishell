@@ -12,10 +12,14 @@
 
 #include "minishell.h"
 
-char *xstrdup(const char *s) {
-  char *result = ft_strdup(s);
-  if (result == NULL) {
-    fatal_error("xstrdup()");
-  }
-  return result;
+char	*xstrdup(const char *s)
+{
+	char	*result;
+
+	result = ft_strdup(s);
+	if (result == NULL)
+	{
+		fatal_error("xstrdup()");
+	}
+	return (result);
 }

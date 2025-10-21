@@ -12,10 +12,14 @@
 
 #include "minishell.h"
 
-void *xcalloc(size_t nmemb, size_t size) {
-  void *result = ft_calloc(nmemb, size);
-  if (result == NULL) {
-    fatal_error("xcalloc()");
-  }
-  return result;
+void	*xcalloc(size_t nmemb, size_t size)
+{
+	void	*result;
+
+	result = ft_calloc(nmemb, size);
+	if (result == NULL)
+	{
+		fatal_error("xcalloc()");
+	}
+	return (result);
 }

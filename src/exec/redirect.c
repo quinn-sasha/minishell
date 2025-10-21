@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:59:11 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 17:27:49 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/20 14:38:36 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	gather_heredoc(t_simple_command *command, t_map *envmap)
 				redirect = redirect->next;
 				continue ;
 			}
-			redirect->file_fd = read_heredoc(redirect->here_doc_eof, redirect->is_filename_quoted, envmap);
+			redirect->file_fd = read_heredoc(redirect->here_doc_eof,
+					redirect->is_filename_quoted, envmap);
 			if (redirect->file_fd == -1)
 				return (FAILED);
 			redirect = redirect->next;
@@ -51,9 +52,10 @@ int	open_redirect_file(t_simple_command *command)
 	current = command->redirect;
 	while (current != NULL)
 	{
-		if (current->redirect_kind == r_reading_until) {
+		if (current->redirect_kind == r_reading_until)
+		{
 			current = current->next;
-			continue;
+			continue ;
 		}
 		current->file_fd = open_fd(current);
 		if (current->file_fd < 0)
@@ -66,13 +68,6 @@ int	open_redirect_file(t_simple_command *command)
 	return (SUCCESS);
 }
 
-/**
- * @brief リダイレクトを実行し、標準FDをファイルに付け替え、元のFDを保存する。
- *
- * @param redirect 処理対象のリダイレクトノードのリスト
- * @details ターゲットFD(from.fd)の接続をstash_fdに保存後、file_fdの接続で上書き(dup2)する。
- * 複製に使用したfile_fdはFDリークを防ぐため即座に閉じる。
- */
 void	do_redirect(t_redirect *redirect)
 {
 	if (redirect == NULL)
@@ -83,13 +78,6 @@ void	do_redirect(t_redirect *redirect)
 	do_redirect(redirect->next);
 }
 
-/**
- * @brief リダイレクト処理を解除し、FDの復元を行う。
- *
- * @param redirect 復元対象のリダイレクトノードのリスト
- * @details リストを末尾から再帰的に処理し、stash_fdを使って元の標準FD接続を復元する。
- * 復元後、保存用FD(stash_fd)はクローズされる。
- */
 void	reset_redirect(t_redirect *redirect)
 {
 	if (redirect == NULL)

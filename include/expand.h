@@ -1,46 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/20 08:05:18 by yurishik          #+#    #+#             */
+/*   Updated: 2025/10/20 21:35:27 by squinn           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXPAND_H
-#define EXPAND_H
+# define EXPAND_H
 
-#include "parse.h"
-#include "environ.h"
+# include "environ.h"
+# include "parse.h"
 
-#define EXPAND_SUCCESS 0
-#define EXPAND_SYNTAX_ERROR 1
+# define EXPAND_SUCCESS 0
+# define EXPAND_SYNTAX_ERROR 1
 // expand_word() return values
-#define EXPANDED 0
-#define NOT_EXPANDED 1
+# define EXPANDED 0
+# define NOT_EXPANDED 1
 
-#define DEFAULT_IFS_CHARS " \t\n"
+# define DEFAULT_IFS_CHARS " \t\n"
 
 // special_parameter.c
-bool is_special_parameter(const char *s);
-void append_num_to_string(char **dest, unsigned int num);
-void expand_special_parameter(char **new_word, char **iter_to_return, char *iter, int last_status);
+bool	is_special_parameter(const char *s);
+void	append_num_to_string(char **dest, unsigned int num);
+void	expand_special_parameter(char **new_word, char **iter_to_return,
+			char *iter, int last_status);
+// expand_word.c
+void	expand_word(char **word, t_map *envmap);
 // expand_shell_parameter.c
-bool need_to_expand(char *word);
-void expand_parameter(char **new_word, char **iter_to_return, char *iter, t_map *envmap);
-void append_single_quoted_word(char **dest, char *src);
-void expand_word(char **word, t_map *envmap);
-void expand_token_words(t_token *token, t_map *envmap);
-void expand_redirect_words(t_redirect *redirect, t_map *envmap);
-void expand_shell_parameter(t_simple_command *command, t_map *envmap);
+void	expand_parameter(char **new_word, char **iter_to_return, char *iter,
+			t_map *envmap);
+void	expand_token_words(t_token *token, t_map *envmap);
+void	expand_redirect_words(t_redirect *redirect, t_map *envmap);
+void	expand_shell_parameter(t_simple_command *command, t_map *envmap);
+// expand_utils.c
+bool	need_to_expand(char *word);
+void	append_single_quoted_word(char **dest, char *src);
 // is_valid_syntax_after_expansion.c
-bool is_valid_filename(const char *filename);
-int is_valid_syntax_after_expansion(t_redirect *redirect);
+bool	is_valid_filename(const char *filename);
+int		is_valid_syntax_after_expansion(t_redirect *redirect);
 // split_token_words.c
-void split_token_word(t_token *token);
-void split_token_words(t_token *token);
+void	split_token_word(t_token *token);
+void	split_token_words(t_token *token);
 // word_splitting.c
-void trim_redirect_filename(t_redirect *redirect);
-void split_words(t_simple_command *command);
+void	trim_redirect_filename(t_redirect *redirect);
+void	split_words(t_simple_command *command);
 // remove_quote.c
-void remove_quote_word(char **word_to_modify);
-void remove_quote_token(t_token *token);
-void remove_quote_redirect(t_redirect *redirect);
-void remove_quote(t_simple_command *command);
+void	remove_quote_word(char **word_to_modify);
+void	remove_quote_token(t_token *token);
+void	remove_quote_redirect(t_redirect *redirect);
+void	remove_quote(t_simple_command *command);
 // expand.c
-void append_character(char **string, int c);
-void append_string_to_string(char **dest, char *src);
-int expand(t_simple_command *command, t_map *envmap);
+void	append_character(char **string, int c);
+void	append_string_to_string(char **dest, char *src);
+int		expand(t_simple_command *command, t_map *envmap);
 
 #endif

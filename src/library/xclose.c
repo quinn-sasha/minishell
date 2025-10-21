@@ -16,9 +16,9 @@ int	xclose(int fd)
 {
 	int	ret;
 
-    if (fd < 0)
-        return (-1);
-    ret = close(fd);
+	if (fd < 0)
+		return (-1);
+	ret = close(fd);
 	if (ret < 0)
 		fatal_error("xclose");
 	return (ret);

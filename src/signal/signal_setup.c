@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   signal_setup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 14:22:58 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:34:46 by yurishik         ###   ########.fr       */
+/*   Created: 2025/10/20 09:20:04 by yurishik          #+#    #+#             */
+/*   Updated: 2025/10/20 19:59:20 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(t_map *envmap)
-{
-	t_item	*current;
+extern volatile sig_atomic_t	g_signal_number;
 
-	current = envmap->head.next;
-	if (current == NULL)
+int	check_state(void)
+{
+	if (g_signal_number == 0)
 	{
-		printf("empty env list\n");
 		return (SUCCESS);
 	}
-	while (current != NULL)
+	if (g_signal_number == SIGINT)
 	{
-		if (current->value != NULL && current->is_exported)
-			printf("%s=%s\n", current->name, current->value);
-		current = current->next;
+		g_signal_number = 0;
+		rl_done = true;
+		write(STDERR_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
 	}
 	return (SUCCESS);
+}
+
+void	set_up_signal(void)
+{
+	g_signal_number = 0;
+	set_signal_handler(SIGINT);
+	ignore_signal(SIGQUIT);
+	rl_outstream = stderr;
+	if (isatty(STDIN_FILENO))
+	{
+		rl_event_hook = check_state;
+	}
 }
