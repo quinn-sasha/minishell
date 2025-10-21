@@ -67,6 +67,7 @@ EXPAND_FILES := expand/expand.c \
                 expand/word_splitting.c
 
 EXEC_FILES := exec/exec.c \
+				exec/empty_args.c \
 				exec/pipe.c \
 				exec/path.c \
 				exec/redirect.c \
