@@ -46,7 +46,6 @@ NG=$RED"NG"$RESET
 #
 # echo hello ; ls
 
-
 cat <<EOF | gcc -xc -o a.out -
 #include <stdio.h>
 int main() { printf("hello from a.out\n"); }
@@ -65,53 +64,50 @@ int main() { return 42; }
 EOF
 
 print_desc() {
-	echo -e $YELLOW"$1"$RESET
+  echo -e $YELLOW"$1"$RESET
 }
 
 cleanup() {
-	rm -f cmp out a.out print_args exit42 infinite_loop no_exec_perm no_read_perm empty_file file error.log
+  rm -f cmp out a.out print_args exit42 infinite_loop no_exec_perm no_read_perm empty_file file error.log
 }
 
 assert() {
-	COMMAND="$1"
-	shift
-	printf '%-70s:' "[$COMMAND]"
-	# exit status
-	echo -n -e "$COMMAND" | bash >cmp 2>&-
-	expected=$?
-	for arg in "$@"
-	do
-		mv "$arg" "$arg"".cmp"
-	done
-	echo -n -e "$COMMAND" | ./minishell >out 2>&-
-	actual=$?
-	for arg in "$@"
-	do
-		mv "$arg" "$arg"".out"
-	done
+  COMMAND="$1"
+  shift
+  printf '%-70s:' "[$COMMAND]"
+  # exit status
+  echo -n -e "$COMMAND" | bash >cmp 2>&-
+  expected=$?
+  for arg in "$@"; do
+    mv "$arg" "$arg"".cmp"
+  done
+  echo -n -e "$COMMAND" | ./minishell >out 2>&-
+  actual=$?
+  for arg in "$@"; do
+    mv "$arg" "$arg"".out"
+  done
 
-	if diff out cmp > /dev/null; then
-		echo -e -n "  diff $OK"
-	else
-		echo -e -n "  diff $NG"
-		printf '%-70s:\n' "[$COMMAND]" >> error.log
-		diff -U 1 out cmp >>error.log
-	fi
+  if diff out cmp >/dev/null; then
+    echo -e -n "  diff $OK"
+  else
+    echo -e -n "  diff $NG"
+    printf '%-70s:\n' "[$COMMAND]" >>error.log
+    diff -U 1 out cmp >>error.log
+  fi
 
-	if [ "$actual" = "$expected" ]; then
-		echo -e -n "  status $OK"
-	else
-		echo -e -n "  status $NG, expected $expected but got $actual"
-		printf '%-70s:' "[$COMMAND]" >>error.log
-		echo "status NG, expected $expected but got $actual" >>error.log
-	fi
-	for arg in "$@"
-	do
-		echo -n "  [$arg] "
-		diff "$arg"".cmp" "$arg"".out" >/dev/null && echo -e -n "$OK" || echo -e -n "$NG"
-		rm -f "$arg"".cmp" "$arg"".out"
-	done
-	echo
+  if [ "$actual" = "$expected" ]; then
+    echo -e -n "  status $OK"
+  else
+    echo -e -n "  status $NG, expected $expected but got $actual"
+    printf '%-70s:' "[$COMMAND]" >>error.log
+    echo "status NG, expected $expected but got $actual" >>error.log
+  fi
+  for arg in "$@"; do
+    echo -n "  [$arg] "
+    diff "$arg"".cmp" "$arg"".out" >/dev/null && echo -e -n "$OK" || echo -e -n "$NG"
+    rm -f "$arg"".cmp" "$arg"".out"
+  done
+  echo
 }
 
 rm -f error.log
@@ -159,10 +155,10 @@ assert 'echo bonjour >>> test'
 
 # $PATH にコロン区切りで複数のディレクトリが指定された場合、シェルは左から右へ、正しい順番でコマンドを探しているか
 mkdir /tmp/dir1 /tmp/dir2
-echo '#!/bin/bash' > /tmp/dir1/test_cmd
-echo 'echo "Hello from dir1"' >> /tmp/dir1/test_cmd
-echo '#!/bin/bash' > /tmp/dir2/test_cmd
-echo 'echo "Hello from dir2"' >> /tmp/dir2/test_cmd
+echo '#!/bin/bash' >/tmp/dir1/test_cmd
+echo 'echo "Hello from dir1"' >>/tmp/dir1/test_cmd
+echo '#!/bin/bash' >/tmp/dir2/test_cmd
+echo 'echo "Hello from dir2"' >>/tmp/dir2/test_cmd
 chmod +x /tmp/dir1/test_cmd /tmp/dir2/test_cmd
 assert 'unset $PATH\nexport PATH="/tmp/dir1:/tmp/dir2"\ntest_cmd'
 assert 'unset $PATH\nexport PATH="/tmp/dir2:/tmp/dir1"\ntest_cmd'
@@ -186,17 +182,20 @@ assert 'unset PATH\nexport PATH="/tmp/a:/tmp/b"\nsimple_test'
 assert 'unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test'
 
 print_desc "/tmp/a /tmp/b both without permission"
-chmod -x /tmp/a/simple_test; chmod -x /tmp/b/simple_test;
+chmod -x /tmp/a/simple_test
+chmod -x /tmp/b/simple_test
 assert 'unset PATH\nexport PATH="/tmp/a:/tmp/b"\nsimple_test'
 assert 'unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test'
 
 print_desc "a with permission, b without permission"
-chmod +x /tmp/a/simple_test; chmod -x /tmp/b/simple_test;
+chmod +x /tmp/a/simple_test
+chmod -x /tmp/b/simple_test
 assert 'unset PATH\nexport PATH="/tmp/a:/tmp/b"\nsimple_test'
 assert 'unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test'
 
 print_desc "a without permission, b with permission"
-chmod -x /tmp/a/simple_test; chmod +x /tmp/b/simple_test;
+chmod -x /tmp/a/simple_test
+chmod +x /tmp/b/simple_test
 assert 'unset PATH\nexport PATH="/tmp/a:/tmp/b"\nsimple_test'
 assert 'unset PATH\nexport PATH="/tmp/b:/tmp/a"\nsimple_test'
 
@@ -221,7 +220,7 @@ assert "echo \"'hello   world'\" \"42Tokyo\""
 assert 'echo "hello world" > hello.txt'
 assert 'echo hello >hello.txt' 'hello.txt'
 assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
-assert '$ echo test0 > file test1'
+assert 'echo test0 > file test1'
 assert 'not_cmd hello > empty_file'
 
 ## Redirecting input
@@ -260,9 +259,8 @@ assert 'echo bin/magic | tr a-z A-Z'
 NUM_PIPES=100
 print_desc "Test with a lot of commands connected by pipeline"
 CMD="ls -l"
-for i in $(seq 1 $NUM_PIPES)
-do
-    CMD="$CMD | cat"
+for i in $(seq 1 $NUM_PIPES); do
+  CMD="$CMD | cat"
 done
 CMD="$CMD | wc -l"
 assert "$CMD"
@@ -295,43 +293,75 @@ echo "int main() { while (1) ; }" | gcc -xc -o infinite_loop -
 
 ## Signal to shell processes
 print_desc "SIGTERM to SHELL"
-(sleep 0.01; pkill -SIGTERM bash;
- sleep 0.01; pkill -SIGTERM minishell) &
+(
+  sleep 0.01
+  pkill -SIGTERM bash
+  sleep 0.01
+  pkill -SIGTERM minishell
+) &
 assert './infinite_loop' 2>/dev/null # Redirect stderr to suppress signal terminated message
 
 print_desc "SIGQUIT to SHELL"
-(sleep 0.01; pkill -SIGQUIT bash; # SIGQUIT should not kill the shell
- sleep 0.01; pkill -SIGTERM bash;
- sleep 0.01; pkill -SIGQUIT minishell; # SIGQUIT should not kill the shell
- sleep 0.01; pkill -SIGTERM minishell) &
+(
+  sleep 0.01
+  pkill -SIGQUIT bash # SIGQUIT should not kill the shell
+  sleep 0.01
+  pkill -SIGTERM bash
+  sleep 0.01
+  pkill -SIGQUIT minishell # SIGQUIT should not kill the shell
+  sleep 0.01
+  pkill -SIGTERM minishell
+) &
 assert './infinite_loop' 2>/dev/null # Redirect stderr to suppress signal terminated message
 
 print_desc "SIGINT to SHELL"
-(sleep 0.01; pkill -SIGINT bash; # SIGINT should not kill the shell
- sleep 0.01; pkill -SIGTERM bash;
- sleep 0.01; pkill -SIGINT minishell; # SIGINT should not kill the shell
- sleep 0.01; pkill -SIGTERM minishell) &
+(
+  sleep 0.01
+  pkill -SIGINT bash # SIGINT should not kill the shell
+  sleep 0.01
+  pkill -SIGTERM bash
+  sleep 0.01
+  pkill -SIGINT minishell # SIGINT should not kill the shell
+  sleep 0.01
+  pkill -SIGTERM minishell
+) &
 assert './infinite_loop' 2>/dev/null # Redirect stderr to suppress signal terminated message
 
 ## Signal to child processes
 print_desc "SIGTERM to child process"
-(sleep 0.01; pkill -SIGTERM infinite_loop;
- sleep 0.01; pkill -SIGTERM infinite_loop) &
+(
+  sleep 0.01
+  pkill -SIGTERM infinite_loop
+  sleep 0.01
+  pkill -SIGTERM infinite_loop
+) &
 assert './infinite_loop'
 
 print_desc "SIGINT to child process"
-(sleep 0.01; pkill -SIGINT infinite_loop;
- sleep 0.01; pkill -SIGINT infinite_loop) &
+(
+  sleep 0.01
+  pkill -SIGINT infinite_loop
+  sleep 0.01
+  pkill -SIGINT infinite_loop
+) &
 assert './infinite_loop'
 
 print_desc "SIGQUIT to child process"
-(sleep 0.01; pkill -SIGQUIT infinite_loop;
- sleep 0.01; pkill -SIGQUIT infinite_loop) &
+(
+  sleep 0.01
+  pkill -SIGQUIT infinite_loop
+  sleep 0.01
+  pkill -SIGQUIT infinite_loop
+) &
 assert './infinite_loop'
 
 print_desc "SIGUSR1 to child process"
-(sleep 0.01; pkill -SIGUSR1 infinite_loop;
- sleep 0.01; pkill -SIGUSR1 infinite_loop) &
+(
+  sleep 0.01
+  pkill -SIGUSR1 infinite_loop
+  sleep 0.01
+  pkill -SIGUSR1 infinite_loop
+) &
 assert './infinite_loop'
 
 # Builtin
@@ -368,17 +398,17 @@ assert 'export nosuch="nosuch2=hoge"\nexport $nosuch\n export | grep nosuch | so
 
 ## unset
 (
-	print_desc 'export hoge fuga=fuga'
-	export hoge fuga=fuga
-	assert 'unset'
-	assert 'unset hoge'
-	assert 'unset fuga'
-	assert 'unset nosuch'
-	assert 'unset [invalid]'
-	assert 'unset hoge fuga'
-	assert 'unset hoge nosuch fuga'
-	assert 'unset fuga \n export | echo $fuga'
-	assert 'unset [invalid] fuga \n echo $fuga'
+  print_desc 'export hoge fuga=fuga'
+  export hoge fuga=fuga
+  assert 'unset'
+  assert 'unset hoge'
+  assert 'unset fuga'
+  assert 'unset nosuch'
+  assert 'unset [invalid]'
+  assert 'unset hoge fuga'
+  assert 'unset hoge nosuch fuga'
+  assert 'unset fuga \n export | echo $fuga'
+  assert 'unset [invalid] fuga \n echo $fuga'
 )
 
 ## env
@@ -411,7 +441,7 @@ assert 'cd /tmp///\n echo $PWD'
 assert 'cd /../../../././.././\n echo $PWD'
 assert 'cd src\n echo $PWD'
 assert 'unset HOME\ncd \n echo $PWD'
-assert 'unset OLDPWD\ncd -'  # This test may not have to pass
+assert 'unset OLDPWD\ncd -' # This test may not have to pass
 
 ## echo
 assert 'echo'
@@ -446,6 +476,5 @@ assert 'unset PWD\ncd\nenv|grep PWD\ncd /tmp\nenv|grep PWD'
 cleanup
 
 if [ -f error.log ]; then
-	echo -e $RED"Some tests have failed. Please review the error.log for more information."$RESET
+  echo -e $RED"Some tests have failed. Please review the error.log for more information."$RESET
 fi
-
