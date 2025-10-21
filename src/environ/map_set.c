@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:29:55 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:30:11 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:54:46 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	map_insert(t_map *map, const char *name, const char *value,
 	map->head.next = item;
 }
 
-void	map_update_item(t_item *item, const char *value)
+void	map_update_item(t_item *item, const char *value, int is_exported)
 {
 	free(item->value);
 	if (value == NULL)
@@ -50,6 +50,8 @@ void	map_update_item(t_item *item, const char *value)
 		return ;
 	}
 	item->value = xstrdup(value);
+	if (is_exported)
+		item->is_exported = is_exported;
 }
 
 void	map_set_internal(t_map *map, char *name, char *value, int is_exported)
@@ -58,7 +60,7 @@ void	map_set_internal(t_map *map, char *name, char *value, int is_exported)
 
 	item = map_get(map, name);
 	if (item)
-		map_update_item(item, value);
+		map_update_item(item, value, is_exported);
 	else
 		map_insert(map, name, value, is_exported);
 }

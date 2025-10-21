@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 14:55:49 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 21:27:39 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:11:30 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	builtin_cd(char **argv, t_map *envmap)
 		return (1);
 	if (chdir(path) < 0)
 	{
-		perror_wrapper("cd", "no such file or directory", path);
+		perror_wrapper("cd", path, "no such file or directory");
 		return (1);
 	}
 	new_pwd = resolve_pwd(pwd, path);
