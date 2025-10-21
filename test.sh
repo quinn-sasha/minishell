@@ -68,7 +68,7 @@ print_desc() {
 }
 
 cleanup() {
-  rm -f cmp out a.out print_args exit42 infinite_loop no_exec_perm no_read_perm empty_file file error.log
+  rm -f cmp out a.out print_args exit42 infinite_loop no_exec_perm no_read_perm empty_file file error.log test
 }
 
 assert() {
@@ -231,6 +231,8 @@ echo 42Tokyo >f3
 assert 'cat <f1<f2<f3'
 rm -f f1 f2 f3
 assert 'cat <hoge'
+assert 'touch test\n< test'
+assert '>> test'
 
 ## Appending Redirected output
 assert 'pwd >>pwd.txt' 'pwd.txt'

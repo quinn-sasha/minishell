@@ -6,11 +6,26 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:36:44 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:34:03 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_command_args_empty(t_simple_command *command)
+{
+	t_token	*args;
+
+	if (command == NULL)
+		return (TRUE);
+	args = command->arguments;
+	// ここでargsの中身を見る関数を作って実行したい
+	if (args == NULL)
+		return (TRUE);
+	if (args->token_kind == TOKEN_EOF || args->word == NULL)
+		return (TRUE);
+	return (FALSE);
+}
 
 char	**tokens_to_argv(t_token *token)
 {
@@ -20,6 +35,8 @@ char	**tokens_to_argv(t_token *token)
 	size_t	j;
 
 	i = count_token(token);
+	if (i == 0)
+		return (NULL);
 	argv = xcalloc(i + 1, sizeof(char *));
 	j = 0;
 	current = token;
@@ -61,7 +78,7 @@ void	exec_nonbuiltin(t_simple_command *command, t_map *envmap)
 	char	*path;
 	char	**environ;
 
-	if (open_redirect_file(command) == FAILED)
+	if (open_redirect_file(command->redirect) == FAILED)
 		exit(1);
 	do_redirect(command->redirect);
 	argv = tokens_to_argv(command->arguments);

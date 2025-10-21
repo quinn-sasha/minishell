@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:59:11 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:38:36 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:22:59 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ int	open_fd(t_redirect *redirect)
 	return (open(pathname, redirect->open_flags, 0644));
 }
 
-int	open_redirect_file(t_simple_command *command)
+int	open_redirect_file(t_redirect *redirect)
 {
 	t_redirect	*current;
 
-	current = command->redirect;
+	current = redirect;
 	while (current != NULL)
 	{
 		if (current->redirect_kind == r_reading_until)

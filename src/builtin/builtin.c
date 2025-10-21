@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:49:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/19 20:44:58 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:36:10 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_builtin(t_simple_command *command, t_map *envmap)
 	int		status;
 	char	**argv;
 
-	if (open_redirect_file(command) == FAILED)
+	if (open_redirect_file(command->redirect) == FAILED)
 		return (1);
 	do_redirect(command->redirect);
 	status = 0;
@@ -52,7 +52,7 @@ int	is_builtin(t_simple_command *command)
 	char	**argv;
 
 	argv = tokens_to_argv(command->arguments);
-	if (argv[0] == NULL)
+	if (argv == NULL || argv[0] == NULL)
 		return (FALSE);
 	if (ft_strcmp(argv[0], "exit") == 0
 		|| ft_strcmp(argv[0], "export") == 0

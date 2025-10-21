@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:23:29 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 14:37:02 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:35:05 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,14 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap)
 		reset_signal(SIGQUIT);
 		reset_signal(SIGINT);
 		prepare_pipe_child(command);
+		if (is_command_args_empty(command))
+		{
+			if (open_redirect_file(command->redirect) == FAILED)
+				exit(1);
+			do_redirect(command->redirect);
+			reset_redirect(command->redirect);
+			exit(0);
+		}
 		if (is_builtin(command))
 			exit(exec_builtin(command, envmap));
 		else

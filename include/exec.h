@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:46:02 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 08:21:12 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:30:16 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/stat.h>
 
 // exec.c
+int		is_command_args_empty(t_simple_command *command);
 char	**tokens_to_argv(t_token *token);
 void	validate_access(char *path, char *cmd);
 void	exec_nonbuiltin(t_simple_command *command, t_map *envmap);
@@ -37,7 +38,7 @@ pid_t	exec_pipe(t_simple_command *command, t_map *envmap);
 // redirect.c
 int		gather_heredoc(t_simple_command *command, t_map *envmap);
 int		open_fd(t_redirect *redirect);
-int		open_redirect_file(t_simple_command *command);
+int		open_redirect_file(t_redirect *redirect);
 void	do_redirect(t_redirect *redirect);
 void	reset_redirect(t_redirect *redirect);
 
