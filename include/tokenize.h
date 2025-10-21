@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:05:41 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 15:25:30 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:42:03 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int			is_metacharacter(int c);
 bool		is_quote_closed(char *input);
 
 // tokenize.c
-char	get_quote_marker(int quote);
-void	replace_quote_char_with_marker(char **input_to_modify, char *input);
+char		get_quote_marker(int quote);
+void		replace_quote_char_with_marker(char **input_to_modify, char *input);
 size_t		count_token(t_token *token);
 t_token		*tokenize(char *input);
 

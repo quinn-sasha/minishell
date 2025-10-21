@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: squinn <squinn@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:05:34 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/20 17:41:56 by squinn           ###   ########.fr       */
+/*   Updated: 2025/10/21 13:41:47 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ union							u_redirectee
 // to.filename is outfile
 struct							s_redirect
 {
-	t_redirect *next; // Next element or NULL
+	t_redirect					*next; // Next element or NULL
 	int							open_flags;
 	t_redirectee				from;
 	t_redirectee				to;
@@ -56,7 +56,7 @@ struct							s_redirect
 
 struct							s_simple_command
 {
-	struct s_simple_command *next; // Next element or NULL
+	struct s_simple_command		*next; // Next element or NULL
 	t_token						*arguments;
 	t_redirect					*redirect;
 	int							inpipe[2];
@@ -64,23 +64,20 @@ struct							s_simple_command
 };
 
 // redirect.c
-void							fill_redirect(t_redirect *redirect,
-									t_redirect_kind r_kind, t_token *token);
-t_redirect						*new_redirect(t_token *token);
-void							append_redirect(t_redirect **head,
-									t_redirect *element);
+void				fill_redirect(t_redirect *redirect,
+						t_redirect_kind r_kind, t_token *token);
+t_redirect			*new_redirect(t_token *token);
+void				append_redirect(t_redirect **head, t_redirect *element);
 // make_simple_command.c
-void							append_command_element(t_simple_command *command,
-									t_token **token_to_return, t_token *token);
-t_simple_command				*make_simple_command(t_token **token_to_return,
-									t_token *token);
-t_simple_command				*make_simple_command_list(t_token *token);
+void				append_command_element(t_simple_command *command,
+						t_token **token_to_return, t_token *token);
+t_simple_command	*make_simple_command(t_token **token_to_return,
+						t_token *token);
+t_simple_command	*make_simple_command_list(t_token *token);
 // parse.c
-bool							is_same_operator(t_token *token,
-									char *operator);
-bool							is_valid_syntax_helper(t_token *token);
-bool							is_valid_syntax(t_token *token);
-int								parse(t_simple_command **command,
-									t_token *token);
+bool				is_same_operator(t_token *token, char *operator);
+bool				is_valid_syntax_helper(t_token *token);
+bool				is_valid_syntax(t_token *token);
+int					parse(t_simple_command **command, t_token *token);
 
 #endif
