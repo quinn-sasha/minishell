@@ -6,7 +6,7 @@
 /*   By: yurishik <yurishik@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 12:52:45 by yurishik          #+#    #+#             */
-/*   Updated: 2025/10/21 16:34:03 by yurishik         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:54:26 by yurishik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	is_command_args_empty(t_simple_command *command)
 	if (command == NULL)
 		return (TRUE);
 	args = command->arguments;
-	// ここでargsの中身を見る関数を作って実行したい
 	if (args == NULL)
 		return (TRUE);
 	if (args->token_kind == TOKEN_EOF || args->word == NULL)
